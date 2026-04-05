@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import { cn } from "@/lib/utils"
 import {
   Dialog,
   DialogTrigger,
@@ -13,6 +12,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type ConfirmDialogProps = {
   title?: string
@@ -26,15 +26,19 @@ type ConfirmDialogProps = {
 }
 
 export default function ConfirmDialog({
-  title = "Confirm",
+  title = undefined,
   description,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText = undefined,
+  cancelText = undefined,
   destructive = false,
   trigger,
   onConfirm,
   className,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation()
+  const finalTitle = title ?? t("dialog.confirm")
+  const finalConfirm = confirmText ?? t("dialog.confirm")
+  const finalCancel = cancelText ?? t("dialog.cancel")
   return (
     <Dialog>
       {trigger && (
@@ -48,18 +52,18 @@ export default function ConfirmDialog({
 
       <DialogContent className={className}>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>{finalTitle}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
         <DialogFooter>
-          <DialogClose render={<Button variant="outline" />}>{cancelText}</DialogClose>
+          <DialogClose render={<Button variant="outline" />}>{finalCancel}</DialogClose>
           <Button
             variant={destructive ? "destructive" : "default"}
             onClick={() => {
               onConfirm?.()
             }}
           >
-            {confirmText}
+            {finalConfirm}
           </Button>
         </DialogFooter>
       </DialogContent>

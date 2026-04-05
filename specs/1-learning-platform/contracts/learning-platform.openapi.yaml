@@ -1,0 +1,469 @@
+openapi: 3.1.0
+info:
+  title: Learning Platform API
+  version: 0.1.0
+  description: API contract for onboarding, assessment, personalization, dashboards, and mentorship.
+servers:
+  - url: /api
+security:
+  - sessionAuth: []
+paths:
+  /onboarding:
+    post:
+      summary: Persist learner age level and selected program during onboarding
+      operationId: upsertOnboarding
+      tags: [Onboarding]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingRequest'
+      responses:
+        '200':
+          description: Onboarding state updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingResponse'
+        '400':
+          description: Invalid payload or state transition
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+
+  /assessment/start:
+    post:
+      summary: Start an assessment session and fetch first question batch
+      operationId: startAssessment
+      tags: [Assessment]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentStartRequest'
+      responses:
+        '200':
+          description: Assessment session started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentStartResponse'
+        '409':
+          description: Existing active session conflict
+
+  /assessment/submit:
+    post:
+      summary: Submit responses, score the session, and trigger personalization
+      operationId: submitAssessment
+      tags: [Assessment, Personalization]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentSubmitRequest'
+      responses:
+        '200':
+          description: Assessment scored and learning path generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentSubmitResponse'
+        '400':
+          description: Invalid or incomplete submission
+        '422':
+          description: Submission accepted but scoring failed integrity checks
+
+  /learning-path:
+    get:
+      summary: Get current learner active personalized learning path
+      operationId: getLearningPath
+      tags: [LearningPath]
+      responses:
+        '200':
+          description: Active path returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningPathResponse'
+        '404':
+          description: Active path not found
+
+  /units/{unitId}:
+    patch:
+      summary: Update unit progress, submission, and reflection states
+      operationId: patchUnitProgress
+      tags: [Units]
+      parameters:
+        - name: unitId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnitProgressPatchRequest'
+      responses:
+        '200':
+          description: Unit progress updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnitProgressPatchResponse'
+        '409':
+          description: Invalid progression transition
+
+  /mentorship/requests:
+    post:
+      summary: Create mentorship request for learner support
+      operationId: createMentorshipRequest
+      tags: [Mentorship]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentorshipRequestCreate'
+      responses:
+        '201':
+          description: Request created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorshipRequestResponse'
+
+  /dashboard/learner:
+    get:
+      summary: Learner dashboard aggregate payload
+      operationId: getLearnerDashboard
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Learner dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearnerDashboardResponse'
+
+  /dashboard/educator:
+    get:
+      summary: Educator dashboard aggregate payload
+      operationId: getEducatorDashboard
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Educator dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducatorDashboardResponse'
+        '403':
+          description: Forbidden for non-educator roles
+
+  /dashboard/parent:
+    get:
+      summary: Parent dashboard aggregate payload
+      operationId: getParentDashboard
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Parent dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParentDashboardResponse'
+        '403':
+          description: Forbidden for non-parent roles
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: session
+
+  schemas:
+    AgeLevel:
+      type: string
+      enum: [A_8_12, B_13_18]
+
+    ProgramCode:
+      type: string
+      enum: [WEB_DEV, AI_ORIENTED]
+
+    PathUnitState:
+      type: string
+      enum: [LOCKED, UNLOCKED, IN_PROGRESS, COMPLETED, DEFERRED]
+
+    SubmissionStatus:
+      type: string
+      enum: [NONE, SUBMITTED, REVIEWED]
+
+    OnboardingRequest:
+      type: object
+      required: [ageLevel, programCode]
+      properties:
+        ageLevel:
+          $ref: '#/components/schemas/AgeLevel'
+        programCode:
+          $ref: '#/components/schemas/ProgramCode'
+
+    OnboardingResponse:
+      type: object
+      required: [learnerId, onboardingStatus]
+      properties:
+        learnerId:
+          type: string
+          format: uuid
+        onboardingStatus:
+          type: string
+          enum: [AGE_CONFIRMED, PROGRAM_SELECTED]
+
+    AssessmentStartRequest:
+      type: object
+      required: [programCode]
+      properties:
+        programCode:
+          $ref: '#/components/schemas/ProgramCode'
+
+    AssessmentQuestion:
+      type: object
+      required: [questionId, prompt, type]
+      properties:
+        questionId:
+          type: string
+        prompt:
+          type: string
+        type:
+          type: string
+          enum: [MULTIPLE_CHOICE, OPEN_TEXT, SCENARIO]
+        choices:
+          type: array
+          items:
+            type: string
+
+    AssessmentStartResponse:
+      type: object
+      required: [assessmentSessionId, questions, progress]
+      properties:
+        assessmentSessionId:
+          type: string
+          format: uuid
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssessmentQuestion'
+        progress:
+          type: object
+          required: [currentStep, totalSteps]
+          properties:
+            currentStep:
+              type: integer
+            totalSteps:
+              type: integer
+
+    AssessmentResponseItem:
+      type: object
+      required: [questionId, response]
+      properties:
+        questionId:
+          type: string
+        response:
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+
+    AssessmentSubmitRequest:
+      type: object
+      required: [assessmentSessionId, responses]
+      properties:
+        assessmentSessionId:
+          type: string
+          format: uuid
+        responses:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AssessmentResponseItem'
+
+    AssessmentSubmitResponse:
+      type: object
+      required: [assessmentSessionId, scoreTotal, scoreBreakdown, learningPathId, adaptationSummary]
+      properties:
+        assessmentSessionId:
+          type: string
+          format: uuid
+        scoreTotal:
+          type: number
+        scoreBreakdown:
+          type: object
+          additionalProperties:
+            type: number
+        learningPathId:
+          type: string
+          format: uuid
+        adaptationSummary:
+          type: object
+          required: [strengths, improvements]
+          properties:
+            strengths:
+              type: array
+              items:
+                type: string
+            improvements:
+              type: array
+              items:
+                type: string
+
+    LearningPathUnit:
+      type: object
+      required: [unitId, title, sequenceIndex, state]
+      properties:
+        unitId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        sequenceIndex:
+          type: integer
+        state:
+          $ref: '#/components/schemas/PathUnitState'
+        prerequisites:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    LearningPathResponse:
+      type: object
+      required: [learningPathId, programCode, version, units]
+      properties:
+        learningPathId:
+          type: string
+          format: uuid
+        programCode:
+          $ref: '#/components/schemas/ProgramCode'
+        version:
+          type: integer
+        units:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathUnit'
+
+    UnitProgressPatchRequest:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/PathUnitState'
+        projectSubmissionStatus:
+          $ref: '#/components/schemas/SubmissionStatus'
+        reflectionCompleted:
+          type: boolean
+
+    UnitProgressPatchResponse:
+      type: object
+      required: [unitId, state]
+      properties:
+        unitId:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/PathUnitState'
+        projectSubmissionStatus:
+          $ref: '#/components/schemas/SubmissionStatus'
+        reflectionCompleted:
+          type: boolean
+
+    MentorshipRequestCreate:
+      type: object
+      required: [topic, urgency]
+      properties:
+        topic:
+          type: string
+          minLength: 3
+        urgency:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+        requestedMentorId:
+          type: string
+          format: uuid
+
+    MentorshipRequestResponse:
+      type: object
+      required: [requestId, status, createdAt]
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [OPEN, MATCHED, IN_PROGRESS, CLOSED, CANCELLED]
+        createdAt:
+          type: string
+          format: date-time
+
+    LearnerDashboardResponse:
+      type: object
+      required: [learnerId, progress, recommendations]
+      properties:
+        learnerId:
+          type: string
+          format: uuid
+        progress:
+          type: object
+          required: [completedUnits, totalUnits, streakDays]
+          properties:
+            completedUnits:
+              type: integer
+            totalUnits:
+              type: integer
+            streakDays:
+              type: integer
+        recommendations:
+          type: array
+          items:
+            type: string
+
+    EducatorDashboardResponse:
+      type: object
+      required: [cohortSummary, interventionQueue]
+      properties:
+        cohortSummary:
+          type: object
+          additionalProperties: true
+        interventionQueue:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
+    ParentDashboardResponse:
+      type: object
+      required: [children]
+      properties:
+        children:
+          type: array
+          items:
+            type: object
+            required: [learnerId, milestones, engagement]
+            properties:
+              learnerId:
+                type: string
+                format: uuid
+              milestones:
+                type: array
+                items:
+                  type: string
+              engagement:
+                type: object
+                additionalProperties: true

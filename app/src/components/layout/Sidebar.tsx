@@ -6,30 +6,33 @@ import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
 import { Home, Settings, Users } from "lucide-react"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
-type NavItem = { href: string; label: string; icon: React.ReactNode }
+type NavItem = { href: string; labelKey: string; icon: React.ReactNode }
 
 const nav: NavItem[] = [
-  { href: "/", label: "Home", icon: <Home className="h-4 w-4" /> },
-  { href: "/dashboard", label: "Dashboard", icon: <Users className="h-4 w-4" /> },
-  { href: "/settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
+  { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
+  { href: "/dashboard", labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
+  { href: "/settings", labelKey: "nav.settings", icon: <Settings className="h-4 w-4" /> },
 ]
 
 export default function Sidebar({ className }: { className?: string }) {
+  const { t } = useTranslation()
+
   return (
     <>
       {/* Mobile: use Dialog as a sheet */}
       <div className="lg:hidden">
         <Dialog>
           <DialogTrigger>
-            <div role="button" tabIndex={0} className="p-2">Menu</div>
+            <div role="button" tabIndex={0} className="p-2">{t("ui.menu")}</div>
           </DialogTrigger>
           <DialogContent className="w-64">
             <nav className="flex flex-col gap-2">
               {nav.map((item) => (
                 <Link key={item.href} href={item.href} className="flex items-center gap-2 p-2 rounded hover:bg-muted">
                   {item.icon}
-                  <span className="text-sm text-foreground">{item.label}</span>
+                  <span className="text-sm text-foreground">{t(item.labelKey)}</span>
                 </Link>
               ))}
             </nav>
@@ -44,8 +47,8 @@ export default function Sidebar({ className }: { className?: string }) {
             <Avatar className="h-10 w-10" />
           </div>
           <div>
-            <div className="font-semibold text-foreground">Learning Platform</div>
-            <div className="text-xs text-muted-foreground">v0.1</div>
+            <div className="font-semibold text-foreground">{t("app.title")}</div>
+            <div className="text-xs text-muted-foreground">{t("ui.version")}</div>
           </div>
         </div>
 
@@ -53,7 +56,7 @@ export default function Sidebar({ className }: { className?: string }) {
           {nav.map((item) => (
             <Link key={item.href} href={item.href} className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-muted">
               <span className="text-muted-foreground">{item.icon}</span>
-              <span className="text-foreground">{item.label}</span>
+              <span className="text-foreground">{t(item.labelKey)}</span>
             </Link>
           ))}
         </nav>
@@ -62,8 +65,8 @@ export default function Sidebar({ className }: { className?: string }) {
           <div className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-muted">
             <Avatar className="h-8 w-8" />
             <div className="flex-1">
-              <div className="text-sm text-foreground">User Name</div>
-              <div className="text-xs text-muted-foreground">Account</div>
+              <div className="text-sm text-foreground">{t("ui.userName")}</div>
+              <div className="text-xs text-muted-foreground">{t("ui.account")}</div>
             </div>
           </div>
         </div>

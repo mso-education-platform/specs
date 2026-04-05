@@ -1,0 +1,120 @@
+{
+  "app": {
+    "title": "Learning Platform",
+    "description": "A learning platform built with Next.js and shadcn/ui"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "track": "Track"
+  },
+  "ui": {
+    "menu": "Menu",
+    "version": "v0.1",
+    "userName": "User Name",
+    "account": "Account"
+  },
+  "topbar": {
+    "role": {
+      "LEARNER": "Learner",
+      "EDUCATOR": "Educator",
+      "PARENT": "Parent",
+      "MENTOR": "Mentor",
+      "ADMIN": "Admin"
+    }
+  }
+  ,
+  "home": {
+    "title": "AI-assisted learning platform",
+    "subtitle": "Start onboarding to get age-aware assessment and a personalized first learning path.",
+    "start": "Start onboarding"
+  }
+  ,
+  "onboarding": {
+    "age": {
+      "title": "Choose your age level",
+      "subtitle": "We adapt question style and pace based on your age group.",
+      "option": {
+        "A_8_12": "8-12 years",
+        "B_13_18": "13-18 years"
+      },
+      "continue": "Continue"
+    },
+    "program": {
+      "title": "Select your program",
+      "subtitle": "Choose a learning track. You can refine it with your mentor later.",
+      "option": {
+        "WEB_DEV": "Web Development",
+        "AI_ORIENTED": "AI Oriented"
+      },
+      "error": {
+        "age_missing": "Age level is missing. Please complete the previous step."
+      },
+      "saving": "Saving...",
+      "continue_to_assessment": "Continue to assessment"
+    }
+  },
+  "assessment": {
+    "title": "Assessment",
+    "subtitle": "Answer a short set of questions so we can personalize your first units.",
+    "starting": "Starting...",
+    "start": "Start assessment",
+    "step": "Step",
+    "of": "of",
+    "placeholder": "Your answer",
+    "submitting": "Submitting...",
+    "submit": "Submit assessment"
+  },
+  "questions": {
+    "q1": {
+      "prompt": "How comfortable are you with coding basics?",
+      "choices": {
+        "new": "New",
+        "some_practice": "Some practice",
+        "comfortable": "Comfortable"
+      }
+    },
+    "q2": {
+      "prompt": "How often do you build projects?",
+      "choices": {
+        "rarely": "Rarely",
+        "sometimes": "Sometimes",
+        "regularly": "Regularly"
+      }
+    },
+    "q3": { "prompt": "Describe one learning goal this month." }
+  },
+  "feedback": {
+    "title": "Your personalized plan is ready",
+    "no_result": "Complete the assessment first to receive your personalized feedback.",
+    "score": "Assessment score",
+    "strengths": "Strengths",
+    "baseline_confidence": "Building baseline confidence",
+    "focus_areas": "Focus Areas",
+    "keep_rhythm": "Keep the current learning rhythm",
+    "go_dashboard": "Go to learner dashboard"
+  },
+  "dashboard": {
+    "title": "Learner dashboard",
+    "subtitle": "Your first units are unlocked based on your onboarding assessment.",
+    "loading_plan": "Loading your personalized plan...",
+    "unit_id": "Unit ID:"
+  },
+  "ui": {
+    "create": "Create",
+    "retry": "Retry"
+  },
+  "dialog": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  }
+  ,
+  "signin": {
+    "title": "Sign in to continue",
+    "subtitle": "Use learner sign-in to start your personalized onboarding.",
+    "name": "Name",
+    "email": "Email",
+    "continue": "Continue"
+  }
+}

@@ -3,6 +3,7 @@
 import React from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type EmptyStateProps = {
   title: string
@@ -12,7 +13,11 @@ type EmptyStateProps = {
   className?: string
 }
 
-export default function EmptyState({ title, description, ctaText = "Create", onCta, className }: EmptyStateProps) {
+export default function EmptyState({ title, description, ctaText, onCta, className }: EmptyStateProps) {
+  const { t } = useTranslation()
+
+  const cta = ctaText ?? t("ui.create")
+
   return (
     <div className={cn("grid place-items-center gap-4 text-center p-8", className)}>
       <svg className="h-24 w-24 text-muted-foreground" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -22,9 +27,9 @@ export default function EmptyState({ title, description, ctaText = "Create", onC
       </svg>
       <h3 className="text-lg font-medium text-foreground">{title}</h3>
       {description && <p className="max-w-xl text-sm text-muted-foreground">{description}</p>}
-      {ctaText && (
+      {cta && (
         <Button onClick={onCta} className="mt-2">
-          {ctaText}
+          {cta}
         </Button>
       )}
     </div>

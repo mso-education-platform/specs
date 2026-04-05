@@ -20,8 +20,8 @@ function DialogTrigger({ children, ...props }: DialogPrimitive.Trigger.Props) {
     return (
       <DialogPrimitive.Trigger
         data-slot="dialog-trigger"
-        nativeButton={false as any}
-        render={children as any}
+        nativeButton={false}
+        render={children as React.ReactElement}
         {...props}
       />
     )
