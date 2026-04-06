@@ -1,28 +1,28 @@
 # Learning Platform App
 
-Application Next.js (App Router) pour la plateforme d'apprentissage.
+A Next.js App Router application for the learning platform.
 
-## Prerequis
+## Prerequisites
 
 - Node.js 20+
 - Docker
 - npm
 
-## Lancer en local (recommande)
+## Run Locally (Recommended)
 
-1. Aller dans l'application:
+1. Go to the app directory:
 
 ```bash
 cd app
 ```
 
-2. Configurer la base de donnees locale sur un port dedie (evite les conflits avec un Postgres deja installe sur 5432):
+2. Configure the local database URL on a dedicated port (avoids conflicts with an existing local Postgres on 5432):
 
 ```env
 DATABASE_URL="postgres://specs:secret@127.0.0.1:55432/specs_db"
 ```
 
-3. Demarrer Postgres dans Docker:
+3. Start Postgres in Docker:
 
 ```bash
 docker rm -f specs-postgres || true
@@ -34,32 +34,32 @@ docker run -d --name specs-postgres \
 	postgres:15
 ```
 
-4. Installer les dependances:
+4. Install dependencies:
 
 ```bash
 npm ci
 ```
 
-5. Initialiser la base:
+5. Initialize the database:
 
 ```bash
 npx prisma db push
 npm run prisma:seed
 ```
 
-6. Lancer l'application:
+6. Start the app:
 
 ```bash
 npm run dev
 ```
 
-7. Ouvrir:
+7. Open:
 
 ```text
 http://localhost:3000
 ```
 
-## Tests utiles
+## Useful Test Commands
 
 ```bash
 npm run lint
@@ -67,17 +67,17 @@ npm run test
 npm run test:e2e -- tests/e2e/us1-onboarding.spec.ts
 ```
 
-## Depannage rapide
+## Quick Troubleshooting
 
-- Si `/api/onboarding` retourne `Unexpected error`, verifier que l'app utilise bien la DB Docker sur `127.0.0.1:55432`.
-- Si le port `3000` est occupe:
+- If `/api/onboarding` returns `Unexpected error`, verify the app is using the Docker DB at `127.0.0.1:55432`.
+- If port `3000` is already in use:
 
 ```bash
 lsof -nP -iTCP:3000 -sTCP:LISTEN
 kill <PID>
 ```
 
-- Si le conteneur DB est stale, le recreer avec les commandes Docker ci-dessus puis rejouer:
+- If the DB container is stale, recreate it with the Docker commands above, then re-run:
 
 ```bash
 npx prisma db push
