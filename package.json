@@ -6,6 +6,6 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "precommit:check": "npm --prefix app run lint && npm --prefix app run build"
+    "precommit:check": "npm --prefix app run prisma:generate && npm --prefix app run lint && npm --prefix app run build && npm --prefix app run test"
   }
 }

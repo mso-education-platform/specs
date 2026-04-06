@@ -1,10 +1,10 @@
-import { PrismaClient, ProgramCode, UnitDifficulty } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
 const programSeeds = [
   {
-    code: ProgramCode.WEB_DEV,
+    code: "WEB_DEV",
     title: "Web Development",
     description: "Project-based web development fundamentals and progression.",
     minUnits: 10,
@@ -23,7 +23,7 @@ const programSeeds = [
     ],
   },
   {
-    code: ProgramCode.AI_ORIENTED,
+    code: "AI_ORIENTED",
     title: "AI Oriented",
     description: "AI literacy, practical prompt engineering, and safe model usage.",
     minUnits: 8,
@@ -72,7 +72,7 @@ async function seedProgramsAndUnits() {
         update: {
           title: unitSlug.replaceAll("-", " "),
           objective: `Complete outcomes for ${unitSlug.replaceAll("-", " ")}.`,
-          difficulty: index < 3 ? UnitDifficulty.BEGINNER : index < 6 ? UnitDifficulty.INTERMEDIATE : UnitDifficulty.ADVANCED,
+          difficulty: index < 3 ? "BEGINNER" : index < 6 ? "INTERMEDIATE" : "ADVANCED",
           estimatedMinutes: 45,
           orderIndex: index + 1,
         },
@@ -81,7 +81,7 @@ async function seedProgramsAndUnits() {
           slug: unitSlug,
           title: unitSlug.replaceAll("-", " "),
           objective: `Complete outcomes for ${unitSlug.replaceAll("-", " ")}.`,
-          difficulty: index < 3 ? UnitDifficulty.BEGINNER : index < 6 ? UnitDifficulty.INTERMEDIATE : UnitDifficulty.ADVANCED,
+          difficulty: index < 3 ? "BEGINNER" : index < 6 ? "INTERMEDIATE" : "ADVANCED",
           estimatedMinutes: 45,
           orderIndex: index + 1,
           isMandatory: true,
@@ -96,7 +96,7 @@ async function seedProgramsAndUnits() {
     })
 
     for (const unit of orderedUnits) {
-      const previousUnit = orderedUnits.find((candidate) => candidate.orderIndex === unit.orderIndex - 1)
+      const previousUnit = orderedUnits.find((candidate: { orderIndex: number }) => candidate.orderIndex === unit.orderIndex - 1)
       if (!previousUnit) {
         continue
       }

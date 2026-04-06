@@ -24,12 +24,14 @@ export async function GET() {
       learningPathId: activePath.id,
       programCode: activePath.program.code,
       version: activePath.version,
-      units: activePath.units.map((unit) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        units: activePath.units.map((unit: any) => ({
         unitId: unit.unitId,
         title: unit.unit.title,
         sequenceIndex: unit.sequenceIndex,
         state: unit.state,
-        prerequisites: unit.unit.prerequisites.map((edge) => edge.prerequisiteUnitId),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          prerequisites: unit.unit.prerequisites.map((edge: any) => edge.prerequisiteUnitId),
       })),
     })
   } catch (error) {

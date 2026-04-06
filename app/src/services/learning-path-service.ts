@@ -13,7 +13,8 @@ export const learningPathService = {
     return learningPathRepository.createPathFromProgramUnits({
       learnerId,
       programId,
-      unitIds: units.map((unit) => unit.id),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      unitIds: units.map((unit: any) => unit.id),
       generatedBy: PathGenerator.AI_PLUS_RULES,
     })
   },
