@@ -1,15 +1,15 @@
-Conventions UI du projet
+Project UI conventions
 
-- Utiliser exclusivement les composants fournis par shadcn/ui.
-- Pour composer des classes Tailwind, toujours utiliser la fonction `cn()`.
-- Ne jamais hardcoder de couleurs en hex; utiliser des variables CSS `--primary`, `--secondary`, etc.
-- Structure type d'un composant:
-  - Props typées en TypeScript (interface ou type), inclure une `className?: string`.
-  - Composant exporté par défaut.
-  - `className` doit être fusionnable via `cn(baseClasses, className)`.
-  - Support explicite light/dark via variables CSS et utilitaires Tailwind.
+- Use only the components provided by shadcn/ui.
+- When composing Tailwind classes, always use the `cn()` helper.
+- Never hardcode colors as hex values; use CSS variables like `--primary`, `--secondary`, etc.
+- Typical component structure:
+  - Props typed in TypeScript (`interface` or `type`), include `className?: string`.
+  - Component exported as default for the main component.
+  - `className` must be mergeable via `cn(baseClasses, className)`.
+  - Explicit light/dark support via CSS variables and Tailwind utilities.
 
-Exemple minimal:
+Minimal example:
 
 ```
 interface MyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

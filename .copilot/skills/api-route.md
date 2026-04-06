@@ -1,14 +1,14 @@
-Conventions pour les routes API tRPC
+Conventions for tRPC API routes
 
-- Tous les routers tRPC doivent vivre sous `app/src/server/api/routers/`.
-- Validation: chaque input doit être validé avec Zod avant toute logique métier.
-- Séparation des responsabilités: toute logique métier doit résider dans `app/src/server/application/`.
-- Domain model: `app/src/server/domain/` contient entités et règles métier.
-- Infrastructure: `app/src/server/infrastructure/` contient implémentations (DB, clients externes).
-- Règle absolue: ne jamais importer depuis `infrastructure/` dans `domain/`.
+- All tRPC routers should live under `app/src/server/api/routers/`.
+- Validation: every input must be validated with Zod before any business logic.
+- Separation of concerns: all business logic must live in `app/src/server/application/`.
+- Domain model: `app/src/server/domain/` contains entities and business rules.
+- Infrastructure: `app/src/server/infrastructure/` contains implementations (DB, external clients).
+- Absolute rule: never import from `infrastructure/` into `domain/`.
 
-Exemple minimal d'organisation:
+Minimal organization example:
 
-- `routers/` → définition des routes tRPC + validation Zod
-- `application/` → cas d'utilisation (use-cases) invoqués par les routers
-- `infrastructure/` → adaptateurs (Prisma, Redis, etc.)
+- `routers/` → tRPC route definitions + Zod validation
+- `application/` → use cases invoked by routers
+- `infrastructure/` → adapters (Prisma, Redis, etc.)
