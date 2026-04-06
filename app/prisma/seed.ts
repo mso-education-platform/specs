@@ -1,6 +1,14 @@
 import { PrismaClient } from "@prisma/client"
+import { randomBytes, scryptSync } from "node:crypto"
 
 const prisma = new PrismaClient()
+const KEY_LENGTH = 64
+
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString("hex")
+  const hash = scryptSync(password, salt, KEY_LENGTH).toString("hex")
+  return `${salt}:${hash}`
+}
 
 const programSeeds = [
   {
@@ -118,8 +126,27 @@ async function seedProgramsAndUnits() {
   }
 }
 
+async function seedTestEducator() {
+  const email = "allou.abdelhafid+educator@gmail.com"
+  await prisma.user.upsert({
+    where: { email },
+    update: {
+      name: "Educator Test",
+      role: "EDUCATOR",
+      passwordHash: hashPassword("mypass"),
+    },
+    create: {
+      email,
+      name: "Educator Test",
+      role: "EDUCATOR",
+      passwordHash: hashPassword("mypass"),
+    },
+  })
+}
+
 async function main() {
   await seedProgramsAndUnits()
+  await seedTestEducator()
 }
 
 main()

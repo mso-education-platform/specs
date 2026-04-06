@@ -5,21 +5,39 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
-import { Home, Settings, Users } from "lucide-react"
+import { BookOpen, Home, LogIn, Users } from "lucide-react"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 import { CLIENT_SESSION_CHANGED_EVENT, getClientSession, type ClientSession } from "@/lib/auth/client-session"
 
 type NavItem = { href: string; labelKey: string; icon: React.ReactNode }
 
-const nav: NavItem[] = [
+const publicNav: NavItem[] = [
   { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
-  { href: "/dashboard", labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
-  { href: "/settings", labelKey: "nav.settings", icon: <Settings className="h-4 w-4" /> },
+  { href: "/tracks", labelKey: "nav.track", icon: <BookOpen className="h-4 w-4" /> },
+  { href: "/sign-in", labelKey: "nav.sign_in_learner", icon: <LogIn className="h-4 w-4" /> },
+  { href: "/sign-in?role=educator", labelKey: "nav.sign_in_educator", icon: <LogIn className="h-4 w-4" /> },
 ]
+
+const roleDashboardHref: Record<ClientSession["role"], string> = {
+  LEARNER: "/dashboard",
+  EDUCATOR: "/educator/dashboard",
+  PARENT: "/parent/dashboard",
+  MENTOR: "/",
+  ADMIN: "/educator/dashboard",
+}
 
 export default function Sidebar({ className }: { className?: string }) {
   const { t } = useTranslation()
   const [session, setSession] = useState<ClientSession | null>(() => getClientSession())
+  const nav: NavItem[] = session
+    ? [
+        { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
+        { href: roleDashboardHref[session.role], labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
+        ...(session.role === "LEARNER"
+          ? [{ href: "/track", labelKey: "nav.my_progress", icon: <BookOpen className="h-4 w-4" /> }]
+          : []),
+      ]
+    : publicNav
 
   useEffect(() => {
     const refreshSession = () => setSession(getClientSession())

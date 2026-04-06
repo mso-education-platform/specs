@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 import {
+  CLIENT_SESSION_CHANGED_EVENT,
   clearClientSession,
   getClientSession,
   isClientOnboardingCompleted,
@@ -16,11 +17,25 @@ import {
 export default function HomePage() {
   const { t } = useTranslation()
   const [session, setSession] = useState<ClientSession | null>(() => getClientSession())
-  const [hasCompletedOnboarding] = useState<boolean>(() => isClientOnboardingCompleted())
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(() => isClientOnboardingCompleted())
+
+  useEffect(() => {
+    const refreshSessionState = () => {
+      setSession(getClientSession())
+      setHasCompletedOnboarding(isClientOnboardingCompleted())
+    }
+
+    window.addEventListener(CLIENT_SESSION_CHANGED_EVENT, refreshSessionState)
+    window.addEventListener("storage", refreshSessionState)
+
+    return () => {
+      window.removeEventListener(CLIENT_SESSION_CHANGED_EVENT, refreshSessionState)
+      window.removeEventListener("storage", refreshSessionState)
+    }
+  }, [])
 
   const handleSignOut = () => {
     clearClientSession()
-    setSession(null)
   }
 
   return (
@@ -40,15 +55,13 @@ export default function HomePage() {
         </div>
       ) : null}
 
-      {!session && !hasCompletedOnboarding ? (
+      {!session ? (
         <Link href="/sign-in" className={cn(buttonVariants({}))}>
-          {t("home.start")}
+          {hasCompletedOnboarding ? t("home.sign_in") : t("home.start")}
         </Link>
       ) : null}
 
-      {!session && hasCompletedOnboarding ? (
-        <p className="text-sm text-muted-foreground">{t("home.already_onboarded")}</p>
-      ) : null}
+      {/* Intentionally hide onboarding-complete message on home for signed-out users. */}
     </Card>
   )
 }

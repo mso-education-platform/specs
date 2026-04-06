@@ -66,7 +66,14 @@ export function LearnerDashboard() {
             <p className="font-medium">{unit.sequenceIndex}. {unit.title}</p>
             <p className="text-xs text-muted-foreground">{t("dashboard.unit_id")} {unit.unitId}</p>
           </div>
-          <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{t(`learning_path.states.${unit.state}`)}</Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{t(`learning_path.states.${unit.state}`)}</Badge>
+            {unit.state === "IN_PROGRESS" ? (
+              <Link href="/track">
+                <Button size="sm">{t("dashboard.open_track")}</Button>
+              </Link>
+            ) : null}
+          </div>
         </Card>
       ))}
     </div>

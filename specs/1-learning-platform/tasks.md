@@ -114,17 +114,17 @@
 
 ### Tests for User Story 3
 
-- [ ] T050 [P] [US3] Add contract tests for educator dashboard endpoint in `app/tests/contract/us3-educator-dashboard.contract.test.ts`
-- [ ] T051 [P] [US3] Add integration tests for educator authorization and intervention data in `app/tests/integration/us3-educator-dashboard.integration.test.ts`
-- [ ] T052 [P] [US3] Add E2E educator supervision flow test in `app/tests/e2e/us3-educator-supervision.spec.ts`
+- [x] T050 [P] [US3] Add contract tests for educator dashboard endpoint in `app/tests/contract/us3-educator-dashboard.contract.test.ts`
+- [x] T051 [P] [US3] Add integration tests for educator authorization and intervention data in `app/tests/integration/us3-educator-dashboard.integration.test.ts`
+- [x] T052 [P] [US3] Add E2E educator supervision flow test in `app/tests/e2e/us3-educator-supervision.spec.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T053 [P] [US3] Implement educator dashboard aggregation service in `app/src/services/dashboard-service.ts`
-- [ ] T054 [US3] Implement `GET /api/dashboard/educator` route handler in `app/src/app/api/dashboard/educator/route.ts`
-- [ ] T055 [P] [US3] Build educator dashboard page in `app/src/app/(educator)/dashboard/page.tsx`
-- [ ] T056 [US3] Build cohort analytics and intervention queue components in `app/src/components/dashboards/EducatorCohortAnalytics.tsx` and `app/src/components/dashboards/InterventionQueue.tsx`
-- [ ] T057 [US3] Add adaptation history panel for transparency in `app/src/components/dashboards/AdaptationDecisionLog.tsx`
+- [x] T053 [P] [US3] Implement educator dashboard aggregation service in `app/src/services/dashboard-service.ts`
+- [x] T054 [US3] Implement `GET /api/dashboard/educator` route handler in `app/src/app/api/dashboard/educator/route.ts`
+- [x] T055 [P] [US3] Build educator dashboard page in `app/src/app/(educator)/dashboard/page.tsx`
+- [x] T056 [US3] Build cohort analytics and intervention queue components in `app/src/components/dashboards/EducatorCohortAnalytics.tsx` and `app/src/components/dashboards/InterventionQueue.tsx`
+- [x] T057 [US3] Add adaptation history panel for transparency in `app/src/components/dashboards/AdaptationDecisionLog.tsx`
 
 **Checkpoint**: User Story 3 independently enables educator monitoring and intervention workflows.
 
