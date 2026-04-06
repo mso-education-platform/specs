@@ -10,7 +10,10 @@ export async function POST(request: Request) {
     requireLearner(session)
 
     const payload = onboardingRequestSchema.parse(await request.json())
-    const result = await onboardingService.upsertOnboarding(session.userId, payload)
+    const result = await onboardingService.upsertOnboarding(session.userId, payload, {
+      email: session.email,
+      name: session.name,
+    })
 
     return ok(result)
   } catch (error) {

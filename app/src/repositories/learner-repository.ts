@@ -1,7 +1,40 @@
-import { OnboardingStatus, ProgramCode } from "@prisma/client"
+import { OnboardingStatus, ProgramCode, UserRole } from "@prisma/client"
 import { prisma } from "@/lib/db/prisma"
 
 export const learnerRepository = {
+  async ensureLearnerUser(input: { userId: string; email?: string; name?: string }) {
+    const fallbackEmail = `${input.userId}@local.learning-platform`
+    const fallbackName = "Learner"
+
+    if (input.email) {
+      const existingByEmail = await prisma.user.findUnique({ where: { email: input.email } })
+      if (existingByEmail) {
+        return prisma.user.update({
+          where: { id: existingByEmail.id },
+          data: {
+            role: UserRole.LEARNER,
+            name: input.name ?? existingByEmail.name,
+          },
+        })
+      }
+    }
+
+    return prisma.user.upsert({
+      where: { id: input.userId },
+      update: {
+        role: UserRole.LEARNER,
+        email: input.email ?? fallbackEmail,
+        name: input.name ?? fallbackName,
+      },
+      create: {
+        id: input.userId,
+        role: UserRole.LEARNER,
+        email: input.email ?? fallbackEmail,
+        name: input.name ?? fallbackName,
+      },
+    })
+  },
+
   async ensureLearnerProfile(userId: string) {
     return prisma.learnerProfile.upsert({
       where: { userId },

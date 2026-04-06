@@ -5,6 +5,12 @@ import { learnerRepository } from "@/repositories/learner-repository"
 
 describe("US1 integration: onboarding flow", () => {
   it("moves learner to PROGRAM_SELECTED status", async () => {
+    const ensureUserSpy = vi.spyOn(learnerRepository, "ensureLearnerUser").mockResolvedValue({
+      id: "user-1",
+      email: "learner@example.com",
+      name: "Learner",
+      role: "LEARNER",
+    } as never)
     const getLearnerSpy = vi.spyOn(learnerRepository, "getLearnerByUserId").mockResolvedValue(null)
     const updateOnboardingSpy = vi.spyOn(learnerRepository, "updateOnboarding").mockResolvedValue({
       id: "learner-1",
@@ -20,11 +26,18 @@ describe("US1 integration: onboarding flow", () => {
     expect(result.onboardingStatus).toBe("PROGRAM_SELECTED")
     expect(updateOnboardingSpy).toHaveBeenCalledOnce()
 
+    ensureUserSpy.mockRestore()
     getLearnerSpy.mockRestore()
     updateOnboardingSpy.mockRestore()
   })
 
   it("blocks onboarding edits once assessment is in progress", async () => {
+    const ensureUserSpy = vi.spyOn(learnerRepository, "ensureLearnerUser").mockResolvedValue({
+      id: "user-1",
+      email: "learner@example.com",
+      name: "Learner",
+      role: "LEARNER",
+    } as never)
     const getLearnerSpy = vi.spyOn(learnerRepository, "getLearnerByUserId").mockResolvedValue({
       id: "learner-1",
       onboardingStatus: OnboardingStatus.ASSESSMENT_IN_PROGRESS,
@@ -37,6 +50,7 @@ describe("US1 integration: onboarding flow", () => {
       }),
     ).rejects.toThrow(/cannot be changed/i)
 
+    ensureUserSpy.mockRestore()
     getLearnerSpy.mockRestore()
   })
 })

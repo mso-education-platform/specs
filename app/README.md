@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learning Platform App
 
-## Getting Started
+Application Next.js (App Router) pour la plateforme d'apprentissage.
 
-First, run the development server:
+## Prerequis
+
+- Node.js 20+
+- Docker
+- npm
+
+## Lancer en local (recommande)
+
+1. Aller dans l'application:
+
+```bash
+cd app
+```
+
+2. Configurer la base de donnees locale sur un port dedie (evite les conflits avec un Postgres deja installe sur 5432):
+
+```env
+DATABASE_URL="postgres://specs:secret@127.0.0.1:55432/specs_db"
+```
+
+3. Demarrer Postgres dans Docker:
+
+```bash
+docker rm -f specs-postgres || true
+docker run -d --name specs-postgres \
+	-e POSTGRES_USER=specs \
+	-e POSTGRES_PASSWORD=secret \
+	-e POSTGRES_DB=specs_db \
+	-p 55432:5432 \
+	postgres:15
+```
+
+4. Installer les dependances:
+
+```bash
+npm ci
+```
+
+5. Initialiser la base:
+
+```bash
+npx prisma db push
+npm run prisma:seed
+```
+
+6. Lancer l'application:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+7. Ouvrir:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tests utiles
 
-## Learn More
+```bash
+npm run lint
+npm run test
+npm run test:e2e -- tests/e2e/us1-onboarding.spec.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Depannage rapide
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Si `/api/onboarding` retourne `Unexpected error`, verifier que l'app utilise bien la DB Docker sur `127.0.0.1:55432`.
+- Si le port `3000` est occupe:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+lsof -nP -iTCP:3000 -sTCP:LISTEN
+kill <PID>
+```
 
-## Deploy on Vercel
+- Si le conteneur DB est stale, le recreer avec les commandes Docker ci-dessus puis rejouer:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx prisma db push
+npm run prisma:seed
+```

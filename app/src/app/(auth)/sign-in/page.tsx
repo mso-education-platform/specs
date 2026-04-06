@@ -20,13 +20,14 @@ export default function SignInPage() {
       return
     }
 
-    const userId = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `user-${Date.now()}`
+    const normalizedEmail = email.trim().toLowerCase()
+    const userId = `learner-${normalizedEmail.replace(/[^a-z0-9]+/g, "-")}`
 
     setClientSession({
       userId,
       role: "LEARNER",
-      email,
-      name,
+      email: normalizedEmail,
+      name: name.trim(),
     })
 
     router.push("/onboarding/age-level")
