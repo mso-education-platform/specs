@@ -10,8 +10,7 @@ export async function POST(request: Request) {
     requireLearner(session)
 
     const payload = assessmentStartSchema.parse(await request.json())
-    void payload
-    const result = await assessmentService.startAssessment(session.userId)
+    const result = await assessmentService.startAssessment(session.userId, payload)
 
     return ok(result)
   } catch (error) {

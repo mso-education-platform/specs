@@ -34,4 +34,21 @@ describe("US1 contract: onboarding and assessment payloads", () => {
 
     expect(payload.responses).toHaveLength(1)
   })
+
+  it("rejects invalid onboarding payload", () => {
+    expect(() =>
+      onboardingRequestSchema.parse({
+        ageLevel: "A_8_12",
+      }),
+    ).toThrow()
+  })
+
+  it("rejects assessment submit payload with empty responses", () => {
+    expect(() =>
+      assessmentSubmitSchema.parse({
+        assessmentSessionId: "550e8400-e29b-41d4-a716-446655440000",
+        responses: [],
+      }),
+    ).toThrow()
+  })
 })

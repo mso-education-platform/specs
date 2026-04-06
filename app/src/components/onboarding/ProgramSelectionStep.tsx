@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/components/i18n/I18nProvider"
-import { buildSessionHeaders } from "@/lib/auth/client-session"
+import { buildSessionHeaders, getClientSession, setClientSession } from "@/lib/auth/client-session"
 
 export function ProgramSelectionStep() {
   const { t } = useTranslation()
@@ -45,6 +45,16 @@ export function ProgramSelectionStep() {
       const data = await response.json()
       if (!response.ok) {
         throw new Error(data?.error?.message ?? "Could not save onboarding choices.")
+      }
+
+      if (typeof data?.canonicalUserId === "string") {
+        const currentSession = getClientSession()
+        if (currentSession && currentSession.userId !== data.canonicalUserId) {
+          setClientSession({
+            ...currentSession,
+            userId: data.canonicalUserId,
+          })
+        }
       }
 
       window.sessionStorage.setItem("program-code", programCode)
