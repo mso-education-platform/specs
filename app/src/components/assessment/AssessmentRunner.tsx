@@ -56,8 +56,10 @@ export function AssessmentRunner() {
     )
 
     window.sessionStorage.setItem("assessment-result", JSON.stringify(payload))
-    markClientOnboardingCompleted()
+    // Navigate to the feedback page first, then mark onboarding completed to
+    // avoid the feedback page immediately redirecting to the dashboard.
     router.push("/onboarding/feedback")
+    markClientOnboardingCompleted()
   }
 
   return (

@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +13,9 @@ import { useTranslation } from "@/components/i18n/I18nProvider"
 type AuthMode = "register" | "login"
 
 export default function SignInPage() {
+  const searchParams = useSearchParams()
+  const roleParam = searchParams.get("role")
+  const isEducatorLogin = roleParam === "educator"
   const [mode, setMode] = useState<AuthMode>("register")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -21,6 +25,13 @@ export default function SignInPage() {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false)
   const router = useRouter()
   const { t } = useTranslation()
+
+  useEffect(() => {
+    // Default to `login` for educator flows, otherwise show the register form
+    setMode(isEducatorLogin ? "login" : "register")
+    setShowLoginPrompt(false)
+    setError(null)
+  }, [isEducatorLogin])
 
   const normalizeEmail = () => email.trim().toLowerCase()
 
@@ -98,6 +109,11 @@ export default function SignInPage() {
       }
 
       setClientSession(data)
+      if (data.role === "EDUCATOR" || isEducatorLogin) {
+        router.push("/educator/dashboard")
+        return
+      }
+
       router.push("/onboarding/age-level")
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Authentication failed.")
@@ -115,9 +131,11 @@ export default function SignInPage() {
   return (
     <Card className="mx-auto mt-10 max-w-md p-6 space-y-4">
       <h1 className="text-2xl font-semibold">{t("signin.title")}</h1>
-      <p className="text-sm text-muted-foreground">{t("signin.subtitle")}</p>
+      <p className="text-sm text-muted-foreground">
+        {isEducatorLogin ? t("signin.subtitle_educator") : t("signin.subtitle")}
+      </p>
 
-      {mode === "register" ? (
+      {mode === "register" && !isEducatorLogin ? (
         <div className="space-y-2">
           <Label htmlFor="name">{t("signin.name")}</Label>
           <Input id="name" value={name} onChange={(event) => setName(event.target.value)} />
@@ -164,18 +182,20 @@ export default function SignInPage() {
             : t("signin.login")}
       </Button>
 
-      <Button
-        type="button"
-        variant="ghost"
-        className="w-full"
-        onClick={() => {
-          setMode(mode === "register" ? "login" : "register")
-          setShowLoginPrompt(false)
-          setError(null)
-        }}
-      >
-        {mode === "register" ? t("signin.switch_to_login") : t("signin.switch_to_register")}
-      </Button>
+      {!isEducatorLogin ? (
+        <Button
+          type="button"
+          variant="ghost"
+          className="w-full"
+          onClick={() => {
+            setMode(mode === "register" ? "login" : "register")
+            setShowLoginPrompt(false)
+            setError(null)
+          }}
+        >
+          {mode === "register" ? t("signin.switch_to_login") : t("signin.switch_to_register")}
+        </Button>
+      ) : null}
     </Card>
   )
 }

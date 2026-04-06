@@ -6,8 +6,11 @@
   "nav": {
     "home": "Home",
     "dashboard": "Dashboard",
+    "my_progress": "My progress",
     "settings": "Settings",
-    "track": "Track"
+    "track": "Tracks",
+    "sign_in_learner": "Learner sign in",
+    "sign_in_educator": "Educator sign in"
   },
   "ui": {
     "menu": "Menu",
@@ -31,6 +34,7 @@
     "title": "AI-assisted learning platform",
     "subtitle": "Start onboarding to get age-aware assessment and a personalized first learning path.",
     "start": "Start onboarding",
+    "sign_in": "Sign in",
     "connected": "You are signed in.",
     "connected_as": "Signed in as",
     "sign_out": "Sign out",
@@ -161,6 +165,7 @@
   "signin": {
     "title": "Sign in to continue",
     "subtitle": "Use learner sign-in to start your personalized onboarding.",
+    "subtitle_educator": "Educator sign in only. Registration is not available for this profile.",
     "name": "Name",
     "email": "Email",
     "password": "Password",
