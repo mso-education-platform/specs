@@ -1,6 +1,6 @@
 import { ApiError } from "@/lib/api-errors"
 import { ASSESSMENT_TOTAL_STEPS } from "@/lib/constants/personalization"
-import type { AssessmentSubmitDto } from "@/lib/validation/assessment"
+import type { AssessmentStartDto, AssessmentSubmitDto } from "@/lib/validation/assessment"
 import { assessmentRepository } from "@/repositories/assessment-repository"
 import { learnerRepository } from "@/repositories/learner-repository"
 import { personalizationService } from "@/services/personalization-service"
@@ -47,17 +47,23 @@ function scoreResponse(response: string | number | string[]): number {
 }
 
 export const assessmentService = {
-  async startAssessment(userId: string) {
+  async startAssessment(userId: string, dto: AssessmentStartDto) {
     const learner = await learnerRepository.getLearnerByUserId(userId)
 
     if (!learner?.ageLevel || !learner.selectedProgramId) {
       throw new ApiError(400, "ONBOARDING_INCOMPLETE", "Complete age level and program selection first.")
     }
 
+    if (learner.selectedProgram?.code !== dto.programCode) {
+      throw new ApiError(400, "PROGRAM_MISMATCH", "Selected program does not match onboarding profile.")
+    }
+
     const existingSession = await assessmentRepository.findActiveSession(learner.id)
     if (existingSession) {
       throw new ApiError(409, "ACTIVE_SESSION_EXISTS", "An active assessment session already exists.")
     }
+
+    await learnerRepository.setOnboardingStatus(userId, OnboardingStatus.ASSESSMENT_IN_PROGRESS)
 
     const session = await assessmentRepository.createSession({
       learnerId: learner.id,

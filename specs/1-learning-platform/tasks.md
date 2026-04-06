@@ -25,33 +25,19 @@
 
 **⚠️ CRITICAL**: No user story implementation starts before this phase is complete.
 
-- [ ] T006 Update domain models and enums for learner platform in `app/prisma/schema.prisma`
-- [ ] T007 Create and apply Prisma migration for learning platform schema in `app/prisma/migrations/`
-- [ ] T008 [P] Add Prisma client singleton and DB utilities in `app/src/lib/db/prisma.ts`
-- [ ] T009 [P] Seed programs, units, and prerequisites in `app/prisma/seed.ts`
-- [ ] T010 Implement auth session and role guard helpers in `app/src/lib/auth/session.ts` and `app/src/lib/auth/guards.ts`
-- [ ] T011 [P] Define shared Zod DTO schemas in `app/src/lib/validation/onboarding.ts`, `app/src/lib/validation/assessment.ts`, `app/src/lib/validation/learning-path.ts`, and `app/src/lib/validation/mentorship.ts`
-- [ ] T012 [P] Add scoring/adaptation constants and rule metadata in `app/src/lib/constants/personalization.ts`
-- [ ] T013 Implement repository base queries for learners and profiles in `app/src/repositories/learner-repository.ts`
-- [ ] T014 [P] Implement repository queries for assessments in `app/src/repositories/assessment-repository.ts`
-- [ ] T015 [P] Implement repository queries for learning paths and units in `app/src/repositories/learning-path-repository.ts`
-- [ ] T016 [P] Implement repository queries for mentorship requests in `app/src/repositories/mentorship-repository.ts`
-- [ ] T017 Create shared API error and response helpers in `app/src/lib/api-errors.ts` and `app/src/lib/api-response.ts`
-- [ ] T018 Update global app shell and role-aware navigation scaffolding in `app/src/app/layout.tsx` and `app/src/components/layout/TopBar.tsx`
-
- - [x] T006 Update domain models and enums for learner platform in `app/prisma/schema.prisma`
- - [x] T007 Create and apply Prisma migration for learning platform schema in `app/prisma/migrations/`
- - [x] T008 [P] Add Prisma client singleton and DB utilities in `app/src/lib/db/prisma.ts`
- - [x] T009 [P] Seed programs, units, and prerequisites in `app/prisma/seed.ts`
- - [x] T010 Implement auth session and role guard helpers in `app/src/lib/auth/session.ts` and `app/src/lib/auth/guards.ts`
- - [x] T011 [P] Define shared Zod DTO schemas in `app/src/lib/validation/onboarding.ts`, `app/src/lib/validation/assessment.ts`, `app/src/lib/validation/learning-path.ts`, and `app/src/lib/validation/mentorship.ts`
- - [x] T012 [P] Add scoring/adaptation constants and rule metadata in `app/src/lib/constants/personalization.ts`
- - [x] T013 Implement repository base queries for learners and profiles in `app/src/repositories/learner-repository.ts`
- - [x] T014 [P] Implement repository queries for assessments in `app/src/repositories/assessment-repository.ts`
- - [x] T015 [P] Implement repository queries for learning paths and units in `app/src/repositories/learning-path-repository.ts`
- - [x] T016 [P] Implement repository queries for mentorship requests in `app/src/repositories/mentorship-repository.ts`
- - [x] T017 Create shared API error and response helpers in `app/src/lib/api-errors.ts` and `app/src/lib/api-response.ts`
- - [x] T018 Update global app shell and role-aware navigation scaffolding in `app/src/app/layout.tsx` and `app/src/components/layout/TopBar.tsx`
+- [x] T006 Update domain models and enums for learner platform in `app/prisma/schema.prisma`
+- [x] T007 Create and apply Prisma migration for learning platform schema in `app/prisma/migrations/`
+- [x] T008 [P] Add Prisma client singleton and DB utilities in `app/src/lib/db/prisma.ts`
+- [x] T009 [P] Seed programs, units, and prerequisites in `app/prisma/seed.ts`
+- [x] T010 Implement auth session and role guard helpers in `app/src/lib/auth/session.ts` and `app/src/lib/auth/guards.ts`
+- [x] T011 [P] Define shared Zod DTO schemas in `app/src/lib/validation/onboarding.ts`, `app/src/lib/validation/assessment.ts`, `app/src/lib/validation/learning-path.ts`, and `app/src/lib/validation/mentorship.ts`
+- [x] T012 [P] Add scoring/adaptation constants and rule metadata in `app/src/lib/constants/personalization.ts`
+- [x] T013 Implement repository base queries for learners and profiles in `app/src/repositories/learner-repository.ts`
+- [x] T014 [P] Implement repository queries for assessments in `app/src/repositories/assessment-repository.ts`
+- [x] T015 [P] Implement repository queries for learning paths and units in `app/src/repositories/learning-path-repository.ts`
+- [x] T016 [P] Implement repository queries for mentorship requests in `app/src/repositories/mentorship-repository.ts`
+- [x] T017 Create shared API error and response helpers in `app/src/lib/api-errors.ts` and `app/src/lib/api-response.ts`
+- [x] T018 Update global app shell and role-aware navigation scaffolding in `app/src/app/layout.tsx` and `app/src/components/layout/TopBar.tsx`
 
 **Checkpoint**: Foundation complete. User stories can now proceed.
 
@@ -65,27 +51,27 @@
 
 ### Tests for User Story 1
 
-- [ ] T019 [P] [US1] Add contract tests for onboarding and assessment start/submit endpoints in `app/tests/contract/us1-onboarding-assessment.contract.test.ts`
-- [ ] T020 [P] [US1] Add integration test for onboarding state transitions in `app/tests/integration/us1-onboarding-flow.integration.test.ts`
-- [ ] T021 [P] [US1] Add E2E onboarding happy-path test in `app/tests/e2e/us1-onboarding.spec.ts`
+- [x] T019 [P] [US1] Add contract tests for onboarding and assessment start/submit endpoints in `app/tests/contract/us1-onboarding-assessment.contract.test.ts`
+- [x] T020 [P] [US1] Add integration test for onboarding state transitions in `app/tests/integration/us1-onboarding-flow.integration.test.ts`
+- [x] T021 [P] [US1] Add E2E onboarding happy-path test in `app/tests/e2e/us1-onboarding.spec.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T022 [P] [US1] Implement onboarding service state machine in `app/src/services/onboarding-service.ts`
-- [ ] T023 [P] [US1] Implement assessment session orchestration in `app/src/services/assessment-service.ts`
-- [ ] T024 [P] [US1] Implement personalization pipeline with deterministic overrides in `app/src/services/personalization-service.ts`
-- [ ] T025 [US1] Implement learning path generation service used at onboarding completion in `app/src/services/learning-path-service.ts`
-- [ ] T026 [US1] Implement `POST /api/onboarding` route handler in `app/src/app/api/onboarding/route.ts`
-- [ ] T027 [US1] Implement `POST /api/assessment/start` route handler in `app/src/app/api/assessment/start/route.ts`
-- [ ] T028 [US1] Implement `POST /api/assessment/submit` route handler in `app/src/app/api/assessment/submit/route.ts`
-- [ ] T029 [P] [US1] Build sign-in page for onboarding entry in `app/src/app/(auth)/sign-in/page.tsx`
-- [ ] T030 [P] [US1] Build age-level step page in `app/src/app/(auth)/onboarding/age-level/page.tsx` and `app/src/components/onboarding/AgeLevelStep.tsx`
-- [ ] T031 [P] [US1] Build program selection step page in `app/src/app/(auth)/onboarding/program/page.tsx` and `app/src/components/onboarding/ProgramSelectionStep.tsx`
-- [ ] T032 [US1] Build assessment step page with progress UI in `app/src/app/(auth)/onboarding/assessment/page.tsx` and `app/src/components/assessment/AssessmentRunner.tsx`
-- [ ] T033 [US1] Build personalization feedback page in `app/src/app/(auth)/onboarding/feedback/page.tsx` and `app/src/components/assessment/PersonalizationFeedback.tsx`
-- [ ] T034 [US1] Implement assessment client state hook in `app/src/hooks/useAssessmentSession.ts`
-- [ ] T035 [US1] Add learner onboarding resume and transition guards in `app/src/lib/auth/onboarding-guards.ts`
-- [ ] T036 [US1] Add adaptation decision logging during onboarding in `app/src/services/personalization-service.ts` and `app/src/repositories/assessment-repository.ts`
+- [x] T022 [P] [US1] Implement onboarding service state machine in `app/src/services/onboarding-service.ts`
+- [x] T023 [P] [US1] Implement assessment session orchestration in `app/src/services/assessment-service.ts`
+- [x] T024 [P] [US1] Implement personalization pipeline with deterministic overrides in `app/src/services/personalization-service.ts`
+- [x] T025 [US1] Implement learning path generation service used at onboarding completion in `app/src/services/learning-path-service.ts`
+- [x] T026 [US1] Implement `POST /api/onboarding` route handler in `app/src/app/api/onboarding/route.ts`
+- [x] T027 [US1] Implement `POST /api/assessment/start` route handler in `app/src/app/api/assessment/start/route.ts`
+- [x] T028 [US1] Implement `POST /api/assessment/submit` route handler in `app/src/app/api/assessment/submit/route.ts`
+- [x] T029 [P] [US1] Build sign-in page for onboarding entry in `app/src/app/(auth)/sign-in/page.tsx`
+- [x] T030 [P] [US1] Build age-level step page in `app/src/app/(auth)/onboarding/age-level/page.tsx` and `app/src/components/onboarding/AgeLevelStep.tsx`
+- [x] T031 [P] [US1] Build program selection step page in `app/src/app/(auth)/onboarding/program/page.tsx` and `app/src/components/onboarding/ProgramSelectionStep.tsx`
+- [x] T032 [US1] Build assessment step page with progress UI in `app/src/app/(auth)/onboarding/assessment/page.tsx` and `app/src/components/assessment/AssessmentRunner.tsx`
+- [x] T033 [US1] Build personalization feedback page in `app/src/app/(auth)/onboarding/feedback/page.tsx` and `app/src/components/assessment/PersonalizationFeedback.tsx`
+- [x] T034 [US1] Implement assessment client state hook in `app/src/hooks/useAssessmentSession.ts`
+- [x] T035 [US1] Add learner onboarding resume and transition guards in `app/src/lib/auth/onboarding-guards.ts`
+- [x] T036 [US1] Add adaptation decision logging during onboarding in `app/src/services/personalization-service.ts` and `app/src/repositories/assessment-repository.ts`
 
 **Checkpoint**: User Story 1 independently works from sign-in through personalized path creation.
 
