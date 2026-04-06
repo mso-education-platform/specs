@@ -1,0 +1,11 @@
+{
+  "name": "specs-root",
+  "private": true,
+  "devDependencies": {
+    "husky": "^8.0.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "precommit:check": "npm --prefix app run lint && npm --prefix app run build"
+  }
+}
