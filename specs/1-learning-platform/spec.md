@@ -3,7 +3,7 @@
 **Feature Branch**: `1-learning-platform`  
 **Created**: 2026-01-11  
 **Status**: Complete  
-**Last Updated**: 2026-01-24  
+**Last Updated**: 2026-04-06  
 
 ---
 
@@ -515,6 +515,40 @@ Two cards/blocks representing:
 * **Given** unlocked unit, **When** starting, **Then** objectives, tasks, and reflections are presented.
 * **Given** unit in progress, **When** submitting project, **Then** feedback is provided.
 * **Given** performance data, **When** system adapts, **Then** path is modified (reinforcement, acceleration, etc.).
+
+---
+
+# 11. Authentication Hardening Feature (Implemented)
+
+## 11.1 Scope
+
+The onboarding entry flow now supports password-based authentication with a clear distinction between:
+
+* account creation (first-time learner)
+* authentication (existing learner)
+
+The feature includes backend API routes, UI behavior updates, and end-to-end validation in Playwright and CI.
+
+## 11.2 Functional Requirements Implemented
+
+* The sign-in page provides `email` and `password` inputs for authentication.
+* New learners can create an account with `name`, `email`, and `password`.
+* When a learner enters an email that already exists during onboarding start, the system displays a message asking the learner to authenticate.
+* A dedicated button allows switching to the login form from that state.
+* Successful registration and successful login both redirect to onboarding (`/onboarding/age-level`).
+
+## 11.3 Security and Data Requirements Implemented
+
+* Passwords are not stored in plain text.
+* Passwords are hashed server-side before persistence.
+* Login verifies the password hash with constant-time comparison.
+* Validation errors and known database errors are mapped to explicit API errors (instead of generic 500 responses).
+
+## 11.4 Validation and Delivery Requirements Implemented
+
+* A Playwright E2E scenario validates registration followed by login with an existing account.
+* CI includes execution of Playwright tests.
+* CI uploads Playwright artifacts (`playwright-report`, `test-results`) for debugging.
 
 ---
 

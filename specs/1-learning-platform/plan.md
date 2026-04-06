@@ -271,3 +271,39 @@ app/
 ## Complexity Tracking
 
 No constitution violations requiring justification.
+
+## Implementation Addendum (2026-04-06): Authentication Hardening
+
+### Summary
+
+Implemented a focused enhancement of the onboarding entry flow to support password-based registration and login, with explicit UX for existing accounts and integrated E2E validation in CI.
+
+### Delivered Scope
+
+1. Data model and persistence
+- Added nullable `passwordHash` on `User` in Prisma schema.
+- Added migration for password hash column and aligned migration history/state.
+
+2. API and validation
+- Added auth endpoints:
+  - `POST /api/auth/check-email`
+  - `POST /api/auth/register`
+  - `POST /api/auth/login`
+- Added dedicated auth payload schemas (`check-email`, `register`, `login`).
+- Added secure password hashing/verification helper.
+
+3. UX behavior
+- Updated sign-in page to support register/login modes.
+- Added existing-account detection during onboarding start.
+- Added explicit message and CTA to switch to login form when account already exists.
+
+4. Reliability and observability
+- Improved API error mapping for validation and known Prisma errors.
+- Added Playwright E2E test for register-then-login scenario.
+- Updated CI to run Playwright E2E with PostgreSQL service and upload artifacts.
+
+### Verification
+
+- Local lint: pass.
+- New Playwright test (`auth-register-login.spec.ts`): pass.
+- CI workflow updated with E2E execution and report artifact upload.

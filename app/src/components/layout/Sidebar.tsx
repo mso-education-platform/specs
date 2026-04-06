@@ -1,12 +1,13 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
 import { Home, Settings, Users } from "lucide-react"
 import { useTranslation } from "@/components/i18n/I18nProvider"
+import { CLIENT_SESSION_CHANGED_EVENT, getClientSession, type ClientSession } from "@/lib/auth/client-session"
 
 type NavItem = { href: string; labelKey: string; icon: React.ReactNode }
 
@@ -18,6 +19,19 @@ const nav: NavItem[] = [
 
 export default function Sidebar({ className }: { className?: string }) {
   const { t } = useTranslation()
+  const [session, setSession] = useState<ClientSession | null>(() => getClientSession())
+
+  useEffect(() => {
+    const refreshSession = () => setSession(getClientSession())
+
+    window.addEventListener("storage", refreshSession)
+    window.addEventListener(CLIENT_SESSION_CHANGED_EVENT, refreshSession)
+
+    return () => {
+      window.removeEventListener("storage", refreshSession)
+      window.removeEventListener(CLIENT_SESSION_CHANGED_EVENT, refreshSession)
+    }
+  }, [])
 
   return (
     <>
@@ -61,15 +75,18 @@ export default function Sidebar({ className }: { className?: string }) {
           ))}
         </nav>
 
-        <div className="mt-auto px-2">
-          <div className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-muted">
-            <Avatar className="h-8 w-8" />
-            <div className="flex-1">
-              <div className="text-sm text-foreground">{t("ui.userName")}</div>
-              <div className="text-xs text-muted-foreground">{t("ui.account")}</div>
+        {session ? (
+          <div className="mt-auto px-2">
+            <div className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-muted">
+              <Avatar className="h-8 w-8" />
+              <div className="flex-1">
+                <div className="text-sm text-foreground">{session.name}</div>
+                <div className="text-xs text-muted-foreground">{session.email}</div>
+                <div className="text-xs text-muted-foreground">{t(`topbar.role.${session.role}`)}</div>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </aside>
     </>
   )

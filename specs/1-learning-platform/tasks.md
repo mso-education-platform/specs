@@ -326,3 +326,23 @@ Task T071: app/src/components/mentorship/MentorshipRequestForm.tsx
    - Engineer B: US1/US2 frontend pages and hooks.
    - Engineer C: US3/US4 dashboards.
    - Engineer D: US5 mentorship + cross-cutting tests.
+
+---
+
+## Delivered Addendum: Authentication Hardening & E2E CI (2026-04-06)
+
+**Goal**: Secure onboarding entry with password auth, handle existing-account UX, and validate with E2E in CI.
+
+- [x] T081 [US1] Add password hash persistence field to `app/prisma/schema.prisma`
+- [x] T082 [US1] Add password hash migration in `app/prisma/migrations/20260406110000_add_user_password_hash/migration.sql`
+- [x] T083 [US1] Implement password hash/verify helper in `app/src/lib/auth/password.ts`
+- [x] T084 [US1] Add auth request schemas in `app/src/lib/validation/auth.ts`
+- [x] T085 [US1] Implement `POST /api/auth/check-email` in `app/src/app/api/auth/check-email/route.ts`
+- [x] T086 [US1] Implement `POST /api/auth/register` in `app/src/app/api/auth/register/route.ts`
+- [x] T087 [US1] Implement `POST /api/auth/login` in `app/src/app/api/auth/login/route.ts`
+- [x] T088 [US1] Update sign-in UI with password + register/login modes in `app/src/app/(auth)/sign-in/page.tsx`
+- [x] T089 [US1] Add existing-account prompt and login-form CTA in `app/src/app/(auth)/sign-in/page.tsx`
+- [x] T090 [US1] Improve API error mapping for auth flows in `app/src/lib/api-errors.ts`
+- [x] T091 [US1] Add Playwright E2E test for register then login in `app/tests/e2e/auth-register-login.spec.ts`
+- [x] T092 [US1] Add E2E execution step in CI workflow `/.github/workflows/ci.yml`
+- [x] T093 [US1] Add Playwright artifact upload step in CI workflow `/.github/workflows/ci.yml`

@@ -104,6 +104,7 @@ model User {
   id                    String             @id @default(uuid())
   email                 String             @unique
   name                  String
+  passwordHash          String?
   role                  UserRole           @default(LEARNER)
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
