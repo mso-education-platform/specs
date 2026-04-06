@@ -6,6 +6,7 @@ import { buildSessionHeaders } from "@/lib/auth/client-session"
 type AssessmentQuestion = {
   questionId: string
   prompt: string
+  promptKey?: string
   type: "MULTIPLE_CHOICE" | "OPEN_TEXT" | "SCENARIO"
   choices?: string[]
 }

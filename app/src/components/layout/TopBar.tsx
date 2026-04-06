@@ -8,7 +8,7 @@ import Link from "next/link"
 import { UserRole } from "@prisma/client"
 import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "@/components/i18n/I18nProvider"
-import { Select } from "@/components/ui/dropdown-menu"
+// removed unused Select import
 
 type TopBarProps = {
   title?: string
