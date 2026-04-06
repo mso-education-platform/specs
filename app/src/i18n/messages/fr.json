@@ -105,7 +105,53 @@
     "title": "Tableau de bord de l'apprenant",
     "subtitle": "Vos premières unités sont débloquées en fonction de votre évaluation d'onboarding.",
     "loading_plan": "Chargement de votre plan personnalisé...",
-    "unit_id": "ID de l'unité:"
+    "unit_id": "ID de l'unité:",
+    "completed_units": "Unités complétées",
+    "total_units": "Total des unités",
+    "ready_now": "Disponibles maintenant",
+    "continue_track": "Continuez votre parcours personnalisé",
+    "next_suggested_unit": "Prochaine unité suggérée :",
+    "no_unlocked_unit": "Aucune unité n'est disponible pour le moment.",
+    "open_track": "Ouvrir le parcours",
+    "open_next_unit": "Ouvrir la prochaine unité"
+  },
+  "learning_path": {
+    "track_title": "Mon parcours d'apprentissage",
+    "refresh": "Actualiser",
+    "loading_track": "Chargement de votre parcours personnalisé...",
+    "loading_unit": "Chargement des détails de l'unité...",
+    "unit_not_found": "Unité introuvable dans votre parcours actif.",
+    "back_to_track": "Retour au parcours",
+    "prerequisites": "Prérequis",
+    "open": "Ouvrir",
+    "project_submission": "Soumission du projet",
+    "reflection_completed": "Réflexion complétée",
+    "yes": "Oui",
+    "no": "Non",
+    "none": "Aucun",
+    "unit_progress": "Progression de l'unité",
+    "unit_id": "ID de l'unité",
+    "start_unit": "Commencer l'unité",
+    "complete_unit": "Terminer l'unité",
+    "mark_reviewed": "Marquer le projet comme revu",
+    "reflection": "Réflexion",
+    "reflection_placeholder": "Écrivez une courte réflexion",
+    "save_reflection": "Enregistrer la réflexion",
+    "states": {
+      "LOCKED": "Verrouillée",
+      "UNLOCKED": "Déverrouillée",
+      "IN_PROGRESS": "En cours",
+      "COMPLETED": "Terminée",
+      "DEFERRED": "Différée"
+    },
+    "submission_status": {
+      "NONE": "Aucun",
+      "SUBMITTED": "Soumis",
+      "REVIEWED": "Revu"
+    },
+    "errors": {
+      "update_progress": "Impossible de mettre à jour la progression."
+    }
   },
   "dialog": {
     "confirm": "Confirmer",

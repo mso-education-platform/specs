@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "prepare": "cd .. && husky install",
-    "precommit:check": "npm run prisma:generate && npm run lint && npm run build && npm run test",
+    "precommit:check": "npm run prisma:generate && npm run lint && npm run build && npm run test && npm run test:e2e",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

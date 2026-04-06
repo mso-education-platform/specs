@@ -105,7 +105,53 @@
     "title": "Learner dashboard",
     "subtitle": "Your first units are unlocked based on your onboarding assessment.",
     "loading_plan": "Loading your personalized plan...",
-    "unit_id": "Unit ID:"
+    "unit_id": "Unit ID:",
+    "completed_units": "Completed units",
+    "total_units": "Total units",
+    "ready_now": "Ready now",
+    "continue_track": "Continue your personalized learning track",
+    "next_suggested_unit": "Next suggested unit:",
+    "no_unlocked_unit": "No unlocked unit available yet.",
+    "open_track": "Open track",
+    "open_next_unit": "Open next unit"
+  },
+  "learning_path": {
+    "track_title": "My Learning Track",
+    "refresh": "Refresh",
+    "loading_track": "Loading your personalized track...",
+    "loading_unit": "Loading unit details...",
+    "unit_not_found": "Unit not found in your active learning path.",
+    "back_to_track": "Back to track",
+    "prerequisites": "Prerequisites",
+    "open": "Open",
+    "project_submission": "Project submission",
+    "reflection_completed": "Reflection completed",
+    "yes": "Yes",
+    "no": "No",
+    "none": "None",
+    "unit_progress": "Unit progress",
+    "unit_id": "Unit ID",
+    "start_unit": "Start unit",
+    "complete_unit": "Complete unit",
+    "mark_reviewed": "Mark project reviewed",
+    "reflection": "Reflection",
+    "reflection_placeholder": "Write a short reflection",
+    "save_reflection": "Save reflection",
+    "states": {
+      "LOCKED": "Locked",
+      "UNLOCKED": "Unlocked",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed",
+      "DEFERRED": "Deferred"
+    },
+    "submission_status": {
+      "NONE": "None",
+      "SUBMITTED": "Submitted",
+      "REVIEWED": "Reviewed"
+    },
+    "errors": {
+      "update_progress": "Could not update progress."
+    }
   },
   "dialog": {
     "confirm": "Confirm",

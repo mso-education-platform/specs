@@ -104,7 +104,53 @@
     "title": "لوحة تحكم المتعلم",
     "subtitle": "يتم فتح وحداتك الأولى بناءً على تقييم التسجيل.",
     "loading_plan": "جاري تحميل خطة التعلم المخصصة...",
-    "unit_id": "معرّف الوحدة:"
+    "unit_id": "معرّف الوحدة:",
+    "completed_units": "الوحدات المكتملة",
+    "total_units": "إجمالي الوحدات",
+    "ready_now": "المتاحة الآن",
+    "continue_track": "تابع مسار التعلم المخصص",
+    "next_suggested_unit": "الوحدة المقترحة التالية:",
+    "no_unlocked_unit": "لا توجد وحدة متاحة حالياً.",
+    "open_track": "فتح المسار",
+    "open_next_unit": "فتح الوحدة التالية"
+  },
+  "learning_path": {
+    "track_title": "مسار التعلم الخاص بي",
+    "refresh": "تحديث",
+    "loading_track": "جارٍ تحميل مسارك المخصص...",
+    "loading_unit": "جارٍ تحميل تفاصيل الوحدة...",
+    "unit_not_found": "لم يتم العثور على الوحدة في مسارك النشط.",
+    "back_to_track": "العودة إلى المسار",
+    "prerequisites": "المتطلبات المسبقة",
+    "open": "فتح",
+    "project_submission": "تسليم المشروع",
+    "reflection_completed": "اكتملت المراجعة الذاتية",
+    "yes": "نعم",
+    "no": "لا",
+    "none": "لا يوجد",
+    "unit_progress": "تقدم الوحدة",
+    "unit_id": "معرّف الوحدة",
+    "start_unit": "بدء الوحدة",
+    "complete_unit": "إكمال الوحدة",
+    "mark_reviewed": "وضع علامة تمت المراجعة",
+    "reflection": "المراجعة الذاتية",
+    "reflection_placeholder": "اكتب مراجعة ذاتية قصيرة",
+    "save_reflection": "حفظ المراجعة الذاتية",
+    "states": {
+      "LOCKED": "مقفلة",
+      "UNLOCKED": "مفتوحة",
+      "IN_PROGRESS": "قيد التقدم",
+      "COMPLETED": "مكتملة",
+      "DEFERRED": "مؤجلة"
+    },
+    "submission_status": {
+      "NONE": "لا يوجد",
+      "SUBMITTED": "تم الإرسال",
+      "REVIEWED": "تمت المراجعة"
+    },
+    "errors": {
+      "update_progress": "تعذر تحديث التقدم."
+    }
   },
   "dialog": {
     "confirm": "تأكيد",

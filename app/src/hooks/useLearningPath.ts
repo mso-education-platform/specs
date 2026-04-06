@@ -6,8 +6,12 @@ import { buildSessionHeaders } from "@/lib/auth/client-session"
 type LearningPathUnit = {
   unitId: string
   title: string
+  objective: string
   sequenceIndex: number
   state: "LOCKED" | "UNLOCKED" | "IN_PROGRESS" | "COMPLETED" | "DEFERRED"
+  projectSubmissionStatus: "NONE" | "SUBMITTED" | "REVIEWED"
+  reflectionCompleted: boolean
+  prerequisites: string[]
 }
 
 type LearningPathResponse = {
@@ -17,41 +21,79 @@ type LearningPathResponse = {
   units: LearningPathUnit[]
 }
 
+type UnitProgressPatch = {
+  state?: "LOCKED" | "UNLOCKED" | "IN_PROGRESS" | "COMPLETED" | "DEFERRED"
+  projectSubmissionStatus?: "NONE" | "SUBMITTED" | "REVIEWED"
+  reflectionCompleted?: boolean
+}
+
 export function useLearningPath() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [data, setData] = useState<LearningPathResponse | null>(null)
 
-  useEffect(() => {
-    async function load() {
-      setLoading(true)
-      setError(null)
-      try {
-        const headers = new Headers()
-        const sessionHeaders = buildSessionHeaders()
-        Object.entries(sessionHeaders).forEach(([k, v]) => {
-          if (v) headers.set(k, String(v))
-        })
-
-        const response = await fetch("/api/learning-path", {
-          headers,
-        })
-        const payload = await response.json()
-
-        if (!response.ok) {
-          throw new Error(payload?.error?.message ?? "Could not load learning path.")
-        }
-
-        setData(payload)
-      } catch (loadError) {
-        setError(loadError instanceof Error ? loadError.message : "Could not load learning path.")
-      } finally {
-        setLoading(false)
+  const buildHeaders = () => {
+    const headers = new Headers()
+    const sessionHeaders = buildSessionHeaders()
+    Object.entries(sessionHeaders).forEach(([key, value]) => {
+      if (value) {
+        headers.set(key, String(value))
       }
+    })
+
+    headers.set("Content-Type", "application/json")
+    return headers
+  }
+
+  const refresh = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/learning-path", {
+        headers: buildHeaders(),
+      })
+      const payload = await response.json()
+
+      if (!response.ok) {
+        throw new Error(payload?.error?.message ?? "Could not load learning path.")
+      }
+
+      setData(payload)
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Could not load learning path.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateUnitProgress = async (unitId: string, patch: UnitProgressPatch) => {
+    const response = await fetch(`/api/units/${unitId}`, {
+      method: "PATCH",
+      headers: buildHeaders(),
+      body: JSON.stringify(patch),
+    })
+
+    const payload = await response.json()
+    if (!response.ok) {
+      throw new Error(payload?.error?.message ?? "Could not update unit progress.")
     }
 
-    void load()
+    await refresh()
+    return payload
+  }
+
+  useEffect(() => {
+    void refresh()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { data, loading, error }
+  return {
+    data,
+    loading,
+    error,
+    refresh,
+    updateUnitProgress,
+    getUnitById: (unitId: string) => data?.units.find((unit) => unit.unitId === unitId) ?? null,
+  }
 }

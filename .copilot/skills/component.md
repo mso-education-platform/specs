@@ -1,26 +1,26 @@
-Conventions pour créer un composant feature
+Conventions for creating a feature component
 
-- Placer les composants spécifiques aux features dans `app/src/components/ui-custom/`.
-- Props: toujours typées en TypeScript; inclure une propriété `className?: string`.
-- Export: `export default` pour le composant principal.
-- Styles: `className` doit être fusionnable via `cn()` afin d'autoriser l'extension externe.
-- Théming: compatible light/dark en s'appuyant sur variables CSS et classes Tailwind.
-- Tests: co-locater le test avec le composant (ex: `MyComp.test.tsx`) dans le même dossier.
+- Place feature-specific components in `app/src/components/ui-custom/`.
+- Props: always typed in TypeScript; include a `className?: string` prop.
+- Export: use `export default` for the main component.
+- Styles: `className` must be mergeable via `cn()` to allow external extension.
+- Theming: support light/dark using CSS variables and Tailwind classes.
+- Tests: colocate the test with the component (e.g., `MyComp.test.tsx`) in the same folder.
 
-Checklist rapide:
-- Props typées
-- `className` propagée et mergée via `cn()`
-- Accessible (aria où nécessaire)
-- Test unitaire co-localisé
+Quick checklist:
+- Props are typed
+- `className` is forwarded and merged via `cn()`
+- Accessible (use ARIA where needed)
+- Unit test colocated
 
-Internationalisation (i18n)
+Internationalization (i18n)
 
-- Emplacement: centraliser les fichiers de traduction sous `src/i18n/messages/` par locale (ex: `en.json`, `fr.json`) ou par namespace si nécessaire.
-- Clés: utiliser des clés sémantiques et hiérarchiques (ex: `onboarding.title`, `button.submit`).
-- Extraction: ne pas hardcoder de texte dans les composants — injecter via props ou via hooks fournis par le provider i18n (ex: `useTranslations()` ou `t()`).
-- Typage: fournir des types pour les clés de traduction quand possible (ex: `type LocaleKeys = keyof typeof messages['en']`) pour éviter les fautes de clés.
-- Interpolation & pluriels: gérer l'interpolation et les règles de pluralisation via la librairie i18n du projet; documenter les placeholders (`{count}`, `{name}`) et les tests associés.
-- Fallbacks: s'assurer d'un `fallbackLocale` et d'une stratégie claire si une clé est manquante (log + fallback string).
-- Formatage: utiliser `Intl` pour dates/nombres/monnaies et éviter d'imbriquer format logique dans les fichiers de traduction.
-- Tests: co-localiser des tests de rendu i18n (ex: vérifier que le composant affiche la clé traduite pour une locale donnée).
-- PR checklist: demander au reviewer de vérifier l'ajout de la clé de traduction et la présence des variantes de locale.
+- Location: centralize translation files under `src/i18n/messages/` by locale (e.g., `en.json`, `fr.json`) or by namespace if needed.
+- Keys: use semantic, hierarchical keys (e.g., `onboarding.title`, `button.submit`).
+- Extraction: do not hardcode text in components — inject via props or the i18n hooks provided by the project (e.g., `useTranslations()` or `t()`).
+- Typing: provide types for translation keys when possible (e.g., `type LocaleKeys = keyof typeof messages['en']`) to avoid key typos.
+- Interpolation & plurals: handle interpolation and plural rules via the project's i18n library; document placeholders (`{count}`, `{name}`) and related tests.
+- Fallbacks: ensure a `fallbackLocale` and a clear strategy when a key is missing (log + fallback string).
+- Formatting: use `Intl` for dates/numbers/currencies and avoid embedding formatting logic inside translation files.
+- Tests: colocate i18n rendering tests (e.g., verify the component renders localized text for a given locale).
+- PR checklist: ask reviewers to verify the addition of translation keys and presence of locale variants.

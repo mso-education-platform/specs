@@ -85,22 +85,22 @@
 
 ### Tests for User Story 2
 
-- [ ] T037 [P] [US2] Add contract tests for learning path and unit progress endpoints in `app/tests/contract/us2-learning-path.contract.test.ts`
-- [ ] T038 [P] [US2] Add integration tests for prerequisite enforcement and state transitions in `app/tests/integration/us2-learning-path.integration.test.ts`
-- [ ] T039 [P] [US2] Add E2E test for learner unit progression in `app/tests/e2e/us2-learning-experience.spec.ts`
+- [x] T037 [P] [US2] Add contract tests for learning path and unit progress endpoints in `app/tests/contract/us2-learning-path.contract.test.ts`
+- [x] T038 [P] [US2] Add integration tests for prerequisite enforcement and state transitions in `app/tests/integration/us2-learning-path.integration.test.ts`
+- [x] T039 [P] [US2] Add E2E test for learner unit progression in `app/tests/e2e/us2-learning-experience.spec.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T040 [US2] Implement `GET /api/learning-path` route handler in `app/src/app/api/learning-path/route.ts`
-- [ ] T041 [US2] Implement `PATCH /api/units/[unitId]` route handler in `app/src/app/api/units/[unitId]/route.ts`
-- [ ] T042 [P] [US2] Implement learning path query/transform logic in `app/src/services/learning-path-service.ts`
-- [ ] T043 [P] [US2] Implement unit progress update logic with prerequisite checks in `app/src/services/learning-path-service.ts`
-- [ ] T044 [P] [US2] Build learner dashboard page and aggregate widgets in `app/src/app/(learner)/dashboard/page.tsx` and `app/src/components/dashboards/LearnerDashboard.tsx`
-- [ ] T045 [P] [US2] Build first learning track page in `app/src/app/(learner)/track/page.tsx` and `app/src/components/learning-path/LearningPathTimeline.tsx`
-- [ ] T046 [US2] Build unit detail page in `app/src/app/(learner)/unit/[unitId]/page.tsx` and `app/src/components/learning-path/UnitDetailPanel.tsx`
-- [ ] T047 [US2] Implement learner learning-path hook for fetch/update operations in `app/src/hooks/useLearningPath.ts`
-- [ ] T048 [US2] Add project submission and reflection UI controls in `app/src/components/learning-path/UnitProgressActions.tsx`
-- [ ] T049 [US2] Add adaptive refresh trigger after performance updates in `app/src/services/personalization-service.ts` and `app/src/services/learning-path-service.ts`
+- [x] T040 [US2] Implement `GET /api/learning-path` route handler in `app/src/app/api/learning-path/route.ts`
+- [x] T041 [US2] Implement `PATCH /api/units/[unitId]` route handler in `app/src/app/api/units/[unitId]/route.ts`
+- [x] T042 [P] [US2] Implement learning path query/transform logic in `app/src/services/learning-path-service.ts`
+- [x] T043 [P] [US2] Implement unit progress update logic with prerequisite checks in `app/src/services/learning-path-service.ts`
+- [x] T044 [P] [US2] Build learner dashboard page and aggregate widgets in `app/src/app/(learner)/dashboard/page.tsx` and `app/src/components/dashboards/LearnerDashboard.tsx`
+- [x] T045 [P] [US2] Build first learning track page in `app/src/app/(learner)/track/page.tsx` and `app/src/components/learning-path/LearningPathTimeline.tsx`
+- [x] T046 [US2] Build unit detail page in `app/src/app/(learner)/unit/[unitId]/page.tsx` and `app/src/components/learning-path/UnitDetailPanel.tsx`
+- [x] T047 [US2] Implement learner learning-path hook for fetch/update operations in `app/src/hooks/useLearningPath.ts`
+- [x] T048 [US2] Add project submission and reflection UI controls in `app/src/components/learning-path/UnitProgressActions.tsx`
+- [x] T049 [US2] Add adaptive refresh trigger after performance updates in `app/src/services/personalization-service.ts` and `app/src/services/learning-path-service.ts`
 
 **Checkpoint**: User Story 2 independently supports end-to-end learner progression through personalized units.
 
