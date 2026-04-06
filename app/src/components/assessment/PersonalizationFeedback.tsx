@@ -3,7 +3,8 @@
 import { useMemo } from "react"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type AssessmentResult = {
@@ -62,9 +63,9 @@ export function PersonalizationFeedback() {
         </>
       )}
 
-      <Button asChild>
-        <Link href="/dashboard">{t("feedback.go_dashboard")}</Link>
-      </Button>
+      <Link href="/dashboard" className={cn(buttonVariants({}))}>
+        {t("feedback.go_dashboard")}
+      </Link>
     </Card>
   )
 }

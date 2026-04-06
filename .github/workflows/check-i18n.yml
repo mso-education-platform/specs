@@ -1,0 +1,39 @@
+name: "Check i18n keys"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-i18n:
+    name: i18n keys
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies (no-ops if none)
+        run: |
+          if [ -f package.json ]; then npm ci --silent; fi
+
+      - name: Run i18n key check
+        id: check_i18n
+        continue-on-error: true
+        env:
+          LOCALES: fr,ar
+        run: |
+          node scripts/ci/check-i18n.js | tee reports/i18n-run.log || true
+
+      - name: Post i18n report as PR comment
+        if: ${{ github.event_name == 'pull_request' && steps.check_i18n.outcome == 'failure' }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: reports/i18n-report.md

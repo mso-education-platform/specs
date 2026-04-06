@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { PathUnitState, SubmissionStatus } from "@prisma/client"
 
 export const getLearningPathQuery = z.object({
   learnerId: z.string().uuid().optional(),
@@ -11,8 +12,6 @@ export const updateUnitProgressSchema = z.object({
 })
 
 export type UpdateUnitProgress = z.infer<typeof updateUnitProgressSchema>
-import { PathUnitState, SubmissionStatus } from "@prisma/client"
-import { z } from "zod"
 
 export const unitProgressPatchSchema = z.object({
   state: z.nativeEnum(PathUnitState).optional(),

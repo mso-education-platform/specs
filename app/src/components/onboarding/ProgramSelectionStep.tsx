@@ -30,12 +30,15 @@ export function ProgramSelectionStep() {
     setError(null)
 
     try {
+      const headers = new Headers({ "content-type": "application/json" })
+      const sessionHeaders = buildSessionHeaders()
+      Object.entries(sessionHeaders).forEach(([k, v]) => {
+        if (v) headers.set(k, String(v))
+      })
+
       const response = await fetch("/api/onboarding", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...buildSessionHeaders(),
-        },
+        headers,
         body: JSON.stringify({ ageLevel, programCode }),
       })
 

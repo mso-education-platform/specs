@@ -1,4 +1,4 @@
-import { AssessmentStatus, DecisionSource, DecisionType } from "@prisma/client"
+import { AssessmentStatus, DecisionSource, DecisionType, Prisma } from "@prisma/client"
 import { prisma } from "@/lib/db/prisma"
 
 type ResponseItem = {
@@ -67,7 +67,7 @@ export const assessmentRepository = {
         decisionType: input.decisionType,
         source: input.source,
         rationale: input.rationale,
-        inputsJson: input.inputs,
+        inputsJson: input.inputs as unknown as Prisma.InputJsonValue,
       },
     })
   },

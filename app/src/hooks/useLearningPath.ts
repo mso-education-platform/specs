@@ -27,8 +27,14 @@ export function useLearningPath() {
       setLoading(true)
       setError(null)
       try {
+        const headers = new Headers()
+        const sessionHeaders = buildSessionHeaders()
+        Object.entries(sessionHeaders).forEach(([k, v]) => {
+          if (v) headers.set(k, String(v))
+        })
+
         const response = await fetch("/api/learning-path", {
-          headers: buildSessionHeaders(),
+          headers,
         })
         const payload = await response.json()
 

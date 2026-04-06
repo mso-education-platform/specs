@@ -75,7 +75,7 @@ export function AssessmentRunner() {
 
           {startPayload.questions.map((question) => (
             <div key={question.questionId} className="space-y-2">
-              <p className="font-medium">{t((question as any).promptKey ?? question.prompt)}</p>
+              <p className="font-medium">{t(question.promptKey ?? question.prompt)}</p>
               <Input
                 placeholder={t("assessment.placeholder")}
                 value={answers[question.questionId] ?? ""}
