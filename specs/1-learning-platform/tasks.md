@@ -39,6 +39,20 @@
 - [ ] T017 Create shared API error and response helpers in `app/src/lib/api-errors.ts` and `app/src/lib/api-response.ts`
 - [ ] T018 Update global app shell and role-aware navigation scaffolding in `app/src/app/layout.tsx` and `app/src/components/layout/TopBar.tsx`
 
+ - [x] T006 Update domain models and enums for learner platform in `app/prisma/schema.prisma`
+ - [x] T007 Create and apply Prisma migration for learning platform schema in `app/prisma/migrations/`
+ - [x] T008 [P] Add Prisma client singleton and DB utilities in `app/src/lib/db/prisma.ts`
+ - [x] T009 [P] Seed programs, units, and prerequisites in `app/prisma/seed.ts`
+ - [x] T010 Implement auth session and role guard helpers in `app/src/lib/auth/session.ts` and `app/src/lib/auth/guards.ts`
+ - [x] T011 [P] Define shared Zod DTO schemas in `app/src/lib/validation/onboarding.ts`, `app/src/lib/validation/assessment.ts`, `app/src/lib/validation/learning-path.ts`, and `app/src/lib/validation/mentorship.ts`
+ - [x] T012 [P] Add scoring/adaptation constants and rule metadata in `app/src/lib/constants/personalization.ts`
+ - [x] T013 Implement repository base queries for learners and profiles in `app/src/repositories/learner-repository.ts`
+ - [x] T014 [P] Implement repository queries for assessments in `app/src/repositories/assessment-repository.ts`
+ - [x] T015 [P] Implement repository queries for learning paths and units in `app/src/repositories/learning-path-repository.ts`
+ - [x] T016 [P] Implement repository queries for mentorship requests in `app/src/repositories/mentorship-repository.ts`
+ - [x] T017 Create shared API error and response helpers in `app/src/lib/api-errors.ts` and `app/src/lib/api-response.ts`
+ - [x] T018 Update global app shell and role-aware navigation scaffolding in `app/src/app/layout.tsx` and `app/src/components/layout/TopBar.tsx`
+
 **Checkpoint**: Foundation complete. User stories can now proceed.
 
 ---
