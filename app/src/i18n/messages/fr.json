@@ -1,0 +1,120 @@
+{
+  "app": {
+    "title": "Plateforme d'apprentissage",
+    "description": "Une plateforme d'apprentissage construite avec Next.js et shadcn/ui"
+  },
+  "nav": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "track": "Parcours"
+  },
+  "ui": {
+    "menu": "Menu",
+    "version": "v0.1",
+    "userName": "Nom d'utilisateur",
+    "account": "Compte"
+  },
+  "topbar": {
+    "role": {
+      "LEARNER": "Apprenant",
+      "EDUCATOR": "Enseignant",
+      "PARENT": "Parent",
+      "MENTOR": "Mentor",
+      "ADMIN": "Administrateur"
+    }
+  }
+  ,
+  "home": {
+    "title": "Plateforme d'apprentissage assistée par IA",
+    "subtitle": "Commencez l'onboarding pour obtenir une évaluation adaptée à l'âge et un premier parcours d'apprentissage personnalisé.",
+    "start": "Commencer l'onboarding"
+  }
+  ,
+  "onboarding": {
+    "age": {
+      "title": "Choisissez votre tranche d'âge",
+      "subtitle": "Nous adaptons le style et le rythme des questions selon votre groupe d'âge.",
+      "option": {
+        "A_8_12": "8-12 ans",
+        "B_13_18": "13-18 ans"
+      },
+      "continue": "Continuer"
+    },
+    "program": {
+      "title": "Sélectionnez votre programme",
+      "subtitle": "Choisissez un parcours d'apprentissage. Vous pourrez le peaufiner avec votre mentor plus tard.",
+      "option": {
+        "WEB_DEV": "Développement Web",
+        "AI_ORIENTED": "Orienté IA"
+      },
+      "error": {
+        "age_missing": "La tranche d'âge est manquante. Veuillez compléter l'étape précédente."
+      },
+      "saving": "Enregistrement...",
+      "continue_to_assessment": "Continuer vers l'évaluation"
+    }
+  },
+  "assessment": {
+    "title": "Évaluation",
+    "subtitle": "Répondez à une courte série de questions pour personnaliser vos premières unités.",
+    "starting": "Démarrage...",
+    "start": "Commencer l'évaluation",
+    "step": "Étape",
+    "of": "sur",
+    "placeholder": "Votre réponse",
+    "submitting": "Envoi...",
+    "submit": "Envoyer l'évaluation"
+  },
+  "questions": {
+    "q1": {
+      "prompt": "À quel point êtes-vous à l'aise avec les bases du code ?",
+      "choices": {
+        "new": "Débutant",
+        "some_practice": "Un peu d'entraînement",
+        "comfortable": "À l'aise"
+      }
+    },
+    "q2": {
+      "prompt": "À quelle fréquence réalisez-vous des projets ?",
+      "choices": {
+        "rarely": "Rarement",
+        "sometimes": "Parfois",
+        "regularly": "Régulièrement"
+      }
+    },
+    "q3": { "prompt": "Décrivez un objectif d'apprentissage pour ce mois." }
+  },
+  "feedback": {
+    "title": "Votre plan personnalisé est prêt",
+    "no_result": "Complétez d'abord l'évaluation pour recevoir votre retour personnalisé.",
+    "score": "Score de l'évaluation",
+    "strengths": "Points forts",
+    "baseline_confidence": "Renforcement de la confiance de base",
+    "focus_areas": "Axes d'amélioration",
+    "keep_rhythm": "Conserver le rythme d'apprentissage actuel",
+    "go_dashboard": "Aller au tableau de bord"
+  },
+  "dashboard": {
+    "title": "Tableau de bord de l'apprenant",
+    "subtitle": "Vos premières unités sont débloquées en fonction de votre évaluation d'onboarding.",
+    "loading_plan": "Chargement de votre plan personnalisé...",
+    "unit_id": "ID de l'unité:"
+  },
+  "ui": {
+    "create": "Créer",
+    "retry": "Réessayer"
+  },
+  "dialog": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler"
+  }
+  ,
+  "signin": {
+    "title": "Connectez-vous pour continuer",
+    "subtitle": "Utilisez la connexion apprenant pour lancer votre onboarding personnalisé.",
+    "name": "Nom",
+    "email": "Email",
+    "continue": "Continuer"
+  }
+}

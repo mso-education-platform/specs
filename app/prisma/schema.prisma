@@ -1,0 +1,285 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  LEARNER
+  EDUCATOR
+  PARENT
+  MENTOR
+  ADMIN
+}
+
+enum AgeLevel {
+  A_8_12
+  B_13_18
+}
+
+enum OnboardingStatus {
+  NOT_STARTED
+  AGE_CONFIRMED
+  PROGRAM_SELECTED
+  ASSESSMENT_IN_PROGRESS
+  COMPLETED
+}
+
+enum ProgramCode {
+  WEB_DEV
+  AI_ORIENTED
+}
+
+enum UnitDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum AssessmentStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  SCORED
+  FAILED
+}
+
+enum PathStatus {
+  ACTIVE
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum PathGenerator {
+  RULES_ONLY
+  AI_PLUS_RULES
+}
+
+enum PathUnitState {
+  LOCKED
+  UNLOCKED
+  IN_PROGRESS
+  COMPLETED
+  DEFERRED
+}
+
+enum SubmissionStatus {
+  NONE
+  SUBMITTED
+  REVIEWED
+}
+
+enum DecisionType {
+  REINFORCEMENT
+  ACCELERATION
+  STYLE_SWITCH
+  LOGIC_INJECTION
+  MENTOR_SUGGESTION
+}
+
+enum DecisionSource {
+  RULE
+  AI
+  RULE_OVERRIDE
+}
+
+enum Urgency {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum MentorshipStatus {
+  OPEN
+  MATCHED
+  IN_PROGRESS
+  CLOSED
+  CANCELLED
+}
+
+model User {
+  id                    String             @id @default(uuid())
+  email                 String             @unique
+  name                  String
+  role                  UserRole           @default(LEARNER)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  learnerProfile        LearnerProfile?
+  mentorshipAssignments MentorshipRequest[] @relation("RequestedMentor")
+  parentLinks           ParentLearnerLink[] @relation("ParentLinks")
+}
+
+model LearnerProfile {
+  id                    String              @id @default(uuid())
+  userId                String              @unique
+  ageLevel              AgeLevel?
+  selectedProgramId     String?
+  onboardingStatus      OnboardingStatus    @default(NOT_STARTED)
+  engagementScore       Int                 @default(0)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  selectedProgram       Program?            @relation(fields: [selectedProgramId], references: [id])
+  assessmentSessions    AssessmentSession[]
+  learningPaths         LearningPath[]
+  adaptationDecisions   AdaptationDecision[]
+  mentorshipRequests    MentorshipRequest[]
+  parentLinks           ParentLearnerLink[] @relation("LearnerLinks")
+}
+
+model Program {
+  id                 String            @id @default(uuid())
+  code               ProgramCode       @unique
+  title              String
+  description        String
+  minUnits           Int
+  maxUnits           Int
+  isActive           Boolean           @default(true)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  units              LearningUnit[]
+  learners           LearnerProfile[]
+  assessmentSessions AssessmentSession[]
+  learningPaths      LearningPath[]
+}
+
+model LearningUnit {
+  id            String             @id @default(uuid())
+  programId     String
+  slug          String
+  title         String
+  objective     String
+  difficulty    UnitDifficulty
+  estimatedMinutes Int
+  isMandatory   Boolean            @default(true)
+  orderIndex    Int
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  program       Program            @relation(fields: [programId], references: [id], onDelete: Cascade)
+  prerequisites UnitPrerequisite[] @relation("UnitToPrerequisite")
+  requiredFor   UnitPrerequisite[] @relation("PrerequisiteToUnit")
+  pathUnits     LearningPathUnit[]
+
+  @@unique([programId, slug])
+  @@unique([programId, orderIndex])
+}
+
+model UnitPrerequisite {
+  id                 String      @id @default(uuid())
+  unitId             String
+  prerequisiteUnitId String
+  unit               LearningUnit @relation("UnitToPrerequisite", fields: [unitId], references: [id], onDelete: Cascade)
+  prerequisiteUnit   LearningUnit @relation("PrerequisiteToUnit", fields: [prerequisiteUnitId], references: [id], onDelete: Cascade)
+
+  @@unique([unitId, prerequisiteUnitId])
+}
+
+model AssessmentSession {
+  id                 String           @id @default(uuid())
+  learnerId          String
+  programId          String
+  ageLevel           AgeLevel
+  status             AssessmentStatus @default(NOT_STARTED)
+  startedAt          DateTime         @default(now())
+  submittedAt        DateTime?
+  scoreTotal         Float?
+  scoreBreakdownJson Json             @default("{}")
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  learner            LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  program            Program          @relation(fields: [programId], references: [id], onDelete: Cascade)
+  responses          AssessmentResponse[]
+  adaptationDecisions AdaptationDecision[]
+
+  @@index([learnerId, status])
+}
+
+model AssessmentResponse {
+  id                  String            @id @default(uuid())
+  assessmentSessionId String
+  questionId          String
+  responsePayloadJson Json
+  awardedPoints       Float             @default(0)
+  createdAt           DateTime          @default(now())
+  assessmentSession   AssessmentSession @relation(fields: [assessmentSessionId], references: [id], onDelete: Cascade)
+
+  @@unique([assessmentSessionId, questionId])
+}
+
+model LearningPath {
+  id         String        @id @default(uuid())
+  learnerId  String
+  programId  String
+  version    Int
+  status     PathStatus    @default(ACTIVE)
+  generatedBy PathGenerator @default(RULES_ONLY)
+  createdAt  DateTime      @default(now())
+  learner    LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  program    Program       @relation(fields: [programId], references: [id], onDelete: Cascade)
+  units      LearningPathUnit[]
+
+  @@unique([learnerId, version])
+}
+
+model LearningPathUnit {
+  id                      String           @id @default(uuid())
+  learningPathId          String
+  unitId                  String
+  sequenceIndex           Int
+  state                   PathUnitState    @default(LOCKED)
+  startedAt               DateTime?
+  completedAt             DateTime?
+  projectSubmissionStatus SubmissionStatus @default(NONE)
+  reflectionCompleted     Boolean          @default(false)
+  learningPath            LearningPath     @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  unit                    LearningUnit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  @@unique([learningPathId, sequenceIndex])
+  @@unique([learningPathId, unitId])
+  @@index([learningPathId, sequenceIndex])
+}
+
+model AdaptationDecision {
+  id                  String            @id @default(uuid())
+  learnerId           String
+  assessmentSessionId String?
+  decisionType        DecisionType
+  source              DecisionSource
+  rationale           String
+  inputsJson          Json
+  createdAt           DateTime          @default(now())
+  learner             LearnerProfile    @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  assessmentSession   AssessmentSession? @relation(fields: [assessmentSessionId], references: [id], onDelete: SetNull)
+
+  @@index([learnerId, createdAt])
+}
+
+model MentorshipRequest {
+  id                String           @id @default(uuid())
+  learnerId         String
+  requestedMentorId String?
+  topic             String
+  urgency           Urgency
+  status            MentorshipStatus @default(OPEN)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  learner           LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  requestedMentor   User?            @relation("RequestedMentor", fields: [requestedMentorId], references: [id], onDelete: SetNull)
+
+  @@index([status, urgency])
+}
+
+model ParentLearnerLink {
+  id               String         @id @default(uuid())
+  parentUserId     String
+  learnerId        String
+  relationshipType String
+  createdAt        DateTime       @default(now())
+  parent           User           @relation("ParentLinks", fields: [parentUserId], references: [id], onDelete: Cascade)
+  learner          LearnerProfile @relation("LearnerLinks", fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@unique([parentUserId, learnerId])
+}
