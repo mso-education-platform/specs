@@ -87,6 +87,21 @@ export const learnerRepository = {
         learner: {
           include: {
             user: true,
+            selectedProgram: {
+              select: {
+                code: true,
+              },
+            },
+            mentorshipRequests: {
+              where: {
+                status: {
+                  in: ["OPEN", "MATCHED", "IN_PROGRESS"],
+                },
+              },
+              select: {
+                id: true,
+              },
+            },
             learningPaths: {
               where: { status: "ACTIVE" },
               include: { units: true },

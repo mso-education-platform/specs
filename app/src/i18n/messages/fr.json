@@ -10,7 +10,10 @@
     "settings": "Paramètres",
     "track": "Parcours",
     "sign_in_learner": "Connexion Élève",
-    "sign_in_educator": "Connexion Educateur"
+    "sign_in_parent": "Connexion Parent",
+    "sign_in_educator": "Connexion Educateur",
+    "parent_request_access": "Demander l'adhésion",
+    "admin_notifications": "Notifications admin"
   },
   "ui": {
     "menu": "Menu",
@@ -176,5 +179,133 @@
     "show_login_form": "Afficher le formulaire de connexion",
     "switch_to_login": "J'ai déjà un compte",
     "switch_to_register": "Créer un nouveau compte"
+  },
+  "parent_dashboard": {
+    "title": "Suivi parent",
+    "loading": "Chargement du tableau de bord parent...",
+    "errors": {
+      "load_failed": "Impossible de charger le tableau de bord parent.",
+      "parent_link_required": "Le compte parent n'est pas encore lié à cet apprenant."
+    },
+    "progress": {
+      "title": "Vue d'ensemble de la progression de l'enfant",
+      "subtitle": "Jalons clés et niveau d'engagement des apprenants liés.",
+      "empty": "Aucun apprenant lié.",
+      "score": "Score",
+      "path_completion": "Progression du parcours",
+      "active_units": "Unités actives",
+      "completed_units": "Unités terminées",
+      "milestones": "Jalons",
+      "engagement": {
+        "LOW": "Engagement faible",
+        "MEDIUM": "Engagement moyen",
+        "HIGH": "Engagement élevé"
+      }
+    }
+  },
+  "parent_follow_request": {
+    "title": "Demander le suivi d'un enfant",
+    "subtitle": "Demandez à un administrateur de valider la relation parent-enfant.",
+    "learner_email": "Email de l'apprenant",
+    "relationship": "Relation",
+    "relationship_placeholder": "Parent, tuteur, etc.",
+    "note_optional": "Note (optionnel)",
+    "note_placeholder": "Contexte utile pour l'administrateur",
+    "submit": "Envoyer la demande à l'administrateur",
+    "submitting": "Envoi en cours...",
+    "success": {
+      "submitted": "Demande envoyée. Un administrateur a été notifié."
+    },
+    "errors": {
+      "required_fields": "Veuillez renseigner l'email de l'apprenant et la relation.",
+      "submit_failed": "Impossible d'envoyer la demande de suivi parent.",
+      "learner_not_found": "Aucun compte apprenant trouvé avec cet email.",
+      "already_linked": "Ce parent est déjà lié à cet apprenant.",
+      "already_pending": "Une demande de suivi est déjà en attente pour cet apprenant."
+    }
+  },
+  "admin_parent_follow": {
+    "title": "Demandes de suivi parent",
+    "subtitle": "File d'attente admin pour valider l'accès de suivi parent-enfant.",
+    "loading": "Chargement des demandes...",
+    "unread_notifications": "Notifications non lues :",
+    "empty": "Aucune demande parent en attente.",
+    "parent": "Parent",
+    "learner": "Apprenant",
+    "relationship": "Relation",
+    "note": "Note",
+    "approve": "Approuver",
+    "reject": "Refuser",
+    "errors": {
+      "forbidden": "Accès refusé à la file d'attente admin.",
+      "load_failed": "Impossible de charger les demandes de suivi parent.",
+      "review_failed": "Impossible de traiter la demande parent.",
+      "not_found": "Demande parent introuvable.",
+      "already_reviewed": "Cette demande parent a déjà été traitée."
+    }
+  },
+  "admin_notifications": {
+    "title": "Notifications administrateur",
+    "loading": "Chargement des notifications...",
+    "empty": "Aucune notification.",
+    "read": "Lue",
+    "unread": "Non lue",
+    "parent_label": "Parent",
+    "created_at": "Créée le",
+    "mark_read": "Marquer comme lue",
+    "parent_follow": {
+      "title": "Nouvelle demande de suivi parent",
+      "message": "Le parent a demandé un accès de suivi pour {learnerName}."
+    },
+    "actions": {
+      "approve": "Accepter",
+      "reject": "Refuser"
+    },
+    "errors": {
+      "forbidden": "Accès refusé aux notifications administrateur.",
+      "load_failed": "Impossible de charger les notifications.",
+      "mark_read_failed": "Impossible de marquer la notification comme lue.",
+      "not_found": "Notification introuvable.",
+      "review_failed": "Impossible de traiter la demande depuis la notification.",
+      "parent_request_not_found": "Demande parent introuvable.",
+      "parent_request_already_reviewed": "Cette demande parent a déjà été traitée."
+    }
+  },
+  "educator_dashboard": {
+    "title": "Supervision éducateur",
+    "loading": "Chargement du tableau de bord éducateur...",
+    "errors": {
+      "load_failed": "Impossible de charger le tableau de bord éducateur."
+    },
+    "cohort": {
+      "title": "Analytique de cohorte",
+      "subtitle": "Métriques en direct pour suivre la dynamique des apprenants.",
+      "total_learners": "Total apprenants",
+      "active_learners": "Apprenants actifs",
+      "completed_onboarding": "Onboarding complété",
+      "onboarding_completion": "Taux de complétion onboarding",
+      "average_engagement": "Engagement moyen",
+      "average_path_completion": "Complétion moyenne du parcours"
+    },
+    "intervention": {
+      "title": "File d'intervention",
+      "subtitle": "Apprenants prioritaires nécessitant un soutien éducateur.",
+      "empty": "Aucun élément d'intervention actif.",
+      "program": "Programme",
+      "not_selected": "Non sélectionné",
+      "completion": "Complétion",
+      "open_mentorship": "Mentorat ouvert",
+      "risk": {
+        "LOW": "Faible",
+        "MEDIUM": "Moyen",
+        "HIGH": "Élevé"
+      }
+    },
+    "adaptation": {
+      "title": "Journal des décisions d'adaptation",
+      "subtitle": "Historique transparent des décisions de personnalisation.",
+      "empty": "Aucune décision d'adaptation enregistrée pour le moment.",
+      "via": "via"
+    }
   }
 }

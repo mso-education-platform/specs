@@ -16,6 +16,10 @@ export function requireEducator(session: AppSession) {
   requireRole(session, [UserRole.EDUCATOR, UserRole.ADMIN])
 }
 
+export function requireAdmin(session: AppSession) {
+  requireRole(session, [UserRole.ADMIN])
+}
+
 export function requireParent(session: AppSession) {
   requireRole(session, [UserRole.PARENT, UserRole.ADMIN])
 }
@@ -24,4 +28,8 @@ export function requireLinkedParent(parentHasLink: boolean) {
   if (!parentHasLink) {
     throw new ApiError(403, "PARENT_LINK_REQUIRED", "Parent account is not linked to this learner.")
   }
+}
+
+export function requireParentWithLinkedLearners(linkedLearnersCount: number) {
+  requireLinkedParent(linkedLearnersCount > 0)
 }

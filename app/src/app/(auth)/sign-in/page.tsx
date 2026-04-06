@@ -15,7 +15,9 @@ type AuthMode = "register" | "login"
 export default function SignInPage() {
   const searchParams = useSearchParams()
   const roleParam = searchParams.get("role")
+  const isLearnerLogin = roleParam === "learner"
   const isEducatorLogin = roleParam === "educator"
+  const isParentLogin = roleParam === "parent"
   const [mode, setMode] = useState<AuthMode>("register")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -27,11 +29,11 @@ export default function SignInPage() {
   const { t } = useTranslation()
 
   useEffect(() => {
-    // Default to `login` for educator flows, otherwise show the register form
-    setMode(isEducatorLogin ? "login" : "register")
+    // Open on login mode for explicit learner/educator entry points.
+    setMode(isEducatorLogin || isLearnerLogin || isParentLogin ? "login" : "register")
     setShowLoginPrompt(false)
     setError(null)
-  }, [isEducatorLogin])
+  }, [isEducatorLogin, isLearnerLogin, isParentLogin])
 
   const normalizeEmail = () => email.trim().toLowerCase()
 
@@ -70,6 +72,7 @@ export default function SignInPage() {
           name: name.trim(),
           email: normalizedEmail,
           password,
+          role: isParentLogin ? "PARENT" : "LEARNER",
         }),
       })
 
@@ -79,6 +82,11 @@ export default function SignInPage() {
       }
 
       setClientSession(registerData)
+      if (registerData.role === "PARENT") {
+        router.push("/parent/dashboard")
+        return
+      }
+
       router.push("/onboarding/age-level")
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Could not continue.")
@@ -108,8 +116,20 @@ export default function SignInPage() {
         throw new Error(data?.error?.message ?? "Authentication failed.")
       }
 
-      setClientSession(data)
-      if (data.role === "EDUCATOR" || isEducatorLogin) {
+      const sessionData = isParentLogin ? { ...data, role: "PARENT" as const } : data
+
+      setClientSession(sessionData)
+      if (sessionData.role === "PARENT") {
+        router.push("/parent/dashboard")
+        return
+      }
+
+      if (sessionData.role === "ADMIN") {
+        router.push("/educator/dashboard")
+        return
+      }
+
+      if (sessionData.role === "EDUCATOR" || isEducatorLogin) {
         router.push("/educator/dashboard")
         return
       }

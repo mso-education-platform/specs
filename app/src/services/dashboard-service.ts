@@ -1,6 +1,9 @@
 import { MentorshipStatus, OnboardingStatus, PathStatus, PathUnitState } from "@prisma/client"
 import { prisma } from "@/lib/db/prisma"
-import type { EducatorDashboardResponseDto } from "@/lib/validation/dashboard"
+import type { EducatorDashboardResponseDto, ParentDashboardResponseDto } from "@/lib/validation/dashboard"
+import { learnerRepository } from "@/repositories/learner-repository"
+
+type ParentLinkRecord = Awaited<ReturnType<typeof learnerRepository.getParentLearners>>[number]
 
 type LearnerRecord = {
   id: string
@@ -215,6 +218,66 @@ export const dashboardService = {
         rationale: item.rationale,
         createdAt: item.createdAt.toISOString(),
       })),
+    }
+  },
+
+  async getParentDashboard(parentUserId: string): Promise<ParentDashboardResponseDto> {
+    const links = await learnerRepository.getParentLearners(parentUserId)
+
+    return {
+      children: links.map((link: ParentLinkRecord) => {
+        const learner = link.learner
+        const activePath = learner.learningPaths[0]
+        const units: Array<{ state: PathUnitState }> = activePath?.units ?? []
+
+        const completedUnits = units.filter((unit: { state: PathUnitState }) => unit.state === PathUnitState.COMPLETED).length
+        const activeUnits = units.filter(
+          (unit: { state: PathUnitState }) => unit.state === PathUnitState.IN_PROGRESS || unit.state === PathUnitState.UNLOCKED,
+        ).length
+        const pathCompletionRate = units.length === 0 ? 0 : (completedUnits / units.length) * 100
+
+        const engagementScore = clampPercent(learner.engagementScore)
+        const engagementLevel = engagementScore < 40 ? "LOW" : engagementScore < 70 ? "MEDIUM" : "HIGH"
+
+        const milestones: string[] = []
+
+        if (learner.onboardingStatus === OnboardingStatus.COMPLETED) {
+          milestones.push("Onboarding completed")
+        }
+
+        if (completedUnits > 0) {
+          milestones.push(`${completedUnits} unit(s) completed`)
+        }
+
+        if (activeUnits > 0) {
+          milestones.push("Currently active in learning path")
+        }
+
+        if (learner.mentorshipRequests.length > 0) {
+          milestones.push("Mentorship support requested")
+        }
+
+        if (pathCompletionRate === 100 && units.length > 0) {
+          milestones.push("Current learning path completed")
+        }
+
+        if (milestones.length === 0) {
+          milestones.push("No milestones yet")
+        }
+
+        return {
+          learnerId: learner.id,
+          learnerName: learner.user.name,
+          milestones,
+          engagement: {
+            score: Math.round(engagementScore),
+            level: engagementLevel,
+            pathCompletionRate: toPercent(clampPercent(pathCompletionRate)),
+            activeUnits,
+            completedUnits,
+          },
+        }
+      }),
     }
   },
 }

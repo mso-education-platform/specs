@@ -32,7 +32,8 @@ const roleNavigation: Record<UserRole, Array<{ href: string; labelKey: string }>
 
 const publicNavigation: Array<{ href: string; labelKey: string }> = [
   { href: "/tracks", labelKey: "nav.track" },
-  { href: "/sign-in", labelKey: "nav.sign_in_learner" },
+  { href: "/sign-in?role=learner", labelKey: "nav.sign_in_learner" },
+  { href: "/sign-in?role=parent", labelKey: "nav.sign_in_parent" },
   { href: "/sign-in?role=educator", labelKey: "nav.sign_in_educator" },
 ]
 

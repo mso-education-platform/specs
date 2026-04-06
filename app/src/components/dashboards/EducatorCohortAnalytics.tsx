@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type EducatorCohortAnalyticsProps = {
   cohortSummary: {
@@ -12,20 +13,22 @@ type EducatorCohortAnalyticsProps = {
 }
 
 export function EducatorCohortAnalytics({ cohortSummary }: EducatorCohortAnalyticsProps) {
+  const { t } = useTranslation()
+
   const stats = [
-    { label: "Total learners", value: cohortSummary.totalLearners },
-    { label: "Active learners", value: cohortSummary.activeLearners },
-    { label: "Completed onboarding", value: cohortSummary.completedOnboarding },
-    { label: "Onboarding completion", value: `${cohortSummary.onboardingCompletionRate}%` },
-    { label: "Average engagement", value: `${cohortSummary.averageEngagementScore}%` },
-    { label: "Average path completion", value: `${cohortSummary.averagePathCompletionRate}%` },
+    { label: t("educator_dashboard.cohort.total_learners"), value: cohortSummary.totalLearners },
+    { label: t("educator_dashboard.cohort.active_learners"), value: cohortSummary.activeLearners },
+    { label: t("educator_dashboard.cohort.completed_onboarding"), value: cohortSummary.completedOnboarding },
+    { label: t("educator_dashboard.cohort.onboarding_completion"), value: `${cohortSummary.onboardingCompletionRate}%` },
+    { label: t("educator_dashboard.cohort.average_engagement"), value: `${cohortSummary.averageEngagementScore}%` },
+    { label: t("educator_dashboard.cohort.average_path_completion"), value: `${cohortSummary.averagePathCompletionRate}%` },
   ]
 
   return (
     <Card className="p-4 space-y-3">
       <div>
-        <h2 className="text-lg font-semibold">Cohort analytics</h2>
-        <p className="text-sm text-muted-foreground">Live metrics to monitor learner momentum.</p>
+        <h2 className="text-lg font-semibold">{t("educator_dashboard.cohort.title")}</h2>
+        <p className="text-sm text-muted-foreground">{t("educator_dashboard.cohort.subtitle")}</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

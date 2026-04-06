@@ -10,7 +10,10 @@
     "settings": "Settings",
     "track": "Tracks",
     "sign_in_learner": "Learner sign in",
-    "sign_in_educator": "Educator sign in"
+    "sign_in_parent": "Parent sign in",
+    "sign_in_educator": "Educator sign in",
+    "parent_request_access": "Request child linking",
+    "admin_notifications": "Admin notifications"
   },
   "ui": {
     "menu": "Menu",
@@ -176,5 +179,133 @@
     "show_login_form": "Show sign-in form",
     "switch_to_login": "I already have an account",
     "switch_to_register": "Create a new account"
+  },
+  "parent_dashboard": {
+    "title": "Parent monitoring",
+    "loading": "Loading parent dashboard...",
+    "errors": {
+      "load_failed": "Could not load parent dashboard.",
+      "parent_link_required": "Parent account is not yet linked to this learner."
+    },
+    "progress": {
+      "title": "Child progress overview",
+      "subtitle": "High-level milestones and engagement for linked learners.",
+      "empty": "No linked learners found.",
+      "score": "Score",
+      "path_completion": "Path completion",
+      "active_units": "Active units",
+      "completed_units": "Completed units",
+      "milestones": "Milestones",
+      "engagement": {
+        "LOW": "Low engagement",
+        "MEDIUM": "Medium engagement",
+        "HIGH": "High engagement"
+      }
+    }
+  },
+  "parent_follow_request": {
+    "title": "Request child follow access",
+    "subtitle": "Ask an admin to validate the parent-child follow relationship.",
+    "learner_email": "Child learner email",
+    "relationship": "Relationship",
+    "relationship_placeholder": "Parent, Guardian, etc.",
+    "note_optional": "Note (optional)",
+    "note_placeholder": "Any context for the admin",
+    "submit": "Send request to admin",
+    "submitting": "Submitting...",
+    "success": {
+      "submitted": "Request submitted. An admin has been notified."
+    },
+    "errors": {
+      "required_fields": "Please fill in learner email and relationship.",
+      "submit_failed": "Could not send parent follow request.",
+      "learner_not_found": "Learner account was not found for this email.",
+      "already_linked": "Parent is already linked to this learner.",
+      "already_pending": "A parent follow request is already pending."
+    }
+  },
+  "admin_parent_follow": {
+    "title": "Parent follow requests",
+    "subtitle": "Admin queue for validating parent-child follow access.",
+    "loading": "Loading requests...",
+    "unread_notifications": "Unread notifications:",
+    "empty": "No pending parent requests.",
+    "parent": "Parent",
+    "learner": "Learner",
+    "relationship": "Relationship",
+    "note": "Note",
+    "approve": "Approve",
+    "reject": "Reject",
+    "errors": {
+      "forbidden": "Access denied to admin queue.",
+      "load_failed": "Could not load parent follow requests.",
+      "review_failed": "Could not review parent request.",
+      "not_found": "Parent request not found.",
+      "already_reviewed": "Parent request has already been reviewed."
+    }
+  },
+  "admin_notifications": {
+    "title": "Admin notifications",
+    "loading": "Loading notifications...",
+    "empty": "No notifications.",
+    "read": "Read",
+    "unread": "Unread",
+    "parent_label": "Parent",
+    "created_at": "Created",
+    "mark_read": "Mark as read",
+    "parent_follow": {
+      "title": "New parent follow request",
+      "message": "Parent requested follow access for {learnerName}."
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "errors": {
+      "forbidden": "Access denied to admin notifications.",
+      "load_failed": "Could not load notifications.",
+      "mark_read_failed": "Could not mark notification as read.",
+      "not_found": "Notification not found.",
+      "review_failed": "Could not review request from notification.",
+      "parent_request_not_found": "Parent request not found.",
+      "parent_request_already_reviewed": "Parent request has already been reviewed."
+    }
+  },
+  "educator_dashboard": {
+    "title": "Educator supervision",
+    "loading": "Loading educator dashboard...",
+    "errors": {
+      "load_failed": "Could not load educator dashboard."
+    },
+    "cohort": {
+      "title": "Cohort analytics",
+      "subtitle": "Live metrics to monitor learner momentum.",
+      "total_learners": "Total learners",
+      "active_learners": "Active learners",
+      "completed_onboarding": "Completed onboarding",
+      "onboarding_completion": "Onboarding completion",
+      "average_engagement": "Average engagement",
+      "average_path_completion": "Average path completion"
+    },
+    "intervention": {
+      "title": "Intervention queue",
+      "subtitle": "Prioritized learners requiring educator support.",
+      "empty": "No active intervention items.",
+      "program": "Program",
+      "not_selected": "Not selected",
+      "completion": "Completion",
+      "open_mentorship": "Open mentorship",
+      "risk": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      }
+    },
+    "adaptation": {
+      "title": "Adaptation decision log",
+      "subtitle": "Transparent history of personalization decisions.",
+      "empty": "No adaptation decisions recorded yet.",
+      "via": "via"
+    }
   }
 }

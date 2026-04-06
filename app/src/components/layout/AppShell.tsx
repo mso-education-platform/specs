@@ -32,7 +32,7 @@ export default function AppShell({ children, pageTitle, role }: AppShellProps) {
     }
   }, [role])
 
-  const showSidebar = effectiveRole === UserRole.LEARNER || effectiveRole === UserRole.EDUCATOR
+  const showSidebar = effectiveRole !== undefined
 
   return (
     <div className="min-h-screen bg-background text-foreground">

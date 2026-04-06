@@ -54,9 +54,9 @@ test("US3 educator supervision flow", async ({ page }) => {
 
   await page.goto("/educator/dashboard")
 
-  await expect(page.getByRole("heading", { name: /educator supervision/i })).toBeVisible()
-  await expect(page.getByText(/cohort analytics/i)).toBeVisible()
+  await expect(page.getByRole("heading", { name: /educator supervision|supervision éducateur/i })).toBeVisible()
+  await expect(page.getByText(/cohort analytics|analytique de cohorte/i)).toBeVisible()
   await expect(page.getByText("Learner One").first()).toBeVisible()
-  await expect(page.getByText(/intervention queue/i)).toBeVisible()
-  await expect(page.getByText(/adaptation decision log/i)).toBeVisible()
+  await expect(page.getByText(/intervention queue|file d'intervention/i)).toBeVisible()
+  await expect(page.getByText(/adaptation decision log|journal des décisions d'adaptation/i)).toBeVisible()
 })
