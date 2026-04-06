@@ -1,3 +1,8 @@
+---
+name: component
+description: Conventions for creating feature UI components and i18n guidance.
+---
+
 Conventions for creating a feature component
 
 - Place feature-specific components in `app/src/components/ui-custom/`.

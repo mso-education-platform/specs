@@ -1,3 +1,8 @@
+---
+name: trpc-router
+description: Convention for creating tRPC routers and registration in root.
+---
+
 Convention for creating a router in `src/server/api/routers/`:
 - One file per domain (e.g., `course.router.ts`)
 - Always use `protectedProcedure` for authenticated routes

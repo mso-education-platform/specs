@@ -1,3 +1,8 @@
+---
+name: use-case
+description: Convention for creating a use case in the application layer.
+---
+
 Convention for creating a use case in `src/server/application/`:
 - One file = one use case (e.g., `createCourse.ts`)
 - Structure: exported async function, input typed with Zod, output typed in TypeScript

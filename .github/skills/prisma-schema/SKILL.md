@@ -1,3 +1,8 @@
+---
+name: prisma-schema
+description: Conventions for editing Prisma schema and migration steps.
+---
+
 Conventions for editing `app/prisma/schema.prisma`:
 - Always add `createdAt` / `updatedAt` fields to each model
 - Naming: PascalCase for models, camelCase for fields
