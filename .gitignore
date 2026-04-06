@@ -25,6 +25,8 @@ yarn-error.log*
 
 # Test output
 /coverage/
+test-results/
+app/test-results/
 
 # Prisma
 app/prisma/migrations/

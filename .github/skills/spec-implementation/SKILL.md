@@ -1,4 +1,8 @@
-(The file `/Users/abdelhafid/Desktop/foia/githome/specs/.copilot/skills/spec-implementation.md` exists, but is empty)
+---
+name: spec-implementation
+description: Guidelines for implementing a spec into code, tests, migrations and PR checklist.
+---
+
 Guidelines for implementing a spec
 
 - Start by reading the specification and its checklists:

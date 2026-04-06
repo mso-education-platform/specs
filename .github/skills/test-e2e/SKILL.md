@@ -1,3 +1,8 @@
+---
+name: test-e2e
+description: Conventions for E2E tests with Playwright.
+---
+
 Conventions for E2E tests with Playwright:
 - Files located at tests/e2e/[feature].spec.ts
 - Test only the critical flows defined in the spec

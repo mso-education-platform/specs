@@ -1,3 +1,8 @@
+---
+name: test-unit
+description: Conventions for unit tests with Vitest.
+---
+
 Conventions for unit tests with Vitest:
 - Files under `tests/unit/` or colocated with `[name].test.ts`
 - Always mock infrastructure (Prisma, Redis) via `vi.mock()`

@@ -1,3 +1,8 @@
+---
+name: design-system
+description: Project UI and design system conventions for components and styling.
+---
+
 Project UI conventions
 
 - Use only the components provided by shadcn/ui.

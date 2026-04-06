@@ -1,3 +1,8 @@
+---
+name: api-route
+description: Conventions for tRPC API routes. Use when implementing or reviewing API routers and validation.
+---
+
 Conventions for tRPC API routes
 
 - All tRPC routers should live under `app/src/server/api/routers/`.
