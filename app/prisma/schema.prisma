@@ -100,6 +100,16 @@ enum MentorshipStatus {
   CANCELLED
 }
 
+enum ParentFollowRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AdminNotificationType {
+  PARENT_FOLLOW_REQUEST
+}
+
 model User {
   id                    String             @id @default(uuid())
   email                 String             @unique
@@ -111,6 +121,8 @@ model User {
   learnerProfile        LearnerProfile?
   mentorshipAssignments MentorshipRequest[] @relation("RequestedMentor")
   parentLinks           ParentLearnerLink[] @relation("ParentLinks")
+  parentFollowRequests  ParentFollowRequest[] @relation("ParentFollowRequests")
+  reviewedParentFollowRequests ParentFollowRequest[] @relation("ReviewedParentFollowRequests")
 }
 
 model LearnerProfile {
@@ -129,6 +141,7 @@ model LearnerProfile {
   adaptationDecisions   AdaptationDecision[]
   mentorshipRequests    MentorshipRequest[]
   parentLinks           ParentLearnerLink[] @relation("LearnerLinks")
+  parentFollowRequests  ParentFollowRequest[] @relation("LearnerFollowRequests")
 }
 
 model Program {
@@ -283,4 +296,38 @@ model ParentLearnerLink {
   learner          LearnerProfile @relation("LearnerLinks", fields: [learnerId], references: [id], onDelete: Cascade)
 
   @@unique([parentUserId, learnerId])
+}
+
+model ParentFollowRequest {
+  id               String                    @id @default(uuid())
+  parentUserId     String
+  learnerId        String
+  relationshipType String
+  note             String?
+  status           ParentFollowRequestStatus @default(PENDING)
+  reviewedByUserId String?
+  reviewNote       String?
+  createdAt        DateTime                  @default(now())
+  reviewedAt       DateTime?
+  parent           User                      @relation("ParentFollowRequests", fields: [parentUserId], references: [id], onDelete: Cascade)
+  learner          LearnerProfile            @relation("LearnerFollowRequests", fields: [learnerId], references: [id], onDelete: Cascade)
+  reviewedBy       User?                     @relation("ReviewedParentFollowRequests", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  notifications    AdminNotification[]
+
+  @@index([status, createdAt])
+  @@index([parentUserId, learnerId, status])
+}
+
+model AdminNotification {
+  id                    String                @id @default(uuid())
+  type                  AdminNotificationType
+  recipientRole         UserRole              @default(ADMIN)
+  parentFollowRequestId String?
+  title                 String
+  message               String
+  isRead                Boolean               @default(false)
+  createdAt             DateTime              @default(now())
+  parentFollowRequest   ParentFollowRequest?  @relation(fields: [parentFollowRequestId], references: [id], onDelete: SetNull)
+
+  @@index([recipientRole, isRead, createdAt])
 }

@@ -219,6 +219,45 @@ Fields:
 Validation rules:
 - unique(parentUserId, learnerId).
 
+## 13. ParentFollowRequest
+
+Purpose: Parent-submitted request to gain follow access for a learner, reviewed by an admin.
+
+Fields:
+- id: string (UUID)
+- parentUserId: string (FK -> User.id)
+- learnerId: string (FK -> LearnerProfile.id)
+- relationshipType: string
+- note: string (nullable)
+- status: enum `ParentFollowRequestStatus` (`PENDING`, `APPROVED`, `REJECTED`)
+- reviewedByUserId: string (FK -> User.id, nullable)
+- reviewNote: string (nullable)
+- createdAt: datetime
+- reviewedAt: datetime (nullable)
+
+Validation rules:
+- parent role required to submit.
+- one pending request per (parentUserId, learnerId) at a time.
+- only admin reviewer can approve/reject.
+
+## 14. AdminNotification
+
+Purpose: Notify admin reviewers when a parent follow request is pending.
+
+Fields:
+- id: string (UUID)
+- type: enum `AdminNotificationType` (`PARENT_FOLLOW_REQUEST`)
+- recipientRole: enum `UserRole` (default `ADMIN`)
+- parentFollowRequestId: string (FK -> ParentFollowRequest.id, nullable)
+- title: string
+- message: string
+- isRead: boolean
+- createdAt: datetime
+
+Validation rules:
+- created when a parent follow request is submitted.
+- marked as read when request is reviewed.
+
 ## Relationships
 
 - User 1:1 LearnerProfile (for learner role)
@@ -231,6 +270,9 @@ Validation rules:
 - LearnerProfile 1:N AdaptationDecision
 - LearnerProfile 1:N MentorshipRequest
 - User (parent) N:N LearnerProfile (via ParentLearnerLink)
+- User (parent) 1:N ParentFollowRequest
+- LearnerProfile 1:N ParentFollowRequest
+- ParentFollowRequest 1:N AdminNotification
 
 ## State Transitions
 
@@ -249,6 +291,11 @@ Validation rules:
 ## MentorshipStatus
 - `OPEN` -> `MATCHED` -> `IN_PROGRESS` -> `CLOSED`
 - Cancellation: `OPEN`/`MATCHED` -> `CANCELLED`.
+
+## ParentFollowRequestStatus
+- `PENDING` -> `APPROVED`
+- `PENDING` -> `REJECTED`
+- no direct transition from terminal states.
 
 ## Suggested Prisma Additions
 

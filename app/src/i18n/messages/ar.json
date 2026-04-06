@@ -10,7 +10,10 @@
     "settings": "الإعدادات",
     "track": "المسارات",
     "sign_in_learner": "دخول المتعلم",
-    "sign_in_educator": "دخول المعلّم"
+    "sign_in_parent": "دخول ولي الأمر",
+    "sign_in_educator": "دخول المعلّم",
+    "parent_request_access": "طلب ربط الطفل",
+    "admin_notifications": "إشعارات المشرف"
   },
   "ui": {
     "menu": "القائمة",
@@ -175,5 +178,133 @@
     "show_login_form": "إظهار نموذج تسجيل الدخول",
     "switch_to_login": "لدي حساب بالفعل",
     "switch_to_register": "إنشاء حساب جديد"
+  },
+  "parent_dashboard": {
+    "title": "متابعة ولي الأمر",
+    "loading": "جارٍ تحميل لوحة متابعة ولي الأمر...",
+    "errors": {
+      "load_failed": "تعذر تحميل لوحة متابعة ولي الأمر.",
+      "parent_link_required": "حساب ولي الأمر غير مرتبط بعد بهذا المتعلم."
+    },
+    "progress": {
+      "title": "نظرة عامة على تقدم الطفل",
+      "subtitle": "أهم المحطات ومستوى التفاعل للمتعلمين المرتبطين.",
+      "empty": "لا يوجد متعلمون مرتبطون.",
+      "score": "النتيجة",
+      "path_completion": "إكمال المسار",
+      "active_units": "الوحدات النشطة",
+      "completed_units": "الوحدات المكتملة",
+      "milestones": "المحطات",
+      "engagement": {
+        "LOW": "تفاعل منخفض",
+        "MEDIUM": "تفاعل متوسط",
+        "HIGH": "تفاعل مرتفع"
+      }
+    }
+  },
+  "parent_follow_request": {
+    "title": "طلب متابعة طفل",
+    "subtitle": "اطلب من المشرف التحقق من علاقة ولي الأمر بالطفل.",
+    "learner_email": "بريد المتعلم",
+    "relationship": "العلاقة",
+    "relationship_placeholder": "ولي أمر، وصي، إلخ.",
+    "note_optional": "ملاحظة (اختياري)",
+    "note_placeholder": "أي سياق مفيد للمشرف",
+    "submit": "إرسال الطلب إلى المشرف",
+    "submitting": "جارٍ الإرسال...",
+    "success": {
+      "submitted": "تم إرسال الطلب. تم إشعار المشرف."
+    },
+    "errors": {
+      "required_fields": "يرجى إدخال بريد المتعلم ونوع العلاقة.",
+      "submit_failed": "تعذر إرسال طلب متابعة ولي الأمر.",
+      "learner_not_found": "لم يتم العثور على حساب متعلم بهذا البريد.",
+      "already_linked": "ولي الأمر مرتبط بالفعل بهذا المتعلم.",
+      "already_pending": "يوجد طلب متابعة قيد الانتظار لهذا المتعلم بالفعل."
+    }
+  },
+  "admin_parent_follow": {
+    "title": "طلبات متابعة ولي الأمر",
+    "subtitle": "قائمة المشرف للتحقق من صلاحية متابعة ولي الأمر للطفل.",
+    "loading": "جارٍ تحميل الطلبات...",
+    "unread_notifications": "الإشعارات غير المقروءة:",
+    "empty": "لا توجد طلبات ولي أمر معلقة.",
+    "parent": "ولي الأمر",
+    "learner": "المتعلم",
+    "relationship": "العلاقة",
+    "note": "ملاحظة",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "errors": {
+      "forbidden": "تم رفض الوصول إلى قائمة المشرف.",
+      "load_failed": "تعذر تحميل طلبات متابعة ولي الأمر.",
+      "review_failed": "تعذر مراجعة طلب ولي الأمر.",
+      "not_found": "طلب ولي الأمر غير موجود.",
+      "already_reviewed": "تمت مراجعة طلب ولي الأمر بالفعل."
+    }
+  },
+  "admin_notifications": {
+    "title": "إشعارات المشرف",
+    "loading": "جارٍ تحميل الإشعارات...",
+    "empty": "لا توجد إشعارات.",
+    "read": "مقروءة",
+    "unread": "غير مقروءة",
+    "parent_label": "ولي الأمر",
+    "created_at": "تاريخ الإنشاء",
+    "mark_read": "وضع علامة كمقروءة",
+    "parent_follow": {
+      "title": "طلب متابعة جديد من ولي الأمر",
+      "message": "طلب ولي الأمر صلاحية متابعة {learnerName}."
+    },
+    "actions": {
+      "approve": "قبول",
+      "reject": "رفض"
+    },
+    "errors": {
+      "forbidden": "تم رفض الوصول إلى إشعارات المشرف.",
+      "load_failed": "تعذر تحميل الإشعارات.",
+      "mark_read_failed": "تعذر وضع علامة المقروء على الإشعار.",
+      "not_found": "الإشعار غير موجود.",
+      "review_failed": "تعذر معالجة الطلب من الإشعار.",
+      "parent_request_not_found": "طلب ولي الأمر غير موجود.",
+      "parent_request_already_reviewed": "تمت مراجعة طلب ولي الأمر بالفعل."
+    }
+  },
+  "educator_dashboard": {
+    "title": "إشراف المعلّم",
+    "loading": "جارٍ تحميل لوحة تحكم المعلّم...",
+    "errors": {
+      "load_failed": "تعذر تحميل لوحة تحكم المعلّم."
+    },
+    "cohort": {
+      "title": "تحليلات المجموعة",
+      "subtitle": "مؤشرات مباشرة لمتابعة تقدّم المتعلمين.",
+      "total_learners": "إجمالي المتعلمين",
+      "active_learners": "المتعلمون النشطون",
+      "completed_onboarding": "إكمال التسجيل",
+      "onboarding_completion": "نسبة إكمال التسجيل",
+      "average_engagement": "متوسط التفاعل",
+      "average_path_completion": "متوسط إكمال المسار"
+    },
+    "intervention": {
+      "title": "قائمة التدخل",
+      "subtitle": "المتعلمون ذوو الأولوية الذين يحتاجون دعماً من المعلّم.",
+      "empty": "لا توجد عناصر تدخل نشطة.",
+      "program": "البرنامج",
+      "not_selected": "غير محدد",
+      "completion": "الإكمال",
+      "open_mentorship": "طلبات الإرشاد المفتوحة",
+      "risk": {
+        "LOW": "منخفض",
+        "MEDIUM": "متوسط",
+        "HIGH": "مرتفع"
+      }
+    },
+    "adaptation": {
+      "title": "سجل قرارات التكييف",
+      "subtitle": "سجل شفاف لقرارات التخصيص.",
+      "empty": "لا توجد قرارات تكييف مسجلة حتى الآن.",
+      "via": "عبر"
+    }
   }
 }

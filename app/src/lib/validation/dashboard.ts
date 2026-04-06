@@ -34,3 +34,22 @@ export const educatorDashboardResponseSchema = z.object({
 })
 
 export type EducatorDashboardResponseDto = z.infer<typeof educatorDashboardResponseSchema>
+
+export const parentChildDashboardItemSchema = z.object({
+  learnerId: z.string(),
+  learnerName: z.string(),
+  milestones: z.array(z.string()),
+  engagement: z.object({
+    score: z.number().int().min(0).max(100),
+    level: z.enum(["LOW", "MEDIUM", "HIGH"]),
+    pathCompletionRate: z.number().min(0).max(100),
+    activeUnits: z.number().int().nonnegative(),
+    completedUnits: z.number().int().nonnegative(),
+  }),
+})
+
+export const parentDashboardResponseSchema = z.object({
+  children: z.array(parentChildDashboardItemSchema),
+})
+
+export type ParentDashboardResponseDto = z.infer<typeof parentDashboardResponseSchema>

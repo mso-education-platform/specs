@@ -2,12 +2,18 @@
 
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Avatar } from "@/components/ui/avatar"
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
-import { BookOpen, Home, LogIn, Users } from "lucide-react"
+import { Bell, BookOpen, Home, LogIn, LogOut, Users } from "lucide-react"
 import { useTranslation } from "@/components/i18n/I18nProvider"
-import { CLIENT_SESSION_CHANGED_EVENT, getClientSession, type ClientSession } from "@/lib/auth/client-session"
+import {
+  CLIENT_SESSION_CHANGED_EVENT,
+  clearClientSession,
+  getClientSession,
+  type ClientSession,
+} from "@/lib/auth/client-session"
 
 type NavItem = { href: string; labelKey: string; icon: React.ReactNode }
 
@@ -28,13 +34,17 @@ const roleDashboardHref: Record<ClientSession["role"], string> = {
 
 export default function Sidebar({ className }: { className?: string }) {
   const { t } = useTranslation()
+  const router = useRouter()
   const [session, setSession] = useState<ClientSession | null>(() => getClientSession())
   const nav: NavItem[] = session
     ? [
         { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
         { href: roleDashboardHref[session.role], labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
-        ...(session.role === "LEARNER"
-          ? [{ href: "/track", labelKey: "nav.my_progress", icon: <BookOpen className="h-4 w-4" /> }]
+        ...(session.role === "PARENT"
+          ? [{ href: "/parent/dashboard?request=1#request-link", labelKey: "nav.parent_request_access", icon: <Users className="h-4 w-4" /> }]
+          : []),
+        ...(session.role === "ADMIN"
+          ? [{ href: "/educator/admin/notifications", labelKey: "nav.admin_notifications", icon: <Bell className="h-4 w-4" /> }]
           : []),
       ]
     : publicNav
@@ -50,6 +60,11 @@ export default function Sidebar({ className }: { className?: string }) {
       window.removeEventListener(CLIENT_SESSION_CHANGED_EVENT, refreshSession)
     }
   }, [])
+
+  const handleSignOut = () => {
+    clearClientSession()
+    router.push("/")
+  }
 
   return (
     <>
@@ -103,6 +118,15 @@ export default function Sidebar({ className }: { className?: string }) {
                 <div className="text-xs text-muted-foreground">{t(`topbar.role.${session.role}`)}</div>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="mt-2 flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+              data-testid="sidebar-sign-out"
+            >
+              <LogOut className="h-4 w-4 text-muted-foreground" />
+              <span>{t("home.sign_out")}</span>
+            </button>
           </div>
         ) : null}
       </aside>

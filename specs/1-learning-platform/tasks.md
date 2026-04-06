@@ -138,17 +138,17 @@
 
 ### Tests for User Story 4
 
-- [ ] T058 [P] [US4] Add contract tests for parent dashboard endpoint in `app/tests/contract/us4-parent-dashboard.contract.test.ts`
-- [ ] T059 [P] [US4] Add integration tests for parent-child link filtering in `app/tests/integration/us4-parent-dashboard.integration.test.ts`
-- [ ] T060 [P] [US4] Add E2E parent monitoring flow test in `app/tests/e2e/us4-parent-monitoring.spec.ts`
+- [x] T058 [P] [US4] Add contract tests for parent dashboard endpoint in `app/tests/contract/us4-parent-dashboard.contract.test.ts`
+- [x] T059 [P] [US4] Add integration tests for parent-child link filtering in `app/tests/integration/us4-parent-dashboard.integration.test.ts`
+- [x] T060 [P] [US4] Add E2E parent monitoring flow test in `app/tests/e2e/us4-parent-monitoring.spec.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T061 [P] [US4] Implement parent dashboard aggregate queries in `app/src/services/dashboard-service.ts` and `app/src/repositories/learner-repository.ts`
-- [ ] T062 [US4] Implement `GET /api/dashboard/parent` route handler in `app/src/app/api/dashboard/parent/route.ts`
-- [ ] T063 [P] [US4] Build parent dashboard page in `app/src/app/(parent)/dashboard/page.tsx`
-- [ ] T064 [US4] Build child milestones and engagement widgets in `app/src/components/dashboards/ParentChildProgress.tsx`
-- [ ] T065 [US4] Add parent access guard for linked learners only in `app/src/lib/auth/guards.ts`
+- [x] T061 [P] [US4] Implement parent dashboard aggregate queries in `app/src/services/dashboard-service.ts` and `app/src/repositories/learner-repository.ts`
+- [x] T062 [US4] Implement `GET /api/dashboard/parent` route handler in `app/src/app/api/dashboard/parent/route.ts`
+- [x] T063 [P] [US4] Build parent dashboard page in `app/src/app/(parent)/parent/dashboard/page.tsx`
+- [x] T064 [US4] Build child milestones and engagement widgets in `app/src/components/dashboards/ParentChildProgress.tsx`
+- [x] T065 [US4] Add parent access guard for linked learners only in `app/src/lib/auth/guards.ts`
 
 **Checkpoint**: User Story 4 independently provides secure parent-facing progress visibility.
 
@@ -346,3 +346,21 @@ Task T071: app/src/components/mentorship/MentorshipRequestForm.tsx
 - [x] T091 [US1] Add Playwright E2E test for register then login in `app/tests/e2e/auth-register-login.spec.ts`
 - [x] T092 [US1] Add E2E execution step in CI workflow `/.github/workflows/ci.yml`
 - [x] T093 [US1] Add Playwright artifact upload step in CI workflow `/.github/workflows/ci.yml`
+
+---
+
+## Delivered Addendum: Parent Follow Requests + Admin Validation (2026-04-07)
+
+**Goal**: Add parent access workflow with admin notifications and review (approve/reject), including educator-admin review capability.
+
+- [x] T094 [US4] Add parent follow request models/enums in `app/prisma/schema.prisma`
+- [x] T095 [US4] Add migration for parent follow request and admin notification tables in `app/prisma/migrations/20260407123000_parent_follow_requests/migration.sql`
+- [x] T096 [US4] Implement parent follow validation schemas in `app/src/lib/validation/parent-follow.ts`
+- [x] T097 [US4] Implement parent follow repository and service in `app/src/repositories/parent-follow-repository.ts` and `app/src/services/parent-follow-service.ts`
+- [x] T098 [US4] Implement `POST /api/parent/follow-requests` and admin review routes in `app/src/app/api/parent/follow-requests/route.ts`, `app/src/app/api/admin/parent-follow-requests/route.ts`, and `app/src/app/api/admin/parent-follow-requests/[requestId]/route.ts`
+- [x] T099 [US4] Add parent request form and admin review queue UI in `app/src/components/dashboards/ParentFollowRequestForm.tsx` and `app/src/components/dashboards/AdminParentFollowRequests.tsx`
+- [x] T100 [US4] Integrate parent/admin workflow into dashboards and auth redirect logic in `app/src/app/(parent)/parent/dashboard/page.tsx`, `app/src/app/(educator)/educator/dashboard/page.tsx`, and `app/src/app/(auth)/sign-in/page.tsx`
+- [x] T101 [US4] Add contract/integration/E2E tests for parent follow request workflow in `app/tests/contract/us4-parent-follow-workflow.contract.test.ts`, `app/tests/integration/us4-parent-follow-workflow.integration.test.ts`, and `app/tests/e2e/us4-parent-follow-workflow.spec.ts`
+- [x] T102 [US4] Apply local database migration for parent follow workflow using `prisma migrate deploy`
+- [x] T103 [US4] Add admin notifications API and service in `app/src/app/api/admin/notifications/route.ts`, `app/src/app/api/admin/notifications/[notificationId]/read/route.ts`, and `app/src/services/admin-notification-service.ts`
+- [x] T104 [US4] Add dedicated admin notifications page and navigation in `app/src/app/(educator)/educator/admin/notifications/page.tsx`, `app/src/components/dashboards/AdminNotificationsPanel.tsx`, and `app/src/components/layout/Sidebar.tsx`

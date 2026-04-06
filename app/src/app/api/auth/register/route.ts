@@ -21,16 +21,18 @@ export async function POST(request: Request) {
       data: {
         email: payload.email,
         name: payload.name,
-        role: "LEARNER",
+        role: payload.role,
         passwordHash: hashPassword(payload.password),
       },
     })
 
-    await prisma.learnerProfile.upsert({
-      where: { userId: user.id },
-      update: {},
-      create: { userId: user.id },
-    })
+    if (payload.role === "LEARNER") {
+      await prisma.learnerProfile.upsert({
+        where: { userId: user.id },
+        update: {},
+        create: { userId: user.id },
+      })
+    }
 
     return ok({
       userId: user.id,
