@@ -13,7 +13,9 @@
     "menu": "Menu",
     "version": "v0.1",
     "userName": "User Name",
-    "account": "Account"
+    "account": "Account",
+    "create": "Create",
+    "retry": "Retry"
   },
   "topbar": {
     "role": {
@@ -28,7 +30,11 @@
   "home": {
     "title": "AI-assisted learning platform",
     "subtitle": "Start onboarding to get age-aware assessment and a personalized first learning path.",
-    "start": "Start onboarding"
+    "start": "Start onboarding",
+    "connected": "You are signed in.",
+    "connected_as": "Signed in as",
+    "sign_out": "Sign out",
+    "already_onboarded": "You have already completed onboarding."
   }
   ,
   "onboarding": {
@@ -101,10 +107,6 @@
     "loading_plan": "Loading your personalized plan...",
     "unit_id": "Unit ID:"
   },
-  "ui": {
-    "create": "Create",
-    "retry": "Retry"
-  },
   "dialog": {
     "confirm": "Confirm",
     "cancel": "Cancel"
@@ -115,6 +117,13 @@
     "subtitle": "Use learner sign-in to start your personalized onboarding.",
     "name": "Name",
     "email": "Email",
-    "continue": "Continue"
+    "password": "Password",
+    "continue": "Create account and continue",
+    "login": "Sign in",
+    "loading": "Loading...",
+    "account_exists": "This account already exists. Please authenticate.",
+    "show_login_form": "Show sign-in form",
+    "switch_to_login": "I already have an account",
+    "switch_to_register": "Create a new account"
   }
 }

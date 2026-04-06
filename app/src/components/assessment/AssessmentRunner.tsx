@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAssessmentSession } from "@/hooks/useAssessmentSession"
 import { useTranslation } from "@/components/i18n/I18nProvider"
+import { markClientOnboardingCompleted } from "@/lib/auth/client-session"
 
 export function AssessmentRunner() {
   const router = useRouter()
@@ -55,6 +56,7 @@ export function AssessmentRunner() {
     )
 
     window.sessionStorage.setItem("assessment-result", JSON.stringify(payload))
+    markClientOnboardingCompleted()
     router.push("/onboarding/feedback")
   }
 

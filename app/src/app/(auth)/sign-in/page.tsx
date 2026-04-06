@@ -9,28 +9,107 @@ import { Button } from "@/components/ui/button"
 import { setClientSession } from "@/lib/auth/client-session"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 
+type AuthMode = "register" | "login"
+
 export default function SignInPage() {
+  const [mode, setMode] = useState<AuthMode>("register")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
   const router = useRouter()
   const { t } = useTranslation()
 
-  const handleSignIn = () => {
-    if (!name || !email) {
+  const normalizeEmail = () => email.trim().toLowerCase()
+
+  const handleRegister = async () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
       return
     }
 
-    const normalizedEmail = email.trim().toLowerCase()
-    const userId = `learner-${normalizedEmail.replace(/[^a-z0-9]+/g, "-")}`
+    setLoading(true)
+    setError(null)
+    setShowLoginPrompt(false)
 
-    setClientSession({
-      userId,
-      role: "LEARNER",
-      email: normalizedEmail,
-      name: name.trim(),
-    })
+    try {
+      const normalizedEmail = normalizeEmail()
+      const checkResponse = await fetch("/api/auth/check-email", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail }),
+      })
 
-    router.push("/onboarding/age-level")
+      const checkData = await checkResponse.json()
+      if (!checkResponse.ok) {
+        throw new Error(checkData?.error?.message ?? "Unable to verify the account email.")
+      }
+
+      if (checkData?.exists) {
+        setError(t("signin.account_exists"))
+        setShowLoginPrompt(true)
+        return
+      }
+
+      const registerResponse = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: normalizedEmail,
+          password,
+        }),
+      })
+
+      const registerData = await registerResponse.json()
+      if (!registerResponse.ok) {
+        throw new Error(registerData?.error?.message ?? "Could not create account.")
+      }
+
+      setClientSession(registerData)
+      router.push("/onboarding/age-level")
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Could not continue.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const normalizedEmail = normalizeEmail()
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail, password }),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data?.error?.message ?? "Authentication failed.")
+      }
+
+      setClientSession(data)
+      router.push("/onboarding/age-level")
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Authentication failed.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const switchToLogin = () => {
+    setMode("login")
+    setShowLoginPrompt(false)
+    setError(null)
   }
 
   return (
@@ -38,17 +117,64 @@ export default function SignInPage() {
       <h1 className="text-2xl font-semibold">{t("signin.title")}</h1>
       <p className="text-sm text-muted-foreground">{t("signin.subtitle")}</p>
 
-      <div className="space-y-2">
-        <Label htmlFor="name">{t("signin.name")}</Label>
-        <Input id="name" value={name} onChange={(event) => setName(event.target.value)} />
-      </div>
+      {mode === "register" ? (
+        <div className="space-y-2">
+          <Label htmlFor="name">{t("signin.name")}</Label>
+          <Input id="name" value={name} onChange={(event) => setName(event.target.value)} />
+        </div>
+      ) : null}
+
       <div className="space-y-2">
         <Label htmlFor="email">{t("signin.email")}</Label>
         <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
       </div>
 
-      <Button className="w-full" onClick={handleSignIn} disabled={!name || !email}>
-        {t("signin.continue")}
+      <div className="space-y-2">
+        <Label htmlFor="password">{t("signin.password")}</Label>
+        <Input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
+
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+
+      {showLoginPrompt ? (
+        <Button type="button" variant="outline" className="w-full" onClick={switchToLogin}>
+          {t("signin.show_login_form")}
+        </Button>
+      ) : null}
+
+      <Button
+        className="w-full"
+        onClick={mode === "register" ? handleRegister : handleLogin}
+        disabled={
+          loading ||
+          !email.trim() ||
+          !password.trim() ||
+          (mode === "register" && !name.trim())
+        }
+      >
+        {loading
+          ? t("signin.loading")
+          : mode === "register"
+            ? t("signin.continue")
+            : t("signin.login")}
+      </Button>
+
+      <Button
+        type="button"
+        variant="ghost"
+        className="w-full"
+        onClick={() => {
+          setMode(mode === "register" ? "login" : "register")
+          setShowLoginPrompt(false)
+          setError(null)
+        }}
+      >
+        {mode === "register" ? t("signin.switch_to_login") : t("signin.switch_to_register")}
       </Button>
     </Card>
   )
