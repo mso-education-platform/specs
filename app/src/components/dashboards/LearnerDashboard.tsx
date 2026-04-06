@@ -23,15 +23,15 @@ export function LearnerDashboard() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Completed units</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.completed_units")}</p>
           <p className="text-2xl font-semibold">{completedUnits}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Total units</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.total_units")}</p>
           <p className="text-2xl font-semibold">{totalUnits}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Ready now</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.ready_now")}</p>
           <p className="text-2xl font-semibold">{unlockedUnits}</p>
         </Card>
       </div>
@@ -42,18 +42,18 @@ export function LearnerDashboard() {
       {!loading && !error ? (
         <Card className="p-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-medium">Continue your personalized learning track</p>
+            <p className="font-medium">{t("dashboard.continue_track")}</p>
             <p className="text-xs text-muted-foreground">
-              {nextUnit ? `Next suggested unit: ${nextUnit.title}` : "No unlocked unit available yet."}
+              {nextUnit ? `${t("dashboard.next_suggested_unit")} ${nextUnit.title}` : t("dashboard.no_unlocked_unit")}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/track">
-              <Button variant="secondary">Open track</Button>
+              <Button variant="secondary">{t("dashboard.open_track")}</Button>
             </Link>
             {nextUnit ? (
               <Link href={`/unit/${nextUnit.unitId}`}>
-                <Button>Open next unit</Button>
+                <Button>{t("dashboard.open_next_unit")}</Button>
               </Link>
             ) : null}
           </div>
@@ -66,7 +66,7 @@ export function LearnerDashboard() {
             <p className="font-medium">{unit.sequenceIndex}. {unit.title}</p>
             <p className="text-xs text-muted-foreground">{t("dashboard.unit_id")} {unit.unitId}</p>
           </div>
-          <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{unit.state}</Badge>
+          <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{t(`learning_path.states.${unit.state}`)}</Badge>
         </Card>
       ))}
     </div>

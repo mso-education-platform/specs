@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type UnitProgressActionsProps = {
   unitId: string
@@ -18,6 +19,7 @@ type UnitProgressActionsProps = {
 }
 
 export function UnitProgressActions(props: UnitProgressActionsProps) {
+  const { t } = useTranslation()
   const [reflectionText, setReflectionText] = useState("")
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -33,7 +35,7 @@ export function UnitProgressActions(props: UnitProgressActionsProps) {
     try {
       await props.onPatch(patch)
     } catch (patchError) {
-      setError(patchError instanceof Error ? patchError.message : "Could not update progress.")
+      setError(patchError instanceof Error ? patchError.message : t("learning_path.errors.update_progress"))
     } finally {
       setPending(false)
     }
@@ -41,8 +43,8 @@ export function UnitProgressActions(props: UnitProgressActionsProps) {
 
   return (
     <Card className="p-4 space-y-4">
-      <h2 className="text-lg font-semibold">Unit Progress</h2>
-      <p className="text-sm text-muted-foreground">Unit ID: {props.unitId}</p>
+      <h2 className="text-lg font-semibold">{t("learning_path.unit_progress")}</h2>
+      <p className="text-sm text-muted-foreground">{t("learning_path.unit_id")}: {props.unitId}</p>
 
       <div className="flex flex-wrap gap-2">
         <Button
@@ -50,7 +52,7 @@ export function UnitProgressActions(props: UnitProgressActionsProps) {
           disabled={pending || props.state === "LOCKED" || props.state === "IN_PROGRESS"}
           onClick={() => void runPatch({ state: "IN_PROGRESS" })}
         >
-          Start unit
+          {t("learning_path.start_unit")}
         </Button>
         <Button
           disabled={pending || props.state !== "IN_PROGRESS"}
@@ -61,24 +63,24 @@ export function UnitProgressActions(props: UnitProgressActionsProps) {
             })
           }
         >
-          Complete unit
+          {t("learning_path.complete_unit")}
         </Button>
         <Button
           variant="secondary"
           disabled={pending || props.projectSubmissionStatus !== "SUBMITTED"}
           onClick={() => void runPatch({ projectSubmissionStatus: "REVIEWED" })}
         >
-          Mark project reviewed
+          {t("learning_path.mark_reviewed")}
         </Button>
       </div>
 
       <div className="space-y-2">
         <label className="text-sm font-medium" htmlFor="reflection">
-          Reflection
+          {t("learning_path.reflection")}
         </label>
         <Input
           id="reflection"
-          placeholder="Write a short reflection"
+          placeholder={t("learning_path.reflection_placeholder")}
           value={reflectionText}
           onChange={(event) => setReflectionText(event.target.value)}
         />
@@ -87,7 +89,7 @@ export function UnitProgressActions(props: UnitProgressActionsProps) {
           disabled={pending || reflectionText.trim().length < 5 || props.reflectionCompleted}
           onClick={() => void runPatch({ reflectionCompleted: true })}
         >
-          Save reflection
+          {t("learning_path.save_reflection")}
         </Button>
       </div>
 

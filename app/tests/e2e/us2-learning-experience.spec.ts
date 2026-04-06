@@ -87,13 +87,13 @@ test("US2 learner unit progression", async ({ page }) => {
   await page.goto("/track")
   await expect(page.getByText("HTML Foundations")).toBeVisible()
 
-  await page.getByRole("link", { name: /^open$/i }).first().click()
+  await page.getByRole("button", { name: /open|ouvrir|فتح/i }).first().click()
   await expect(page).toHaveURL(/.*\/unit\//)
 
-  await page.getByRole("button", { name: /start unit/i }).click()
-  await page.getByRole("button", { name: /complete unit/i }).click()
+  await page.getByRole("button", { name: /start unit|commencer l'unité|بدء الوحدة/i }).click()
+  await page.getByRole("button", { name: /complete unit|terminer l'unité|إكمال الوحدة/i }).click()
 
-  await expect(page.getByText("COMPLETED")).toBeVisible()
+  await expect(page.getByText(/completed|terminée|مكتملة/i)).toBeVisible()
 
   await page.goto("/track")
   await expect(page.getByText("CSS Basics")).toBeVisible()

@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { UnitProgressActions } from "@/components/learning-path/UnitProgressActions"
+import { useTranslation } from "@/components/i18n/I18nProvider"
 
 type Unit = {
   unitId: string
@@ -25,18 +26,20 @@ type UnitDetailPanelProps = {
 }
 
 export function UnitDetailPanel({ unit, onUnitUpdated }: UnitDetailPanelProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <Card className="p-5 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <h1 className="text-2xl font-semibold">{unit.sequenceIndex}. {unit.title}</h1>
-          <Badge variant={unit.state === "LOCKED" ? "secondary" : "default"}>{unit.state}</Badge>
+          <Badge variant={unit.state === "LOCKED" ? "secondary" : "default"}>{t(`learning_path.states.${unit.state}`)}</Badge>
         </div>
         <p className="text-sm text-muted-foreground">{unit.objective}</p>
         <div className="text-xs text-muted-foreground space-y-1">
-          <p>Project submission: {unit.projectSubmissionStatus}</p>
-          <p>Reflection completed: {unit.reflectionCompleted ? "Yes" : "No"}</p>
-          <p>Prerequisites: {unit.prerequisites.length === 0 ? "None" : unit.prerequisites.join(", ")}</p>
+          <p>{t("learning_path.project_submission")}: {t(`learning_path.submission_status.${unit.projectSubmissionStatus}`)}</p>
+          <p>{t("learning_path.reflection_completed")}: {unit.reflectionCompleted ? t("learning_path.yes") : t("learning_path.no")}</p>
+          <p>{t("learning_path.prerequisites")}: {unit.prerequisites.length === 0 ? t("learning_path.none") : unit.prerequisites.join(", ")}</p>
         </div>
       </Card>
 
