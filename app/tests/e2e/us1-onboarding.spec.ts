@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test"
 
 test("US1 onboarding happy path", async ({ page }) => {
+  const unique = Date.now()
+
   await page.route("**/api/onboarding", async (route) => {
     await route.fulfill({
       status: 200,
@@ -64,7 +66,8 @@ test("US1 onboarding happy path", async ({ page }) => {
   await page.goto("/sign-in")
 
   await page.locator("#name").fill("Learner Test")
-  await page.locator("#email").fill("learner@example.com")
+  await page.locator("#email").fill(`learner-${unique}@example.com`)
+  await page.locator("#password").fill("Password123!")
   await page.getByRole("button", { name: /continue/i }).click()
 
   await expect(page).toHaveURL(/.*onboarding\/age-level/)
