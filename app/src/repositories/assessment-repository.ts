@@ -67,7 +67,7 @@ export const assessmentRepository = {
         decisionType: input.decisionType,
         source: input.source,
         rationale: input.rationale,
-        inputsJson: input.inputs,
+        inputsJson: input.inputs as unknown as any,
       },
     })
   },

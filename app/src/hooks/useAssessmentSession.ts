@@ -41,12 +41,15 @@ export function useAssessmentSession() {
     setLoading(true)
     setError(null)
     try {
+      const headers = new Headers({ "content-type": "application/json" })
+      const sessionHeaders = buildSessionHeaders()
+      Object.entries(sessionHeaders).forEach(([k, v]) => {
+        if (v) headers.set(k, String(v))
+      })
+
       const response = await fetch("/api/assessment/start", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...buildSessionHeaders(),
-        },
+        headers,
         body: JSON.stringify({ programCode }),
       })
 
@@ -71,12 +74,15 @@ export function useAssessmentSession() {
     setError(null)
 
     try {
+      const headers2 = new Headers({ "content-type": "application/json" })
+      const sessionHeaders2 = buildSessionHeaders()
+      Object.entries(sessionHeaders2).forEach(([k, v]) => {
+        if (v) headers2.set(k, String(v))
+      })
+
       const response = await fetch("/api/assessment/submit", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...buildSessionHeaders(),
-        },
+        headers: headers2,
         body: JSON.stringify({
           assessmentSessionId,
           responses,
