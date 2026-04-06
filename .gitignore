@@ -33,3 +33,6 @@ app/prisma/dev.db
 # Misc
 *.tmp
 *.swp
+
+# Ignore root lockfile to prevent multiple-lockfile turbopack warnings
+/package-lock.json

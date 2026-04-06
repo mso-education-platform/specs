@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo "Running pre-commit lint and build checks..."
-npm run precommit:check
+cd app && npm run precommit:check
