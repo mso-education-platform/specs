@@ -49,4 +49,40 @@ export const personalizationService = {
       },
     }
   },
+
+  async triggerAdaptiveRefreshFromProgress(input: {
+    learnerId: string
+    learningPathId: string
+    unitId: string
+    state: "LOCKED" | "UNLOCKED" | "IN_PROGRESS" | "COMPLETED" | "DEFERRED"
+    projectSubmissionStatus: "NONE" | "SUBMITTED" | "REVIEWED"
+    reflectionCompleted: boolean
+  }) {
+    if (input.state !== "COMPLETED" && input.projectSubmissionStatus !== "REVIEWED") {
+      return { triggered: false }
+    }
+
+    const decisionType = input.projectSubmissionStatus === "REVIEWED" ? DecisionType.ACCELERATION : DecisionType.STYLE_SWITCH
+    const rationale =
+      input.projectSubmissionStatus === "REVIEWED"
+        ? "Reviewed project progress indicates readiness for increased challenge."
+        : "Completed unit progress indicates learner pacing should be refreshed."
+
+    await assessmentRepository.logAdaptationDecision({
+      learnerId: input.learnerId,
+      decisionType,
+      source: DecisionSource.RULE,
+      rationale,
+      inputs: {
+        trigger: "unit-progress-update",
+        learningPathId: input.learningPathId,
+        unitId: input.unitId,
+        state: input.state,
+        projectSubmissionStatus: input.projectSubmissionStatus,
+        reflectionCompleted: input.reflectionCompleted,
+      },
+    })
+
+    return { triggered: true }
+  },
 }

@@ -77,4 +77,62 @@ export const learningPathRepository = {
       },
     })
   },
+
+  async getPathUnitForLearner(learnerId: string, unitId: string) {
+    const activePath = await this.getActivePath(learnerId)
+    if (!activePath) {
+      return null
+    }
+
+    const unit = activePath.units.find((pathUnit: { unitId: string }) => pathUnit.unitId === unitId)
+    if (!unit) {
+      return null
+    }
+
+    return {
+      activePath,
+      unit,
+    }
+  },
+
+  async updatePathUnit(
+    pathUnitId: string,
+    data: {
+      state?: PathUnitState
+      projectSubmissionStatus?: "NONE" | "SUBMITTED" | "REVIEWED"
+      reflectionCompleted?: boolean
+      startedAt?: Date
+      completedAt?: Date | null
+    },
+  ) {
+    return prisma.learningPathUnit.update({
+      where: { id: pathUnitId },
+      data,
+      include: {
+        unit: {
+          include: {
+            prerequisites: true,
+          },
+        },
+      },
+    })
+  },
+
+  async unlockNextUnit(learningPathId: string, currentSequenceIndex: number) {
+    const nextUnit = await prisma.learningPathUnit.findFirst({
+      where: {
+        learningPathId,
+        sequenceIndex: currentSequenceIndex + 1,
+      },
+    })
+
+    if (!nextUnit || nextUnit.state !== PathUnitState.LOCKED) {
+      return null
+    }
+
+    return prisma.learningPathUnit.update({
+      where: { id: nextUnit.id },
+      data: { state: PathUnitState.UNLOCKED },
+    })
+  },
 }
