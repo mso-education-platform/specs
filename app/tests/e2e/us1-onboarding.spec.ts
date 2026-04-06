@@ -91,5 +91,5 @@ test("US1 onboarding happy path", async ({ page }) => {
   await expect(page).toHaveURL(/.*onboarding\/feedback/)
   await page.getByRole("link", { name: /aller au tableau de bord|go dashboard/i }).click()
   await expect(page).toHaveURL(/.*dashboard/)
-  await expect(page.getByText("HTML Foundations")).toBeVisible()
+  await expect(page.getByText(/html foundations/i).first()).toBeVisible()
 })

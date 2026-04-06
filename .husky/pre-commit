@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Running pre-commit lint and build checks..."
+echo "Running pre-commit checks (lint, build, unit/integration/contract tests, e2e)..."
 cd app && npm run precommit:check

@@ -97,5 +97,5 @@ test("US2 learner unit progression", async ({ page }) => {
 
   await page.goto("/track")
   await expect(page.getByText("CSS Basics")).toBeVisible()
-  await expect(page.getByText("UNLOCKED")).toBeVisible()
+  await expect(page.getByText(/unlocked|déverrouillée|مفتوحة/i)).toBeVisible()
 })
