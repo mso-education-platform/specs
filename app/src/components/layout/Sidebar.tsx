@@ -36,8 +36,16 @@ export default function Sidebar({ className }: { className?: string }) {
   const { t } = useTranslation()
   const router = useRouter()
   const [session, setSession] = useState<ClientSession | null>(() => getClientSession())
-  const nav: NavItem[] = session
-    ? [
+  let nav: NavItem[] = publicNav
+
+  if (session) {
+    // Learners should only see the dashboard link in the sidebar
+    if (session.role === "LEARNER") {
+      nav = [
+        { href: roleDashboardHref[session.role], labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
+      ]
+    } else {
+      nav = [
         { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
         { href: roleDashboardHref[session.role], labelKey: "nav.dashboard", icon: <Users className="h-4 w-4" /> },
         ...(session.role === "PARENT"
@@ -47,7 +55,8 @@ export default function Sidebar({ className }: { className?: string }) {
           ? [{ href: "/educator/admin/notifications", labelKey: "nav.admin_notifications", icon: <Bell className="h-4 w-4" /> }]
           : []),
       ]
-    : publicNav
+    }
+  }
 
   useEffect(() => {
     const refreshSession = () => setSession(getClientSession())

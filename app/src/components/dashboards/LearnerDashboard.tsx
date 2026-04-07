@@ -48,7 +48,7 @@ export function LearnerDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/track">
+            <Link href="/tracks">
               <Button variant="secondary">{t("dashboard.open_track")}</Button>
             </Link>
             {nextUnit ? (
@@ -69,13 +69,26 @@ export function LearnerDashboard() {
           <div className="flex items-center gap-2">
             <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{t(`learning_path.states.${unit.state}`)}</Badge>
             {unit.state === "IN_PROGRESS" ? (
-              <Link href="/track">
+              <Link href="/tracks">
                 <Button size="sm">{t("dashboard.open_track")}</Button>
               </Link>
             ) : null}
           </div>
         </Card>
       ))}
+
+      {!loading && error ? (
+        <div className="mx-auto max-w-4xl">
+          <Card className="p-4">
+            <p className="mb-4 text-sm text-muted-foreground">{t("dashboard.no_active_path_cta")}</p>
+            <div className="flex">
+              <Link href="/tracks">
+                <Button>{t("dashboard.browse_tracks")}</Button>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      ) : null}
     </div>
   )
 }

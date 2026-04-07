@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getClientSession } from "@/lib/auth/client-session"
+import { useRouter } from "next/navigation"
 
 type Track = {
   code: "WEB_DEV" | "AI_ORIENTED"
@@ -91,6 +93,8 @@ function withFallbackContent(track: Track): Track {
 
 export default function TracksPage() {
   const [selectedCode, setSelectedCode] = useState<Track["code"] | null>(null)
+  const [clientRole] = useState<string | null>(() => getClientSession()?.role ?? null)
+  const router = useRouter()
   const enrichedTracks = useMemo(() => publicTracks.map(withFallbackContent), [])
   const selectedTrack = enrichedTracks.find((track) => track.code === selectedCode) ?? null
 
@@ -120,6 +124,21 @@ export default function TracksPage() {
             >
               Voir le détail
             </Button>
+            {clientRole === "LEARNER" ? (
+              <Button
+                type="button"
+                className="ml-2"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  try {
+                    window.sessionStorage.setItem("onboarding-default-program", track.code)
+                  } catch {}
+                  router.push("/onboarding/program")
+                }}
+              >
+                S&apos;inscrire au parcours
+              </Button>
+            ) : null}
           </Card>
         ))}
       </div>

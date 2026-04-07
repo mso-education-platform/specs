@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,8 @@ import { buildSessionHeaders, getClientSession, setClientSession } from "@/lib/a
 
 export function ProgramSelectionStep() {
   const { t } = useTranslation()
-  const [programCode, setProgramCode] = useState<"WEB_DEV" | "AI_ORIENTED" | null>(null)
+  const initialProgram = typeof window !== "undefined" ? (window.sessionStorage.getItem("onboarding-default-program") as "WEB_DEV" | "AI_ORIENTED" | null) : null
+  const [programCode, setProgramCode] = useState<"WEB_DEV" | "AI_ORIENTED" | null>(initialProgram ?? null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -65,6 +66,13 @@ export function ProgramSelectionStep() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    try {
+      // clear the transient default after reading it
+      window.sessionStorage.removeItem("onboarding-default-program")
+    } catch {}
+  }, [])
 
   return (
     <Card className="mx-auto max-w-xl p-6 space-y-4">
