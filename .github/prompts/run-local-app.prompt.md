@@ -1,29 +1,29 @@
 ---
-name: Lancer l'app localement (FR)
-description: Guide pas-à-pas pour démarrer Postgres en Docker, appliquer le schéma Prisma, seed et lancer l'application en dev.
+name: Start the app locally (EN)
+description: Step-by-step guide to start Postgres in Docker, apply the Prisma schema, run the seed, and start the app in development.
 ---
+ 
+Context: you are a developer who needs to run the Next.js application locally from the repository root. The main app folder is `app` and the database used is Postgres (Prisma).
 
-Contexte : tu es un·e développeur·se qui doit lancer l'application Next.js localement depuis la racine du dépôt. Le dossier principal de l'app est `app` et la base de données utilisée est Postgres (Prisma).
+Goal: provide clear, copy/pasteable instructions to start the DB, apply the schema, run the seed, and launch the app in development mode.
 
-Objectif : fournir des instructions claires, copiable/collable, pour démarrer la DB, appliquer le schéma, exécuter le seed et lancer l'app en mode développement.
+Checklist (run each block in a terminal from the repo root):
 
-Checklist (exécuter chaque bloc dans un terminal depuis la racine du repo) :
-
-1) Aller dans le dossier de l'app
+1) Change to the app folder
 
 ```bash
 cd app
 ```
 
-2) Définir la variable d'environnement locale (port dédié évite les conflits)
+2) Set the local environment variable (a dedicated port avoids conflicts)
 
 ```bash
 export DATABASE_URL="postgres://specs:secret@127.0.0.1:55432/specs_db"
 ```
 
-(Option: ajouter la même ligne dans un fichier `.env` si souhaité.)
+(Optional: add the same line to a `.env` file if desired.)
 
-3) Démarrer Postgres Docker (recommandé : volume nommé pour persistance)
+3) Start Postgres in Docker (recommended: named volume for persistence)
 
 ```bash
 docker rm -f specs-postgres || true
@@ -36,54 +36,54 @@ docker run -d --name specs-postgres \
   postgres:15
 ```
 
-Remarque : sans `-v` les données sont stockées dans le conteneur et seront perdues si vous le supprimez.
+Note: without `-v`, data is stored in the container and will be lost if you remove it.
 
-4) Installer les dépendances
+4) Install dependencies
 
 ```bash
 npm ci
 ```
 
-5) Appliquer le schéma Prisma (crée/alerte les tables)
+5) Apply the Prisma schema (creates/updates tables)
 
 ```bash
 npx prisma db push
 ```
 
-6) Lancer le seed (peupler la DB)
+6) Run the seed (populate the DB)
 
 ```bash
 npm run prisma:seed
 ```
 
-7) Lancer l'app en mode développement
+7) Start the app in development mode
 
 ```bash
 npm run dev
 ```
 
-8) Ouvrir l'app
+8) Open the app
 
 http://localhost:3000
 
-9) Vérifications rapides
+9) Quick checks
 
-- Lister les tables depuis le conteneur :
+- List tables from the container:
 
 ```bash
 docker exec -i specs-postgres psql -U specs -d specs_db -c "\dt"
 ```
 
-- Si `psql` est installé localement :
+- If `psql` is installed locally:
 
 ```bash
 PGPASSWORD=secret psql -h 127.0.0.1 -p 55432 -U specs -d specs_db -c "\dt"
 ```
 
-10) Résolution des problèmes courants
+10) Common troubleshooting
 
-- Port 3000 occupé : `lsof -nP -iTCP:3000 -sTCP:LISTEN` puis `kill <PID>`
-- Erreur de connexion DB : vérifier `DATABASE_URL`, `docker ps`, et le mapping `55432:5432`.
-- Conteneur recréé mais données perdues : utilisez le volume nommé (`specs_pgdata`) ou un bind-mount `-v /chemin/pgdata:/var/lib/postgresql/data`.
+- Port 3000 in use: `lsof -nP -iTCP:3000 -sTCP:LISTEN` then `kill <PID>`
+- DB connection error: check `DATABASE_URL`, `docker ps`, and the `55432:5432` mapping.
+- Container recreated but data lost: use the named volume (`specs_pgdata`) or a bind mount `-v /path/pgdata:/var/lib/postgresql/data`.
 
-Fin du prompt — copier/coller chaque bloc et vérifier la sortie des commandes avant la suivante.
+End of prompt — copy/paste each block and verify command output before running the next one.
