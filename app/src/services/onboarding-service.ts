@@ -43,7 +43,6 @@ export const onboardingService = {
       } catch (err) {
         // Do not fail onboarding if path generation fails; surface minimal info.
         // The client can retry or show a friendly message.
-        // eslint-disable-next-line no-console
         console.warn("Could not generate initial learning path:", err)
       }
     }
