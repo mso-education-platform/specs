@@ -16,8 +16,12 @@ export async function GET() {
     }
 
     const activePath = await learningPathService.getActiveLearningPath(learner.id)
+
+    // If the learner has no active learning path, return 200 with `null`.
+    // This avoids client-side 404 entries in the browser network console while
+    // allowing the UI to treat `data === null` as "no active path".
     if (!activePath) {
-      throw new ApiError(404, "ACTIVE_PATH_NOT_FOUND", "No active learning path found.")
+      return ok(null)
     }
 
     return ok(activePath)
