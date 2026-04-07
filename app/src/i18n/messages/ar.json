@@ -172,7 +172,15 @@
     "next_suggested_unit": "الوحدة المقترحة التالية:",
     "no_unlocked_unit": "لا توجد وحدة متاحة حالياً.",
     "open_track": "فتح المسار",
-    "open_next_unit": "فتح الوحدة التالية"
+    "open_unit": "فتح الوحدة",
+    "open_next_unit": "فتح الوحدة التالية",
+    "current_program": "المسار الحالي",
+    "current_programs": {
+      "WEB_DEV": "تطوير الويب",
+      "AI_ORIENTED": "موجّه للذكاء الاصطناعي"
+    },
+    "enroll_another_track": "الالتحاق بمسار آخر",
+    "enroll_another_track_locked": "أكمل جميع وحدات المسار الحالي لتفعيل هذا الزر."
   },
   "learning_path": {
     "track_title": "مسار التعلم الخاص بي",

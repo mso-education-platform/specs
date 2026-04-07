@@ -173,8 +173,16 @@
     "next_suggested_unit": "Prochaine unité suggérée :",
     "no_unlocked_unit": "Aucune unité n'est disponible pour le moment.",
     "open_track": "Ouvrir le parcours",
+    "open_unit": "Ouvrir l'unité",
     "open_next_unit": "Ouvrir la prochaine unité"
     ,
+    "current_program": "Parcours actuel",
+    "current_programs": {
+      "WEB_DEV": "Développement Web",
+      "AI_ORIENTED": "Orienté IA"
+    },
+    "enroll_another_track": "S'inscrire dans un autre parcours",
+    "enroll_another_track_locked": "Terminez toutes les unités du parcours actuel pour débloquer ce bouton.",
     "no_active_path_cta": "Aucun parcours actif trouvé.",
     "browse_tracks": "Consulter les parcours",
     "start_onboarding": "Commencer l'onboarding"

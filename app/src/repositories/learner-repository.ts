@@ -73,6 +73,22 @@ export const learnerRepository = {
     })
   },
 
+  async setSelectedProgram(userId: string, programCode: ProgramCode) {
+    const program = await prisma.program.findUnique({ where: { code: programCode } })
+
+    return prisma.learnerProfile.upsert({
+      where: { userId },
+      update: {
+        selectedProgramId: program?.id,
+      },
+      create: {
+        userId,
+        selectedProgramId: program?.id,
+      },
+      include: { selectedProgram: true },
+    })
+  },
+
   async setOnboardingStatus(userId: string, onboardingStatus: OnboardingStatus) {
     return prisma.learnerProfile.update({
       where: { userId },

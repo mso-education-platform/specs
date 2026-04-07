@@ -1,6 +1,8 @@
 import { PathGenerator, PathUnitState } from "@prisma/client"
 import { ApiError } from "@/lib/api-errors"
+import type { EnrollProgramDto } from "@/lib/validation/learning-path"
 import type { UnitProgressPatchDto } from "@/lib/validation/learning-path"
+import { learnerRepository } from "@/repositories/learner-repository"
 import { learningPathRepository } from "@/repositories/learning-path-repository"
 import { prisma } from "@/lib/db/prisma"
 
@@ -40,6 +42,42 @@ type PathUnitEntity = {
 }
 
 export const learningPathService = {
+  async enrollInProgram(userId: string, dto: EnrollProgramDto, identity?: { email?: string; name?: string }) {
+    const ensuredUser = await learnerRepository.ensureLearnerUser({
+      userId,
+      email: identity?.email,
+      name: identity?.name,
+    })
+
+    const learnerProfile = await learnerRepository.ensureLearnerProfile(ensuredUser.id)
+    const activePath = await learningPathRepository.getActivePath(learnerProfile.id)
+    if (activePath) {
+      const hasIncompleteUnits = activePath.units.some(
+        (unit: { state: PathUnitState }) => unit.state !== PathUnitState.COMPLETED,
+      )
+      if (hasIncompleteUnits) {
+        throw new ApiError(
+          409,
+          "ACTIVE_PATH_NOT_COMPLETED",
+          "Finish your current learning track before enrolling in another one.",
+        )
+      }
+    }
+
+    const updatedLearnerProfile = await learnerRepository.setSelectedProgram(ensuredUser.id, dto.programCode)
+    if (!updatedLearnerProfile.selectedProgram?.id) {
+      throw new ApiError(404, "PROGRAM_NOT_FOUND", "Program not found.")
+    }
+
+    await this.generateInitialPath(updatedLearnerProfile.id, updatedLearnerProfile.selectedProgram.id)
+
+    return {
+      learnerId: updatedLearnerProfile.id,
+      programCode: dto.programCode,
+      canonicalUserId: ensuredUser.id,
+    }
+  },
+
   async generateInitialPath(learnerId: string, programId: string) {
     const units = await prisma.learningUnit.findMany({
       where: { programId },

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { getClientSession } from "@/lib/auth/client-session"
+import { buildSessionHeaders, getClientSession } from "@/lib/auth/client-session"
 import { useRouter } from "next/navigation"
 
 type Track = {
@@ -94,9 +94,52 @@ function withFallbackContent(track: Track): Track {
 export default function TracksPage() {
   const [selectedCode, setSelectedCode] = useState<Track["code"] | null>(null)
   const [clientRole] = useState<string | null>(() => getClientSession()?.role ?? null)
+  const [enrollingCode, setEnrollingCode] = useState<Track["code"] | null>(null)
+  const [enrollError, setEnrollError] = useState<string | null>(null)
   const router = useRouter()
   const enrichedTracks = useMemo(() => publicTracks.map(withFallbackContent), [])
   const selectedTrack = enrichedTracks.find((track) => track.code === selectedCode) ?? null
+
+  const handleEnroll = async (trackCode: Track["code"]) => {
+    setEnrollError(null)
+
+    const session = getClientSession()
+    if (!session) {
+      try {
+        window.sessionStorage.setItem("onboarding-default-program", trackCode)
+      } catch {}
+
+      router.push(`/sign-in?returnTo=${encodeURIComponent("/onboarding/program")}`)
+      return
+    }
+
+    setEnrollingCode(trackCode)
+
+    try {
+      const headers = new Headers({ "content-type": "application/json" })
+      const sessionHeaders = buildSessionHeaders()
+      Object.entries(sessionHeaders).forEach(([k, v]) => {
+        if (v) headers.set(k, String(v))
+      })
+
+      const response = await fetch("/api/learning-path", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ programCode: trackCode }),
+      })
+
+      const data = await response.json().catch(() => null)
+      if (!response.ok) {
+        throw new Error(data?.error?.message ?? "Impossible de vous inscrire à ce parcours.")
+      }
+
+      router.push("/dashboard")
+    } catch (error) {
+      setEnrollError(error instanceof Error ? error.message : "Impossible de vous inscrire à ce parcours.")
+    } finally {
+      setEnrollingCode(null)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-5xl space-y-5 p-4">
@@ -128,25 +171,16 @@ export default function TracksPage() {
               <Button
                 type="button"
                 className="ml-2"
+                disabled={enrollingCode === track.code}
                 onClick={(event) => {
                   event.stopPropagation()
-                  try {
-                    window.sessionStorage.setItem("onboarding-default-program", track.code)
-                  } catch {}
-
-                  const session = getClientSession()
-                  if (!session) {
-                    // Not signed in: send to sign-in, then continue to onboarding.program
-                    router.push(`/sign-in?returnTo=${encodeURIComponent("/onboarding/program")}`)
-                    return
-                  }
-
-                  router.push("/onboarding/program")
+                  void handleEnroll(track.code)
                 }}
               >
-                S&apos;inscrire au parcours
+                {enrollingCode === track.code ? "Inscription en cours..." : "S&apos;inscrire au parcours"}
               </Button>
             ) : null}
+            {enrollError ? <p className="text-sm text-destructive">{enrollError}</p> : null}
           </Card>
         ))}
       </div>
