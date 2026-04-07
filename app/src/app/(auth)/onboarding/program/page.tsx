@@ -11,7 +11,13 @@ export default function ProgramPage() {
   useEffect(() => {
     const session = getClientSession()
 
-    if (session && isClientOnboardingCompleted()) {
+    // If the user already completed onboarding, normally we redirect them to their dashboard.
+    // However, if they came from the `tracks` page to enroll in a program we set
+    // `onboarding-default-program` in sessionStorage. In that case, allow visiting this
+    // page so the program can be pre-selected and submitted.
+    const hasDefaultProgram = typeof window !== "undefined" && !!window.sessionStorage.getItem("onboarding-default-program")
+
+    if (session && isClientOnboardingCompleted() && !hasDefaultProgram) {
       if (session.role === "EDUCATOR" || session.role === "ADMIN") {
         router.replace("/educator/dashboard")
       } else if (session.role === "PARENT") {
