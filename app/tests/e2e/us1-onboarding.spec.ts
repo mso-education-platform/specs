@@ -63,12 +63,13 @@ test("US1 onboarding happy path", async ({ page }) => {
     })
   })
 
-  await page.goto("/sign-in")
+  // Register via the sign-up page, not the sign-in page
+  await page.goto("/sign-up")
 
   await page.locator("#name").fill("Learner Test")
   await page.locator("#email").fill(`learner-${unique}@example.com`)
   await page.locator("#password").fill("Password123!")
-  await page.getByRole("button", { name: /continue/i }).click()
+  await page.getByRole("button", { name: /continue|continuer|create account|créer un compte/i }).click()
 
   await expect(page).toHaveURL(/.*onboarding\/age-level/)
 

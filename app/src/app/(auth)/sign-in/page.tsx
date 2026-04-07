@@ -13,72 +13,13 @@ import { cn } from "@/lib/utils"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
   const router = useRouter()
   const { t } = useTranslation()
 
   const normalizeEmail = () => email.trim().toLowerCase()
-
-  const handleRegister = async () => {
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    try {
-      const normalizedEmail = normalizeEmail()
-      const checkResponse = await fetch("/api/auth/check-email", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail }),
-      })
-
-      const checkData = await checkResponse.json()
-      if (!checkResponse.ok) {
-        throw new Error(checkData?.error?.message ?? "Unable to verify the account email.")
-      }
-
-      if (checkData?.exists) {
-        setError(t("signin.account_exists"))
-        setShowLoginPrompt(true)
-        return
-      }
-
-      const registerResponse = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: normalizedEmail,
-          password,
-          role: "LEARNER",
-        }),
-      })
-
-      const registerData = await registerResponse.json()
-      if (!registerResponse.ok) {
-        throw new Error(registerData?.error?.message ?? "Could not create account.")
-      }
-
-      setClientSession(registerData)
-      if (registerData.role === "PARENT") {
-        router.push("/parent/dashboard")
-        return
-      }
-
-      router.push("/onboarding/age-level")
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Could not continue.")
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -135,11 +76,6 @@ export default function SignInPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="name">{t("signin.name")}</Label>
-          <Input id="name" value={name} onChange={(event) => setName(event.target.value)} />
-        </div>
-
-        <div className="space-y-2">
           <Label htmlFor="email">{t("signin.email")}</Label>
           <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
         </div>
@@ -156,27 +92,12 @@ export default function SignInPage() {
 
         {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-        {showLoginPrompt ? (
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={() => {
-              setShowLoginPrompt(false)
-              setError(null)
-              setName("")
-            }}
-          >
-            {t("signin.show_login_form")}
-          </Button>
-        ) : null}
-
         <Button
           className="w-full"
-          onClick={() => (name.trim() ? handleRegister() : handleLogin())}
+          onClick={handleLogin}
           disabled={loading || !email.trim() || !password.trim()}
         >
-          {loading ? t("signin.loading") : name.trim() ? t("signin.continue") : t("signin.login")}
+          {loading ? t("signin.loading") : t("signin.login")}
         </Button>
 
         <Link href="/sign-up" className={cn(buttonVariants({ variant: "ghost" }), "w-full")}>

@@ -138,9 +138,10 @@ export default function SignUpPage() {
           {loading ? t("signin.loading") : t("signin.continue")}
         </Button>
 
-        <Link href="/sign-in" className={cn(buttonVariants({ variant: "ghost" }), "w-full")}>
-          {t("signin.switch_to_login")}
-        </Link>
+        <div className="mt-2 grid gap-2">
+          <Link href="/sign-in" className={cn(buttonVariants({ variant: "ghost" }), "w-full")}>{t("signin.switch_to_login")}</Link>
+          <Link href="/sign-in" className={cn(buttonVariants({ variant: "outline" }), "w-full")}>{t("signin.show_login_form")}</Link>
+        </div>
       </Card>
     </div>
   )
