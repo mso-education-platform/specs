@@ -173,7 +173,19 @@
     "next_suggested_unit": "Next suggested unit:",
     "no_unlocked_unit": "No unlocked unit available yet.",
     "open_track": "Open track",
+    "open_unit": "Open unit",
     "open_next_unit": "Open next unit"
+    ,
+    "current_program": "Current track",
+    "current_programs": {
+      "WEB_DEV": "Web Development",
+      "AI_ORIENTED": "AI-Oriented"
+    },
+    "enroll_another_track": "Enroll in another track",
+    "enroll_another_track_locked": "Complete all units in your current track to unlock this button.",
+    "no_active_path_cta": "No active learning path found.",
+    "browse_tracks": "Browse tracks",
+    "start_onboarding": "Start onboarding"
   },
   "learning_path": {
     "track_title": "My Learning Track",

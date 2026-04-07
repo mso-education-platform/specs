@@ -6,15 +6,19 @@ import { Button } from "@/components/ui/button"
 import { useLearningPath } from "@/hooks/useLearningPath"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function LearnerDashboard() {
   const { data, loading, error } = useLearningPath()
   const { t } = useTranslation()
+  const router = useRouter()
 
   const totalUnits = data?.units.length ?? 0
   const completedUnits = data?.units.filter((unit) => unit.state === "COMPLETED").length ?? 0
   const unlockedUnits = data?.units.filter((unit) => unit.state === "UNLOCKED" || unit.state === "IN_PROGRESS").length ?? 0
   const nextUnit = data?.units.find((unit) => unit.state === "UNLOCKED" || unit.state === "IN_PROGRESS")
+  const canEnrollAnotherTrack = totalUnits > 0 && completedUnits === totalUnits
+  const currentProgramLabel = data?.programCode ? t(`dashboard.current_programs.${data.programCode}`, data.programCode) : "-"
 
   return (
     <div className="mx-auto max-w-4xl space-y-4">
@@ -68,6 +72,11 @@ export function LearnerDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <Badge variant={unit.state === "UNLOCKED" ? "default" : "secondary"}>{t(`learning_path.states.${unit.state}`)}</Badge>
+            {unit.state === "UNLOCKED" ? (
+              <Link href={`/unit/${unit.unitId}`}>
+                <Button size="sm" variant="outline">{t("dashboard.open_unit")}</Button>
+              </Link>
+            ) : null}
             {unit.state === "IN_PROGRESS" ? (
               <Link href="/track">
                 <Button size="sm">{t("dashboard.open_track")}</Button>
@@ -76,6 +85,40 @@ export function LearnerDashboard() {
           </div>
         </Card>
       ))}
+
+      {!loading && !error && data ? (
+        <Card className="p-4 space-y-4">
+          <div>
+            <p className="text-xs text-muted-foreground">{t("dashboard.current_program")}</p>
+            <p className="font-medium">{currentProgramLabel}</p>
+          </div>
+          <div className="flex justify-end">
+            <Button
+              variant="secondary"
+              disabled={!canEnrollAnotherTrack}
+              onClick={() => router.push("/tracks")}
+            >
+              {t("dashboard.enroll_another_track")}
+            </Button>
+          </div>
+          {!canEnrollAnotherTrack ? (
+            <p className="text-xs text-muted-foreground">{t("dashboard.enroll_another_track_locked")}</p>
+          ) : null}
+        </Card>
+      ) : null}
+
+      {!loading && error ? (
+        <div className="mx-auto max-w-4xl">
+          <Card className="p-4">
+            <p className="mb-4 text-sm text-muted-foreground">{t("dashboard.no_active_path_cta")}</p>
+            <div className="flex">
+              <Link href="/tracks">
+                <Button>{t("dashboard.browse_tracks")}</Button>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      ) : null}
     </div>
   )
 }

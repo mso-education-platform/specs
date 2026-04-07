@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,6 +17,8 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const returnTo = searchParams?.get("returnTo") ?? null
   const { t } = useTranslation()
 
   const normalizeEmail = () => email.trim().toLowerCase()
@@ -43,6 +45,11 @@ export default function SignInPage() {
       }
 
       setClientSession(data)
+
+      if (returnTo) {
+        router.push(returnTo)
+        return
+      }
 
       if (data.role === "PARENT") {
         router.push("/parent/dashboard")

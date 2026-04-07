@@ -2,6 +2,7 @@ import { OnboardingStatus } from "@prisma/client"
 import { ApiError } from "@/lib/api-errors"
 import { learnerRepository } from "@/repositories/learner-repository"
 import type { OnboardingRequestDto } from "@/lib/validation/onboarding"
+import { learningPathService } from "@/services/learning-path-service"
 
 const onboardingOrder: Record<OnboardingStatus, number> = {
   NOT_STARTED: 0,
@@ -34,6 +35,17 @@ export const onboardingService = {
       programCode: dto.programCode,
       onboardingStatus: OnboardingStatus.PROGRAM_SELECTED,
     })
+
+    // If a program was selected, generate an initial learning path for the learner
+    if (learnerProfile.selectedProgram?.id) {
+      try {
+        await learningPathService.generateInitialPath(learnerProfile.id, learnerProfile.selectedProgram.id)
+      } catch (err) {
+        // Do not fail onboarding if path generation fails; surface minimal info.
+        // The client can retry or show a friendly message.
+        console.warn("Could not generate initial learning path:", err)
+      }
+    }
 
     return {
       learnerId: learnerProfile.id,

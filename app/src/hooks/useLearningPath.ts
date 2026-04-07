@@ -56,6 +56,13 @@ export function useLearningPath() {
       const payload = await response.json()
 
       if (!response.ok) {
+        // Treat a missing active learning path as a normal state (no error)
+        if (response.status === 404 && payload?.error?.code === "ACTIVE_PATH_NOT_FOUND") {
+          setData(null)
+          setError(null)
+          return
+        }
+
         throw new Error(payload?.error?.message ?? "Could not load learning path.")
       }
 
