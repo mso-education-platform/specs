@@ -9,6 +9,8 @@
     "my_progress": "My progress",
     "settings": "Settings",
     "track": "Tracks",
+    "sign_in": "Sign in",
+    "create_account": "Create account",
     "sign_in_learner": "Learner sign in",
     "sign_in_parent": "Parent sign in",
     "sign_in_educator": "Educator sign in",
@@ -34,14 +36,65 @@
   }
   ,
   "home": {
-    "title": "AI-assisted learning platform",
-    "subtitle": "Start onboarding to get age-aware assessment and a personalized first learning path.",
+    "badge": "Learn how to learn, with intention",
+    "title": "A platform that builds autonomy, not just outcomes",
+    "subtitle": "We combine age-aware assessment, AI personalization constrained by pedagogy, and continuous follow-up to help learners grow with patience and experimentation.",
     "start": "Start onboarding",
     "sign_in": "Sign in",
+    "create_account": "Create an account",
+    "go_dashboard": "Go to dashboard",
+    "discover_tracks": "Explore tracks",
     "connected": "You are signed in.",
     "connected_as": "Signed in as",
     "sign_out": "Sign out",
-    "already_onboarded": "You have already completed onboarding."
+    "already_onboarded": "You have already completed onboarding.",
+    "metrics": {
+      "value_1": "2 levels",
+      "label_1": "Age-aware journeys for 8-12 and 13-18",
+      "value_2": "2 tracks",
+      "label_2": "Web Development and AI-Oriented",
+      "value_3": "10 units",
+      "label_3": "Modular backlog for the Web program"
+    },
+    "strengths": {
+      "item_1": {
+        "title": "AI personalization with pedagogical guardrails",
+        "description": "Recommendations adapt to each learner while staying grounded in explicit educational rules."
+      },
+      "item_2": {
+        "title": "Progress built on meaningful effort",
+        "description": "The platform rewards exploration, iteration, and reflection instead of shortcut answers."
+      },
+      "item_3": {
+        "title": "Shared visibility for learners, families, and educators",
+        "description": "Dedicated views support progress monitoring, targeted interventions, and parent follow-up."
+      }
+    },
+    "tracks": {
+      "title": "Two tracks for distinct learning dynamics",
+      "subtitle": "The initial track is selected during onboarding, then refined based on results and progress.",
+      "web": {
+        "title": "Web Development",
+        "description": "Logic, frontend, backend, and full-stack fundamentals through progressive projects."
+      },
+      "ai": {
+        "title": "AI-Oriented",
+        "description": "Analytical reasoning, data foundations, and introductory AI concepts."
+      }
+    },
+    "how_it_works": {
+      "title": "How it works",
+      "subtitle": "A clear flow to start quickly while preserving pedagogical consistency.",
+      "step_1": "Sign in and confirm age level.",
+      "step_2": "Choose your learning program.",
+      "step_3": "Take an initial assessment to detect strengths and gaps.",
+      "step_4": "Get a personalized pathway and continue from your dashboard."
+    },
+    "final_cta": {
+      "kicker": "Ready to begin",
+      "title": "Build a real learning momentum",
+      "subtitle": "Start onboarding to receive a personalized plan, then progress one meaningful step at a time."
+    }
   }
   ,
   "onboarding": {
@@ -166,13 +219,18 @@
   }
   ,
   "signin": {
-    "title": "Sign in to continue",
-    "subtitle": "Use learner sign-in to start your personalized onboarding.",
+    "title": "Sign in",
+    "subtitle": "Enter your email and password to access your space.",
     "subtitle_educator": "Educator sign in only. Registration is not available for this profile.",
+    "register_title": "Create a new account",
+    "register_subtitle": "Fill in your details to start your personalized learning journey.",
+    "account_type": "Account type",
+    "role_learner": "Learner",
+    "role_parent": "Parent",
     "name": "Name",
     "email": "Email",
     "password": "Password",
-    "continue": "Create account and continue",
+    "continue": "Continue",
     "login": "Sign in",
     "loading": "Loading...",
     "account_exists": "This account already exists. Please authenticate.",

@@ -11,13 +11,14 @@ import { setClientSession } from "@/lib/auth/client-session"
 import { useTranslation } from "@/components/i18n/I18nProvider"
 import { cn } from "@/lib/utils"
 
-export default function SignInPage() {
-  const [email, setEmail] = useState("")
+export default function SignUpPage() {
   const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [role, setRole] = useState<"LEARNER" | "PARENT">("LEARNER")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
+
   const router = useRouter()
   const { t } = useTranslation()
 
@@ -46,7 +47,6 @@ export default function SignInPage() {
 
       if (checkData?.exists) {
         setError(t("signin.account_exists"))
-        setShowLoginPrompt(true)
         return
       }
 
@@ -57,7 +57,7 @@ export default function SignInPage() {
           name: name.trim(),
           email: normalizedEmail,
           password,
-          role: "LEARNER",
+          role,
         }),
       })
 
@@ -80,58 +80,32 @@ export default function SignInPage() {
     }
   }
 
-  const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    try {
-      const normalizedEmail = normalizeEmail()
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail, password }),
-      })
-
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data?.error?.message ?? "Authentication failed.")
-      }
-
-      setClientSession(data)
-
-      if (data.role === "PARENT") {
-        router.push("/parent/dashboard")
-        return
-      }
-
-      if (data.role === "ADMIN") {
-        router.push("/educator/dashboard")
-        return
-      }
-
-      if (data.role === "EDUCATOR") {
-        router.push("/educator/dashboard")
-        return
-      }
-
-      router.push("/onboarding/age-level")
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Authentication failed.")
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="mx-auto mt-8 w-full max-w-lg px-4 sm:px-0">
       <Card className="space-y-5 border-border/70 p-6 shadow-sm sm:p-7">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">{t("signin.title")}</h1>
-          <p className="text-sm text-muted-foreground">{t("signin.subtitle")}</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("signin.register_title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("signin.register_subtitle")}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label>{t("signin.account_type")}</Label>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="button"
+              variant={role === "LEARNER" ? "default" : "outline"}
+              onClick={() => setRole("LEARNER")}
+            >
+              {t("signin.role_learner")}
+            </Button>
+            <Button
+              type="button"
+              variant={role === "PARENT" ? "default" : "outline"}
+              onClick={() => setRole("PARENT")}
+            >
+              {t("signin.role_parent")}
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -156,31 +130,16 @@ export default function SignInPage() {
 
         {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-        {showLoginPrompt ? (
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={() => {
-              setShowLoginPrompt(false)
-              setError(null)
-              setName("")
-            }}
-          >
-            {t("signin.show_login_form")}
-          </Button>
-        ) : null}
-
         <Button
           className="w-full"
-          onClick={() => (name.trim() ? handleRegister() : handleLogin())}
-          disabled={loading || !email.trim() || !password.trim()}
+          onClick={handleRegister}
+          disabled={loading || !name.trim() || !email.trim() || !password.trim()}
         >
-          {loading ? t("signin.loading") : name.trim() ? t("signin.continue") : t("signin.login")}
+          {loading ? t("signin.loading") : t("signin.continue")}
         </Button>
 
-        <Link href="/sign-up" className={cn(buttonVariants({ variant: "ghost" }), "w-full")}>
-          {t("signin.switch_to_register")}
+        <Link href="/sign-in" className={cn(buttonVariants({ variant: "ghost" }), "w-full")}>
+          {t("signin.switch_to_login")}
         </Link>
       </Card>
     </div>
