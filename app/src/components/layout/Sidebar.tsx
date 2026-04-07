@@ -20,8 +20,8 @@ type NavItem = { href: string; labelKey: string; icon: React.ReactNode }
 const publicNav: NavItem[] = [
   { href: "/", labelKey: "nav.home", icon: <Home className="h-4 w-4" /> },
   { href: "/tracks", labelKey: "nav.track", icon: <BookOpen className="h-4 w-4" /> },
-  { href: "/sign-in", labelKey: "nav.sign_in_learner", icon: <LogIn className="h-4 w-4" /> },
-  { href: "/sign-in?role=educator", labelKey: "nav.sign_in_educator", icon: <LogIn className="h-4 w-4" /> },
+  { href: "/sign-in", labelKey: "nav.sign_in", icon: <LogIn className="h-4 w-4" /> },
+  { href: "/sign-up", labelKey: "nav.create_account", icon: <Users className="h-4 w-4" /> },
 ]
 
 const roleDashboardHref: Record<ClientSession["role"], string> = {

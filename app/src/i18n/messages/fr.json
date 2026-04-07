@@ -9,6 +9,8 @@
     "my_progress": "Mon avancement",
     "settings": "Paramètres",
     "track": "Parcours",
+    "sign_in": "Connexion",
+    "create_account": "Créer un compte",
     "sign_in_learner": "Connexion Élève",
     "sign_in_parent": "Connexion Parent",
     "sign_in_educator": "Connexion Educateur",
@@ -34,14 +36,65 @@
   }
   ,
   "home": {
-    "title": "Plateforme d'apprentissage assistée par IA",
-    "subtitle": "Commencez l'onboarding pour obtenir une évaluation adaptée à l'âge et un premier parcours d'apprentissage personnalisé.",
+    "badge": "Apprendre à apprendre, avec méthode",
+    "title": "Une plateforme qui développe l'autonomie, pas seulement les résultats",
+    "subtitle": "Nous combinons évaluation adaptée à l'âge, personnalisation IA encadrée par des règles pédagogiques et suivi continu pour former des apprenants confiants, patients et capables d'expérimenter.",
     "start": "Commencer l'onboarding",
     "sign_in": "Se connecter",
+    "create_account": "Créer un compte",
+    "go_dashboard": "Accéder au tableau de bord",
+    "discover_tracks": "Découvrir les parcours",
     "connected": "Vous êtes connecté.",
     "connected_as": "Connecté en tant que",
     "sign_out": "Se déconnecter",
-    "already_onboarded": "Vous avez déjà terminé l'onboarding."
+    "already_onboarded": "Vous avez déjà terminé l'onboarding.",
+    "metrics": {
+      "value_1": "2 niveaux",
+      "label_1": "Parcours adaptés aux âges 8-12 et 13-18",
+      "value_2": "2 programmes",
+      "label_2": "Web Development et AI-Oriented",
+      "value_3": "10 unités",
+      "label_3": "Backlog modulaire pour le programme Web"
+    },
+    "strengths": {
+      "item_1": {
+        "title": "Personnalisation IA + règles pédagogiques",
+        "description": "Les recommandations sont adaptatives mais jamais arbitraires: l'IA est guidée par des contraintes éducatives explicites."
+      },
+      "item_2": {
+        "title": "Progression centrée sur l'effort",
+        "description": "La plateforme valorise l'exploration, l'itération et la réflexion au lieu de fournir des solutions toutes faites."
+      },
+      "item_3": {
+        "title": "Vision partagée apprenant-famille-éducateur",
+        "description": "Des vues dédiées permettent le suivi de progression, les interventions ciblées et l'accompagnement parental."
+      }
+    },
+    "tracks": {
+      "title": "Deux parcours pour deux dynamiques d'apprentissage",
+      "subtitle": "Le parcours initial est choisi dès l'onboarding, puis ajusté selon les résultats et la progression.",
+      "web": {
+        "title": "Développement Web",
+        "description": "Logique, frontend, backend et full stack avec projets progressifs."
+      },
+      "ai": {
+        "title": "Orienté IA",
+        "description": "Raisonnement analytique, bases data et concepts IA introductifs."
+      }
+    },
+    "how_it_works": {
+      "title": "Comment ça fonctionne",
+      "subtitle": "Un flux clair pour démarrer rapidement sans perdre la cohérence pédagogique.",
+      "step_1": "Connexion puis confirmation de la tranche d'âge.",
+      "step_2": "Choix du programme d'apprentissage.",
+      "step_3": "Évaluation initiale pour mesurer les acquis et les lacunes.",
+      "step_4": "Génération d'un parcours personnalisé et accès au tableau de bord."
+    },
+    "final_cta": {
+      "kicker": "Prêt à commencer",
+      "title": "Construisez une vraie dynamique d'apprentissage",
+      "subtitle": "Lancez l'onboarding pour obtenir un plan personnalisé, puis suivez vos progrès étape par étape."
+    }
   }
   ,
   "onboarding": {
@@ -166,13 +219,18 @@
   }
   ,
   "signin": {
-    "title": "Connectez-vous pour continuer",
-    "subtitle": "Utilisez la connexion apprenant pour lancer votre onboarding personnalisé.",
+    "title": "Connexion",
+    "subtitle": "Entrez votre email et votre mot de passe pour accéder à votre espace.",
     "subtitle_educator": "Connexion éducateur uniquement. L'inscription n'est pas disponible pour ce profil.",
+    "register_title": "Créer un nouveau compte",
+    "register_subtitle": "Renseignez vos informations pour démarrer votre parcours personnalisé.",
+    "account_type": "Type de compte",
+    "role_learner": "Élève",
+    "role_parent": "Parent",
     "name": "Nom",
     "email": "Email",
     "password": "Mot de passe",
-    "continue": "Créer un compte et continuer",
+    "continue": "Continuer",
     "login": "Se connecter",
     "loading": "Chargement...",
     "account_exists": "Ce compte existe déjà. Veuillez vous authentifier.",

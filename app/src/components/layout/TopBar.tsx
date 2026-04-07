@@ -3,8 +3,6 @@
 import React from "react"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Search } from "lucide-react"
 import Link from "next/link"
 import { UserRole } from "@prisma/client"
 import { Badge } from "@/components/ui/badge"
@@ -23,18 +21,33 @@ type TopBarProps = {
 }
 
 const roleNavigation: Record<UserRole, Array<{ href: string; labelKey: string }>> = {
-  LEARNER: [{ href: "/tracks", labelKey: "nav.track" }],
-  EDUCATOR: [{ href: "/tracks", labelKey: "nav.track" }],
-  PARENT: [{ href: "/tracks", labelKey: "nav.track" }],
-  MENTOR: [{ href: "/tracks", labelKey: "nav.track" }],
-  ADMIN: [{ href: "/tracks", labelKey: "nav.track" }],
+  LEARNER: [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/tracks", labelKey: "nav.track" },
+  ],
+  EDUCATOR: [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/tracks", labelKey: "nav.track" },
+  ],
+  PARENT: [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/tracks", labelKey: "nav.track" },
+  ],
+  MENTOR: [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/tracks", labelKey: "nav.track" },
+  ],
+  ADMIN: [
+    { href: "/", labelKey: "nav.home" },
+    { href: "/tracks", labelKey: "nav.track" },
+  ],
 }
 
 const publicNavigation: Array<{ href: string; labelKey: string }> = [
+  { href: "/", labelKey: "nav.home" },
   { href: "/tracks", labelKey: "nav.track" },
-  { href: "/sign-in?role=learner", labelKey: "nav.sign_in_learner" },
-  { href: "/sign-in?role=parent", labelKey: "nav.sign_in_parent" },
-  { href: "/sign-in?role=educator", labelKey: "nav.sign_in_educator" },
+  { href: "/sign-in", labelKey: "nav.sign_in" },
+  { href: "/sign-up", labelKey: "nav.create_account" },
 ]
 
 export default function TopBar({ title, actions, className, role = UserRole.LEARNER }: TopBarProps) {
@@ -70,11 +83,6 @@ export default function TopBar({ title, actions, className, role = UserRole.LEAR
             </Link>
           ))}
         </nav>
-        <div className="hidden sm:flex ml-2">
-          <Button variant="ghost" size="sm">
-            <Search className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
       <div className="flex items-center gap-2">
         <LanguageSelector />
