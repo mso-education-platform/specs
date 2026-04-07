@@ -27,6 +27,8 @@ export function ProgramSelectionStep() {
       return
     }
 
+    const cameFromTracks = typeof window !== "undefined" && !!window.sessionStorage.getItem("onboarding-default-program")
+
     setLoading(true)
     setError(null)
 
@@ -59,6 +61,15 @@ export function ProgramSelectionStep() {
       }
 
       window.sessionStorage.setItem("program-code", programCode)
+      // If user came from the tracks page to enroll, go straight to dashboard
+      if (cameFromTracks) {
+        try {
+          window.sessionStorage.removeItem("onboarding-default-program")
+        } catch {}
+        router.push("/dashboard")
+        return
+      }
+
       router.push("/onboarding/assessment")
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Could not save onboarding choices.")
