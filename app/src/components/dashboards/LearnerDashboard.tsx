@@ -52,7 +52,7 @@ export function LearnerDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/track">
+            <Link href="/tracks">
               <Button variant="secondary">{t("dashboard.open_track")}</Button>
             </Link>
             {nextUnit ? (
@@ -78,7 +78,7 @@ export function LearnerDashboard() {
               </Link>
             ) : null}
             {unit.state === "IN_PROGRESS" ? (
-              <Link href="/track">
+              <Link href="/tracks">
                 <Button size="sm">{t("dashboard.open_track")}</Button>
               </Link>
             ) : null}

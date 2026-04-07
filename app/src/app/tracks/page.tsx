@@ -181,6 +181,17 @@ export default function TracksPage() {
               </Button>
             ) : null}
             {enrollError ? <p className="text-sm text-destructive">{enrollError}</p> : null}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  try {
+                    window.sessionStorage.setItem("onboarding-default-program", track.code)
+                  } catch {}
+                  router.push("/onboarding/program")
+                }}
+              >
+                S&apos;inscrire au parcours
+              </Button>
+            ) : null}
           </Card>
         ))}
       </div>
