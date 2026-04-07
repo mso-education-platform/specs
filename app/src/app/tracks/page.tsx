@@ -133,6 +133,14 @@ export default function TracksPage() {
                   try {
                     window.sessionStorage.setItem("onboarding-default-program", track.code)
                   } catch {}
+
+                  const session = getClientSession()
+                  if (!session) {
+                    // Not signed in: send to sign-in, then continue to onboarding.program
+                    router.push(`/sign-in?returnTo=${encodeURIComponent("/onboarding/program")}`)
+                    return
+                  }
+
                   router.push("/onboarding/program")
                 }}
               >
