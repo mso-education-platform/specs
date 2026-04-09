@@ -25,15 +25,10 @@ cd app
 export DATABASE_URL="postgres://specs:secret@127.0.0.1:55432/specs_db"
 ```
 
-<<<<<<< HEAD
+
 (Optional: add the same line to a `.env` file if desired.)
 
 3) Start Postgres in Docker (recommended: named volume for persistence)
-=======
-(Option: ajouter la même ligne dans un fichier `.env` si souhaité.)
-
-3) Démarrer Postgres Docker (recommandé : volume nommé pour persistance)
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 docker rm -f specs-postgres || true
@@ -46,51 +41,32 @@ docker run -d --name specs-postgres \
   postgres:15
 ```
 
-<<<<<<< HEAD
 Note: without `-v`, data is stored in the container and will be lost if you remove it.
 
 4) Install dependencies
-=======
-Remarque : sans `-v` les données sont stockées dans le conteneur et seront perdues si vous le supprimez.
-
-4) Installer les dépendances
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 npm ci
 ```
 
-<<<<<<< HEAD
 5) Apply the Prisma schema (creates/updates tables)
-=======
-5) Appliquer le schéma Prisma (crée/alerte les tables)
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 npx prisma db push
 ```
 
-<<<<<<< HEAD
 6) Run the seed (populate the DB)
-=======
-6) Lancer le seed (peupler la DB)
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 npm run prisma:seed
 ```
 
-<<<<<<< HEAD
 7) Start the app in development mode
-=======
-7) Lancer l'app en mode développement
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 npm run dev
 ```
 
-<<<<<<< HEAD
 8) Open the app
 
 http://localhost:3000
@@ -98,31 +74,17 @@ http://localhost:3000
 9) Quick checks
 
 - List tables from the container:
-=======
-8) Ouvrir l'app
-
-http://localhost:3000
-
-9) Vérifications rapides
-
-- Lister les tables depuis le conteneur :
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 docker exec -i specs-postgres psql -U specs -d specs_db -c "\dt"
 ```
 
-<<<<<<< HEAD
 - If `psql` is installed locally:
-=======
-- Si `psql` est installé localement :
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 PGPASSWORD=secret psql -h 127.0.0.1 -p 55432 -U specs -d specs_db -c "\dt"
 ```
 
-<<<<<<< HEAD
 10) Common troubleshooting
 
 - Port 3000 in use: `lsof -nP -iTCP:3000 -sTCP:LISTEN` then `kill <PID>`
@@ -130,12 +92,3 @@ PGPASSWORD=secret psql -h 127.0.0.1 -p 55432 -U specs -d specs_db -c "\dt"
 - Container recreated but data lost: use the named volume (`specs_pgdata`) or a bind mount `-v /path/pgdata:/var/lib/postgresql/data`.
 
 End of prompt — copy/paste each block and verify command output before running the next one.
-=======
-10) Résolution des problèmes courants
-
-- Port 3000 occupé : `lsof -nP -iTCP:3000 -sTCP:LISTEN` puis `kill <PID>`
-- Erreur de connexion DB : vérifier `DATABASE_URL`, `docker ps`, et le mapping `55432:5432`.
-- Conteneur recréé mais données perdues : utilisez le volume nommé (`specs_pgdata`) ou un bind-mount `-v /chemin/pgdata:/var/lib/postgresql/data`.
-
-Fin du prompt — copier/coller chaque bloc et vérifier la sortie des commandes avant la suivante.
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
