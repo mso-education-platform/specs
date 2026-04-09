@@ -43,7 +43,20 @@ export function LearnerDashboard() {
       {loading ? <Card className="p-4">{t("dashboard.loading_plan")}</Card> : null}
       {error ? <Card className="p-4 text-destructive">{error}</Card> : null}
 
-      {!loading && !error ? (
+
+      {/* Affiche le bouton pour souscrire à un parcours si aucun parcours actif */}
+      {!loading && !error && (!data || !data.units || data.units.length === 0) ? (
+        <Card className="p-4 flex flex-col items-center justify-center gap-4">
+          <p className="font-medium">{t("dashboard.continue_track")}</p>
+          <p className="text-xs text-muted-foreground">{t("dashboard.no_unlocked_unit")}</p>
+          <Link href="/tracks">
+            <Button variant="secondary">{t("dashboard.open_track")}</Button>
+          </Link>
+        </Card>
+      ) : null}
+
+      {/* Affiche la section de parcours si data.units existe */}
+      {!loading && !error && data && data.units && data.units.length > 0 ? (
         <Card className="p-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="font-medium">{t("dashboard.continue_track")}</p>
@@ -52,7 +65,7 @@ export function LearnerDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/tracks">
+            <Link href="/track">
               <Button variant="secondary">{t("dashboard.open_track")}</Button>
             </Link>
             {nextUnit ? (
@@ -78,7 +91,7 @@ export function LearnerDashboard() {
               </Link>
             ) : null}
             {unit.state === "IN_PROGRESS" ? (
-              <Link href="/tracks">
+              <Link href="/track">
                 <Button size="sm">{t("dashboard.open_track")}</Button>
               </Link>
             ) : null}

@@ -167,38 +167,21 @@ export default function TracksPage() {
             >
               Voir le détail
             </Button>
-            {clientRole === "LEARNER" ? (
+            {clientRole === "LEARNER" && (
               <Button
                 type="button"
                 className="ml-2"
                 disabled={enrollingCode === track.code}
-                onClick={(event) => {
+                onClick={async (event) => {
                   event.stopPropagation()
-                  void handleEnroll(track.code)
+                  await handleEnroll(track.code)
                 }}
               >
-                {enrollingCode === track.code ? "Inscription en cours..." : "S&apos;inscrire au parcours"}
+                {enrollingCode === track.code ? "Inscription en cours..." : "S'inscrire au parcours"}
               </Button>
-            ) : null}
-            {enrollError ? <p className="text-sm text-destructive">{enrollError}</p> : null}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  try {
-                    window.sessionStorage.setItem("onboarding-default-program", track.code)
-                  } catch {}
-
-                  const session = getClientSession()
-                  if (!session) {
-                    // Not signed in: send to sign-in, then continue to onboarding.program
-                    router.push(`/sign-in?returnTo=${encodeURIComponent("/onboarding/program")}`)
-                    return
-                  }
-
-                  router.push("/onboarding/program")
-                }}
-              >
-                S&apos;inscrire au parcours
-              </Button>
+            )}
+            {enrollError && selectedCode === track.code ? (
+              <p className="text-sm text-destructive">{enrollError}</p>
             ) : null}
           </Card>
         ))}
