@@ -167,20 +167,22 @@ export default function TracksPage() {
             >
               Voir le détail
             </Button>
-            {clientRole === "LEARNER" ? (
+            {clientRole === "LEARNER" && (
               <Button
                 type="button"
                 className="ml-2"
                 disabled={enrollingCode === track.code}
-                onClick={(event) => {
+                onClick={async (event) => {
                   event.stopPropagation()
-                  void handleEnroll(track.code)
+                  await handleEnroll(track.code)
                 }}
               >
-                {enrollingCode === track.code ? "Inscription en cours..." : "S&apos;inscrire au parcours"}
+                {enrollingCode === track.code ? "Inscription en cours..." : "S'inscrire au parcours"}
               </Button>
+            )}
+            {enrollError && selectedCode === track.code ? (
+              <p className="text-sm text-destructive">{enrollError}</p>
             ) : null}
-            {enrollError ? <p className="text-sm text-destructive">{enrollError}</p> : null}
           </Card>
         ))}
       </div>
