@@ -1,9 +1,9 @@
 ---
-<<<<<<< HEAD
+
 name: Start the app locally (EN)
 description: Step-by-step guide to start Postgres in Docker, apply the Prisma schema, run the seed, and start the app in development.
 ---
- 
+
 Context: you are a developer who needs to run the Next.js application locally from the repository root. The main app folder is `app` and the database used is Postgres (Prisma).
 
 Goal: provide clear, copy/pasteable instructions to start the DB, apply the schema, run the seed, and launch the app in development mode.
@@ -11,29 +11,15 @@ Goal: provide clear, copy/pasteable instructions to start the DB, apply the sche
 Checklist (run each block in a terminal from the repo root):
 
 1) Change to the app folder
-=======
-name: Lancer l'app localement (FR)
-description: Guide pas-à-pas pour démarrer Postgres en Docker, appliquer le schéma Prisma, seed et lancer l'application en dev.
----
 
-Contexte : tu es un·e développeur·se qui doit lancer l'application Next.js localement depuis la racine du dépôt. Le dossier principal de l'app est `app` et la base de données utilisée est Postgres (Prisma).
-
-Objectif : fournir des instructions claires, copiable/collable, pour démarrer la DB, appliquer le schéma, exécuter le seed et lancer l'app en mode développement.
-
-Checklist (exécuter chaque bloc dans un terminal depuis la racine du repo) :
-
-1) Aller dans le dossier de l'app
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
 
 ```bash
 cd app
 ```
 
-<<<<<<< HEAD
+
 2) Set the local environment variable (a dedicated port avoids conflicts)
-=======
-2) Définir la variable d'environnement locale (port dédié évite les conflits)
->>>>>>> 98705c9 (fix(ui): learner sidebar + tracks onboarding CTA; i18n; handle missing active path)
+
 
 ```bash
 export DATABASE_URL="postgres://specs:secret@127.0.0.1:55432/specs_db"
